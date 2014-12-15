@@ -12,28 +12,42 @@
 		<DataTemplate x:Key="ItemTemplate">
 			<Grid>
 				<TextBlock Text="{Binding Property1}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="15,0,0,0"/>
-				<CheckBox HorizontalAlignment="Right" VerticalAlignment="Top"/>
+				<CheckBox HorizontalAlignment="Right" VerticalAlignment="Top" Checked="TileItem_Checked"/>
 				<Rectangle Fill="#FFBD0000" HorizontalAlignment="Left" Height="10" VerticalAlignment="Center" Width="10"/>
 			</Grid>
+		</DataTemplate>
+		<DataTemplate x:Key="ItemTemplate1">
+			<StackPanel>
+				<TextBlock Text="{Binding Property1}"/>
+			</StackPanel>
+		</DataTemplate>
+		<DataTemplate x:Key="ItemTemplate2">
+			<StackPanel>
+				<TextBlock Text="{Binding Property1}"/>
+			</StackPanel>
 		</DataTemplate>
 	</UserControl.Resources>
 
 	<Border BorderBrush="#FFF38630" BorderThickness="2" Margin="10" Padding="10" DataContext="{Binding Source={StaticResource SampleTilesSource}}" CornerRadius="5">
 
 		<Grid x:Name="LayoutRoot" Margin="-2">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="169*"/>
+				<RowDefinition Height="271*"/>
+			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>
 				<ColumnDefinition/>
 			</Grid.ColumnDefinitions>
-			<Grid x:Name="LeftGrid" Background="White">
+			<Grid x:Name="LeftGrid" Background="White" Grid.RowSpan="2">
 				<Grid x:Name="TileViewGrid" HorizontalAlignment="Left" Height="351" VerticalAlignment="Top" Width="300">
 					<Grid x:Name="Tile" HorizontalAlignment="Center" Margin="50,101,50,50" VerticalAlignment="Center" Width="200" Height="200" MouseLeftButtonUp="TileEdge_LeftClick">
+						<TextBox x:Name="TileLabel" Margin="0" TextWrapping="Wrap" Text="Tile 0" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}"/>
 						<Path x:Name="TileRight" Data="M149,100 L150,200" Margin="97,0,0,0" Stretch="Fill" Stroke="Red" StrokeThickness="2" UseLayoutRounding="False" Width="3" HorizontalAlignment="Right" MouseLeftButtonUp="TileEdge_LeftClick"/>
 						<Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" Stroke="#FF009700" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" MouseLeftButtonUp="TileEdge_LeftClick"/>
-						<Path x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" Stroke="Blue" StrokeThickness="2" UseLayoutRounding="False" Width="2" MouseLeftButtonUp="TileEdge_LeftClick"/>
+						<Path StrokeDashArray=".5,1" x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" Stroke="Blue" StrokeThickness="2" UseLayoutRounding="False" Width="2" MouseLeftButtonUp="TileEdge_LeftClick"/>
 						<Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Margin="0,98,0,0" Stretch="Fill" Stroke="Cyan" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom"/>
 					</Grid>
-					<TextBox x:Name="TileLabel" Margin="0,50,0,0" TextWrapping="Wrap" Text="Tile Label!" VerticalAlignment="Top" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}"/>
 				</Grid>
 				<Grid x:Name="ColorPickerGrid" HorizontalAlignment="Left" Height="50" Margin="0,351,0,0" VerticalAlignment="Top" Width="300">
 					<Rectangle x:Name="TileColor" HorizontalAlignment="Right" Height="30" Margin="0,0,35,0" StrokeThickness="2" VerticalAlignment="Center" Width="30" Fill="#FFBD0000" Canvas.ZIndex="0"/>
@@ -45,12 +59,13 @@
 						<Button x:Name="SaveTilesetButton_Copy" Content="Save Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="80,0,0,0"/>
 					</Grid>
 				</Border>
+				<TextBlock HorizontalAlignment="Left" Margin="0" TextWrapping="Wrap" Text="aTAM mode (no signals)" VerticalAlignment="Top" Foreground="#FF69D2E7"/>
 			</Grid>
-			<Grid x:Name="RightGrid" Grid.Column="1" Background="White">
-				<Primitives:TabPanel HorizontalAlignment="Left" Height="440" VerticalAlignment="Top" Width="300">
+			<Grid x:Name="RightGrid" Grid.Column="1" Background="White" Grid.RowSpan="2">
+				<Primitives:TabPanel HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="300">
 					<sdk:TabControl HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="290" Margin="0,0,-162,0" BorderBrush="{x:Null}" Background="{x:Null}">
 						<sdk:TabItem x:Name="ListViewTab" Header="ListView">
-							<Grid HorizontalAlignment="Left" Height="364" Margin="0,0,-8,-364" VerticalAlignment="Top" Width="286">
+							<Grid HorizontalAlignment="Left" Height="317" Margin="0,0,-8,-317" VerticalAlignment="Top" Width="286">
 								<Grid HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="286">
 									<TextBlock HorizontalAlignment="Right" TextWrapping="Wrap" Text="Seed" VerticalAlignment="Center" Margin="0,0,5,0"/>
 									<TextBlock HorizontalAlignment="Left" Margin="20,4,0,0" TextWrapping="Wrap" Text="Label" VerticalAlignment="Center"/>
@@ -71,10 +86,39 @@
 										</ListBox.ItemTemplate>
 									</ListBox>
 								</Grid>
+								<Grid Margin="0,317,-14,-53" Width="300">
+									<Button Content="Some mass tile function" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+								</Grid>
 							</Grid>
 						</sdk:TabItem>
 						<sdk:TabItem x:Name="TileViewTab" Header="TileView">
 							<Grid Background="#FFE5E5E5"/>
+						</sdk:TabItem>
+						<sdk:TabItem x:Name="LabelViewTab" Header="LabelView" HorizontalAlignment="Left" VerticalAlignment="Top" DataContext="{Binding Source={StaticResource LabelSampleData}}">
+							<Grid HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="300" Margin="0,350,-22,-400">
+								<Grid Margin="0,-29,0,29">
+									<Button Content="Set strength" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center"/>
+								</Grid>
+								<Grid HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="286" Margin="0,-351,0,0">
+									<TextBlock HorizontalAlignment="Left" Margin="5,4,0,0" TextWrapping="Wrap" Text="Edge Label" VerticalAlignment="Center"/>
+								</Grid>
+								<Grid Margin="0,-327,14,84" Background="White">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="97*"/>
+										<ColumnDefinition Width="181*"/>
+									</Grid.ColumnDefinitions>
+									<ListBox Grid.ColumnSpan="2" SelectionMode="Extended" ItemsSource="{Binding Collection}">
+										<ListBox.Resources>
+											<Style TargetType="ListBoxItem">
+												<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+											</Style>
+										</ListBox.Resources>
+										<ListBox.ItemTemplate>
+											<StaticResource ResourceKey="ItemTemplate2"/>
+										</ListBox.ItemTemplate>
+									</ListBox>
+								</Grid>
+							</Grid>
 						</sdk:TabItem>
 					</sdk:TabControl>
 				</Primitives:TabPanel>

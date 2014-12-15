@@ -22,13 +22,20 @@ namespace dna_simulator
         private void TileEdge_LeftClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
         	var contextMenu = new ContextMenu();
-            var addColor = new MenuItem {Header = "Change color"};
+			var splitEdge = new MenuItem {Header = "Split edge"};
+            var addColor = new MenuItem {Header = "Change label"};
             var addGlue = new MenuItem {Header = "Add glue"};
+			contextMenu.Items.Add(splitEdge);
             contextMenu.Items.Add(addColor);
             contextMenu.Items.Add(addGlue);
             contextMenu.HorizontalOffset = e.GetPosition(LayoutRoot).X;
             contextMenu.VerticalOffset = e.GetPosition(LayoutRoot).Y;
             contextMenu.IsOpen = true;
+        }
+
+        private void TileItem_Checked(object sender, System.Windows.RoutedEventArgs e)
+        {
+        	
         }
     }
 }

@@ -5,15 +5,15 @@
 -->
 <SampleData:SampleTilesSource xmlns:SampleData="clr-namespace:Expression.Blend.SampleData.SampleTilesSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
   <SampleData:SampleTilesSource.Collection>
-    <SampleData:Item Property1="Maecenas praesent cras" Property2="True" />
-    <SampleData:Item Property1="Aliquam class integer" Property2="False" />
-    <SampleData:Item Property1="Nam accumsan sed" Property2="True" />
-    <SampleData:Item Property1="Quisque bibendum curae" Property2="False" />
-    <SampleData:Item Property1="Donec dis" Property2="True" />
-    <SampleData:Item Property1="Vivamus etiam est dictumst" Property2="False" />
-    <SampleData:Item Property1="Fusce aliquam eleifend" Property2="True" />
-    <SampleData:Item Property1="Lorem aliquet duis" Property2="False" />
-    <SampleData:Item Property1="Morbi facilisi nulla proin" Property2="True" />
-    <SampleData:Item Property1="Hac leo blandit" Property2="False" />
+    <SampleData:Item Property1="Tile 0" Property2="True" />
+    <SampleData:Item Property1="Tile 1" Property2="False" />
+    <SampleData:Item Property1="Tile 2" Property2="True" />
+    <SampleData:Item Property1="Tile 3" Property2="False" />
+    <SampleData:Item Property1="Tile 4" Property2="True" />
+    <SampleData:Item Property1="Tile 5" Property2="False" />
+    <SampleData:Item Property1="Tile 6" Property2="True" />
+    <SampleData:Item Property1="Tile 7" Property2="False" />
+    <SampleData:Item Property1="Tile 8" Property2="True" />
+    <SampleData:Item Property1="Tile 9" Property2="False" />
   </SampleData:SampleTilesSource.Collection>
 </SampleData:SampleTilesSource>

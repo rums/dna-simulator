@@ -92,6 +92,9 @@
     <Compile Include="Model\aTAM\TileType.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleData\LabelSampleData\LabelSampleData.xaml.cs">
+      <DependentUpon>LabelSampleData.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SampleData\SampleTilesSource\SampleTilesSource.xaml.cs">
       <DependentUpon>SampleTilesSource.xaml</DependentUpon>
     </Compile>
@@ -106,6 +109,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SampleData\LabelSampleData\LabelSampleData.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SampleData\SampleTilesSource\SampleTilesSource.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -115,10 +122,10 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SampleTiles.resx" />
+    <DesignTimeOnly Include="SampleData\SampleTilesSource\SampleTilesSource.xsd" />
   </ItemGroup>
   <ItemGroup>
-    <DesignTimeOnly Include="SampleData\SampleTilesSource\SampleTilesSource.xsd" />
+    <DesignTimeOnly Include="SampleData\LabelSampleData\LabelSampleData.xsd" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
