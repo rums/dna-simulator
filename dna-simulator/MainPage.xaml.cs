@@ -18,5 +18,17 @@ namespace dna_simulator
         {
             InitializeComponent();
         }
+
+        private void TileEdge_LeftClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+        	var contextMenu = new ContextMenu();
+            var addColor = new MenuItem {Header = "Change color"};
+            var addGlue = new MenuItem {Header = "Add glue"};
+            contextMenu.Items.Add(addColor);
+            contextMenu.Items.Add(addGlue);
+            contextMenu.HorizontalOffset = e.GetPosition(LayoutRoot).X;
+            contextMenu.VerticalOffset = e.GetPosition(LayoutRoot).Y;
+            contextMenu.IsOpen = true;
+        }
     }
 }
