@@ -62,7 +62,7 @@
 								</Grid.ColumnDefinitions>
 								<TextBlock TextWrapping="Wrap" Text="Label" Grid.Column="1" VerticalAlignment="Bottom"/>
 								<TextBlock TextWrapping="Wrap" Text="Seed" Grid.Column="2" VerticalAlignment="Bottom"/>
-								<ListBox ItemsSource="{Binding Collection}" Grid.Row="1" Grid.ColumnSpan="3">
+								<ListBox ItemsSource="{Binding Collection}" Grid.Row="1" Grid.ColumnSpan="3" SelectionMode="Extended">
 										<ListBox.ItemContainerStyle>
 											<Style TargetType="ListBoxItem">
 												<Setter Property="HorizontalContentAlignment"
@@ -105,7 +105,7 @@
 									<ColumnDefinition Width="*"/>
 								</Grid.ColumnDefinitions>
 								<TextBlock TextWrapping="Wrap" Text="Label" Grid.Column="0" VerticalAlignment="Bottom"/>
-								<ListBox Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Collection}">
+								<ListBox Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Collection}" SelectionMode="Extended">
 									<ListBox.Resources>
 										<DataTemplate x:Key="ItemTemplate">
 											<StackPanel>
