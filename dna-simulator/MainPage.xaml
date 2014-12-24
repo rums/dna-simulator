@@ -5,6 +5,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk" xmlns:Primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls"
     xmlns:controls="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     x:Class="dna_simulator.MainPage"
     mc:Ignorable="d"
     d:DesignHeight="505" d:DesignWidth="703" Width="640" Height="480">
@@ -22,13 +24,65 @@
 					<RowDefinition Height="2*"/>
 					<RowDefinition Height="1*"/>
 				</Grid.RowDefinitions>
-				<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="aTAM mode (no signals)" Foreground="#FF69D2E7"/>
-				<Grid x:Name="Tile" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" Width="200" Height="200" MouseLeftButtonUp="TileEdge_LeftClick">
-					<TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="Tile 0" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}"/>
-					<Path x:Name="TileRight" Data="M149,100 L150,200" Margin="97,0,0,0" Stretch="Fill" Stroke="Red" StrokeThickness="2" UseLayoutRounding="False" Width="3" HorizontalAlignment="Right" MouseLeftButtonUp="TileEdge_LeftClick"/>
-					<Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" Stroke="#FF009700" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" MouseLeftButtonUp="TileEdge_LeftClick"/>
-					<Path StrokeDashArray=".5,1" x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" Stroke="Blue" StrokeThickness="2" UseLayoutRounding="False" Width="2" MouseLeftButtonUp="TileEdge_LeftClick"/>
-					<Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Margin="0,98,0,0" Stretch="Fill" Stroke="Cyan" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom"/>
+				<TextBlock x:Name="textBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="aTAM mode (no signals)" Foreground="#FF69D2E7"/>
+				<Grid Background="Transparent" x:Name="Tile" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" Width="200" Height="200">
+					<TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="Tile label" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1"/>
+					<Path x:Name="TileRight" Data="M149,100 L150,200" Margin="0" Stretch="Fill" Stroke="Red" StrokeThickness="2" UseLayoutRounding="False" Width="3" HorizontalAlignment="Right" Canvas.ZIndex="1"/>
+					<Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" Stroke="#FF009700" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" Canvas.ZIndex="1"/>
+					<Path StrokeDashArray=".5,1" x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" Stroke="Blue" StrokeThickness="2" UseLayoutRounding="False" Width="2" Canvas.ZIndex="1"/>
+					<Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Margin="0" Stretch="Fill" Stroke="Cyan" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom" Canvas.ZIndex="1"/>
+					<ed:RegularPolygon x:Name="TopControl" Height="100" InnerRadius="1" Margin="0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Top" Width="200" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" Style="{StaticResource TileControlStyle}" Opacity="0" Fill="{Binding Stroke, ElementName=TileTop}">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="MouseLeave">
+								<ei:ChangePropertyAction PropertyName="Opacity" Value="0"/>
+							</i:EventTrigger>
+							<i:EventTrigger EventName="MouseEnter">
+								<ei:ChangePropertyAction PropertyName="Opacity" Value="0.1"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+						<ed:RegularPolygon.RenderTransform>
+							<CompositeTransform ScaleY="-1"/>
+						</ed:RegularPolygon.RenderTransform>
+					</ed:RegularPolygon>
+					<ed:RegularPolygon x:Name="BottomControl" Height="100" InnerRadius="1" Margin="0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileBottom}" HorizontalAlignment="Center" Opacity="0">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="MouseLeave">
+								<ei:ChangePropertyAction PropertyName="Opacity" Value="0"/>
+							</i:EventTrigger>
+							<i:EventTrigger EventName="MouseEnter">
+								<ei:ChangePropertyAction PropertyName="Opacity" Value="0.1"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+						<ed:RegularPolygon.RenderTransform>
+							<CompositeTransform/>
+						</ed:RegularPolygon.RenderTransform>
+					</ed:RegularPolygon>
+					<ed:RegularPolygon x:Name="LeftControl" Height="100" InnerRadius="1" Margin="-50,0,0,0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileLeft}" HorizontalAlignment="Left" Opacity="0">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="MouseLeave">
+								<ei:ChangePropertyAction PropertyName="Opacity" Value="0"/>
+							</i:EventTrigger>
+							<i:EventTrigger EventName="MouseEnter">
+								<ei:ChangePropertyAction PropertyName="Opacity" Value="0.1"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+						<ed:RegularPolygon.RenderTransform>
+							<CompositeTransform Rotation="90"/>
+						</ed:RegularPolygon.RenderTransform>
+					</ed:RegularPolygon>
+					<ed:RegularPolygon x:Name="RightControl" Height="100" InnerRadius="1" Margin="0,0,-50,0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileRight}" HorizontalAlignment="Right" Opacity="0">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="MouseLeave">
+								<ei:ChangePropertyAction PropertyName="Opacity" Value="0"/>
+							</i:EventTrigger>
+							<i:EventTrigger EventName="MouseEnter">
+								<ei:ChangePropertyAction PropertyName="Opacity" Value="0.1"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+						<ed:RegularPolygon.RenderTransform>
+							<CompositeTransform Rotation="-90"/>
+						</ed:RegularPolygon.RenderTransform>
+					</ed:RegularPolygon>
 				</Grid>
 				<Grid x:Name="ColorPickerGrid" Grid.Row="1">
 					<Rectangle x:Name="TileColor" HorizontalAlignment="Right" Height="30" Margin="0,0,35,0" StrokeThickness="2" VerticalAlignment="Center" Width="30" Fill="#FFBD0000" Canvas.ZIndex="0"/>
@@ -63,12 +117,6 @@
 								<TextBlock TextWrapping="Wrap" Text="Label" Grid.Column="1" VerticalAlignment="Bottom"/>
 								<TextBlock TextWrapping="Wrap" Text="Seed" Grid.Column="2" VerticalAlignment="Bottom"/>
 								<ListBox ItemsSource="{Binding Collection}" Grid.Row="1" Grid.ColumnSpan="3" SelectionMode="Extended">
-										<ListBox.ItemContainerStyle>
-											<Style TargetType="ListBoxItem">
-												<Setter Property="HorizontalContentAlignment"
-														Value="Stretch"/>
-											</Style>
-										</ListBox.ItemContainerStyle>
 									<ListBox.Resources>
 										<DataTemplate x:Key="ItemTemplate">
 											<Grid>
@@ -83,6 +131,12 @@
 											</Grid>
 										</DataTemplate>
 									</ListBox.Resources>
+									<ListBox.ItemContainerStyle>
+										<Style TargetType="ListBoxItem">
+											<Setter Property="HorizontalContentAlignment"
+												Value="Stretch"/>
+										</Style>
+									</ListBox.ItemContainerStyle>
 									<ListBox.ItemTemplate>
 										<StaticResource ResourceKey="ItemTemplate"/>
 									</ListBox.ItemTemplate>
