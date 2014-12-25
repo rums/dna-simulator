@@ -4,26 +4,26 @@
       changes to this file can cause errors.
 -->
 <SampleData:SampleTilesSource xmlns:SampleData="clr-namespace:Expression.Blend.SampleData.SampleTilesSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-  <SampleData:SampleTilesSource.Collection>
-    <SampleData:Item Property1="Tile 0" Property2="True" />
-    <SampleData:Item Property1="Tile 1" Property2="False" />
-    <SampleData:Item Property1="Tile 2" Property2="True" />
-    <SampleData:Item Property1="Tile 3" Property2="False" />
-    <SampleData:Item Property1="Tile 4" Property2="True" />
-    <SampleData:Item Property1="Tile 5" Property2="False" />
-    <SampleData:Item Property1="Tile 6" Property2="True" />
-    <SampleData:Item Property1="Tile 7" Property2="False" />
-    <SampleData:Item Property1="Tile 8" Property2="True" />
-    <SampleData:Item Property1="Tile 9" Property2="False" />
-    <SampleData:Item Property1="Maecenas aenean" Property2="True" />
-    <SampleData:Item Property1="Mauris praesent" Property2="False" />
-    <SampleData:Item Property1="Class aliquam cras" Property2="True" />
-    <SampleData:Item Property1="Curae integer quisque nullam" Property2="False" />
-    <SampleData:Item Property1="Duis accumsan vivamus aptent" Property2="True" />
-    <SampleData:Item Property1="Nam nunc amet ante" Property2="False" />
-    <SampleData:Item Property1="Sed arcu" Property2="True" />
-    <SampleData:Item Property1="Aliquam donec etiam dis" Property2="False" />
-    <SampleData:Item Property1="Est fusce auctor" Property2="True" />
-    <SampleData:Item Property1="Hac lorem bibendum" Property2="False" />
-  </SampleData:SampleTilesSource.Collection>
+    <SampleData:SampleTilesSource.Collection>
+        <SampleData:Item Property1="Tile 0" Property2="True" />
+        <SampleData:Item Property1="Tile 1" Property2="False" />
+        <SampleData:Item Property1="Tile 2" Property2="True" />
+        <SampleData:Item Property1="Tile 3" Property2="False" />
+        <SampleData:Item Property1="Tile 4" Property2="True" />
+        <SampleData:Item Property1="Tile 5" Property2="False" />
+        <SampleData:Item Property1="Tile 6" Property2="True" />
+        <SampleData:Item Property1="Tile 7" Property2="False" />
+        <SampleData:Item Property1="Tile 8" Property2="True" />
+        <SampleData:Item Property1="Tile 9" Property2="False" />
+        <SampleData:Item Property1="Maecenas aenean" Property2="True" />
+        <SampleData:Item Property1="Mauris praesent" Property2="False" />
+        <SampleData:Item Property1="Class aliquam cras" Property2="True" />
+        <SampleData:Item Property1="Curae integer quisque nullam" Property2="False" />
+        <SampleData:Item Property1="Duis accumsan vivamus aptent" Property2="True" />
+        <SampleData:Item Property1="Nam nunc amet ante" Property2="False" />
+        <SampleData:Item Property1="Sed arcu" Property2="True" />
+        <SampleData:Item Property1="Aliquam donec etiam dis" Property2="False" />
+        <SampleData:Item Property1="Est fusce auctor" Property2="True" />
+        <SampleData:Item Property1="Hac lorem bibendum" Property2="False" />
+    </SampleData:SampleTilesSource.Collection>
 </SampleData:SampleTilesSource>

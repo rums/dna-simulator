@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace dna_simulator.Model.aTAM
+﻿namespace dna_simulator.Model.aTAM
 {
     public class TileType
     {

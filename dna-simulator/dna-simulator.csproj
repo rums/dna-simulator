@@ -104,18 +104,22 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="aTAMEdgeOptions.xaml.cs">
+    <Compile Include="View\aTAMEdgeOptions.xaml.cs">
       <DependentUpon>aTAMEdgeOptions.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ColorPicker.xaml.cs">
+    <Compile Include="View\Behaviors\OpenCloseChildWindowBehavior.cs" />
+    <Compile Include="View\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\aTAM\Glue.cs" />
     <Compile Include="Model\aTAM\TileAssemblySystem.cs" />
     <Compile Include="Model\aTAM\TileType.cs" />
+    <Compile Include="View\MultiTileControl.xaml.cs">
+      <DependentUpon>MultiTileControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleData\LabelSampleData\LabelSampleData.xaml.cs">
@@ -124,9 +128,10 @@
     <Compile Include="SampleData\SampleTilesSource\SampleTilesSource.xaml.cs">
       <DependentUpon>SampleTilesSource.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SingleTileControl.xaml.cs">
+    <Compile Include="View\SingleTileControl.xaml.cs">
       <DependentUpon>SingleTileControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\aTAM\MultiTile.cs" />
     <Compile Include="ViewModel\aTAM\SingleTile.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -134,17 +139,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="aTAMEdgeOptions.xaml">
+    <Page Include="View\aTAMEdgeOptions.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ColorPicker.xaml">
+    <Page Include="View\ColorPicker.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="View\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MultiTileControl.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SampleData\LabelSampleData\LabelSampleData.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -154,7 +163,7 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SingleTileControl.xaml">
+    <Page Include="View\SingleTileControl.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -169,7 +178,9 @@
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\LabelSampleData\LabelSampleData.xsd" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DataStore\DataStore\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

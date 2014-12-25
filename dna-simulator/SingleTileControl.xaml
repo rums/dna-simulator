@@ -6,7 +6,10 @@
 	xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:aTam="clr-namespace:dna_simulator.ViewModel.aTAM"
     xmlns:local="clr-namespace:dna_simulator"
-    mc:Ignorable="d"
+    xmlns:Custom="http://www.codeplex.com/prism"
+	xmlns:prism="clr-namespace:Microsoft.Practices.Prism.Interactivity.InteractionRequest;assembly=Microsoft.Practices.Prism.Interactivity"
+    xmlns:interactions="clr-namespace:GenericInteractionRequest.Interactions"
+	mc:Ignorable="d"
 	x:Class="dna_simulator.SingleTileControl"
 	d:DesignWidth="300" d:DesignHeight="440">
 	<UserControl.DataContext>
@@ -107,14 +110,14 @@
 				</Grid>
 			</Popup>
 		</Grid>
-		<Grid x:Name="ColorPickerGrid" Margin="0,338,0,34">
+		<Grid x:Name="TileColorPicker" Margin="0,338,0,34">
 			<Rectangle x:Name="TileColor" HorizontalAlignment="Right" Height="30" Margin="0,0,35,0" StrokeThickness="2" VerticalAlignment="Center" Width="30" Fill="#FFBD0000" Canvas.ZIndex="0"/>
 			<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Pick tile color for simulation:" VerticalAlignment="Center"/>
 		</Grid>
-		<Border CornerRadius="5" BorderThickness="2" Background="#FFF38630" Margin="0,406,0,0" >
-			<StackPanel x:Name="TileViewOptionsPanel" Orientation="Horizontal">
-				<Button x:Name="LoadTilesetButton_Copy" Content="Load Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
-				<Button x:Name="SaveTilesetButton_Copy" Content="Save Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+		<Border x:Name="SingleTileOptionsBorder" CornerRadius="5" BorderThickness="2" Background="#FFF38630" Margin="0,406,0,0" >
+			<StackPanel x:Name="SingleTileOptionsPanel" Orientation="Horizontal">
+				<Button x:Name="NewTileButton" Content="New Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0"/>
+				<Button x:Name="SaveTileButton" Content="Save Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
 			</StackPanel>
 		</Border>
 	</Grid>

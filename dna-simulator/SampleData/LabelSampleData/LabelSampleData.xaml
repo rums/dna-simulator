@@ -4,16 +4,16 @@
       changes to this file can cause errors.
 -->
 <SampleData:LabelSampleData xmlns:SampleData="clr-namespace:Expression.Blend.SampleData.LabelSampleData" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-  <SampleData:LabelSampleData.Collection>
-    <SampleData:Item Property1="Label 0" />
-    <SampleData:Item Property1="Label 1" />
-    <SampleData:Item Property1="Label 2" />
-    <SampleData:Item Property1="Label 3" />
-    <SampleData:Item Property1="Label 4" />
-    <SampleData:Item Property1="Label 5" />
-    <SampleData:Item Property1="Label 6" />
-    <SampleData:Item Property1="Label 7" />
-    <SampleData:Item Property1="Label 8" />
-    <SampleData:Item Property1="Label 9" />
-  </SampleData:LabelSampleData.Collection>
+    <SampleData:LabelSampleData.Collection>
+        <SampleData:Item Property1="Label 0" />
+        <SampleData:Item Property1="Label 1" />
+        <SampleData:Item Property1="Label 2" />
+        <SampleData:Item Property1="Label 3" />
+        <SampleData:Item Property1="Label 4" />
+        <SampleData:Item Property1="Label 5" />
+        <SampleData:Item Property1="Label 6" />
+        <SampleData:Item Property1="Label 7" />
+        <SampleData:Item Property1="Label 8" />
+        <SampleData:Item Property1="Label 9" />
+    </SampleData:LabelSampleData.Collection>
 </SampleData:LabelSampleData>
