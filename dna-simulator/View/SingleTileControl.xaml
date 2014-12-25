@@ -15,10 +15,10 @@
         <aTam:SingleTile />
     </UserControl.DataContext>
 
-	<UserControl.Resources>
-		<sys:Boolean x:Key="BoolTrue">True</sys:Boolean>
-		<sys:Boolean x:Key="BoolFalse">False</sys:Boolean>
-	</UserControl.Resources>
+    <UserControl.Resources>
+        <sys:Boolean x:Key="BoolTrue">True</sys:Boolean>
+        <sys:Boolean x:Key="BoolFalse">False</sys:Boolean>
+    </UserControl.Resources>
 
     <i:Interaction.Behaviors>
         <behaviors:OpenCloseChildWindowBehavior WindowType="view:ColorPicker" Open="{Binding ColorPickerIsOpen, Mode=TwoWay}" />

@@ -1,6 +1,5 @@
 ﻿using dna_simulator.Annotations;
 using dna_simulator.Model.aTAM;
-using dna_simulator.View;
 using Microsoft.Practices.Prism.Commands;
 using System.ComponentModel;
 

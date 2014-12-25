@@ -1,6 +1,6 @@
-﻿using System;
+﻿using dna_simulator.View;
+using System;
 using System.Windows;
-using dna_simulator.View;
 
 namespace dna_simulator
 {
