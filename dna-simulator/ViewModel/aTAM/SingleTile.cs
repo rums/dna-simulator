@@ -12,79 +12,26 @@ using Microsoft.Practices.Prism.Commands;
 
 namespace dna_simulator.ViewModel.aTAM
 {
-    class SingleTile : INotifyPropertyChanged
+    public class SingleTile : INotifyPropertyChanged
     {
-        #region Private
-        private string _label;
-        private Glue _topGlue;
-        private Glue _bottomGlue;
-        private Glue _leftGlue;
-        private Glue _rightGlue;
-        #endregion
-
         #region Properties
-        public TileType TileType { get; private set; }
+        private TileType _tile;
 
-        public string Label
+        public TileType Tile
         {
-            get { return _label; }
+            get { return _tile; }
             set
             {
-                if (value == _label) return;
-                _label = value;
-                OnPropertyChanged("Label");
-            }
-        }
-
-        public Glue TopGlue
-        {
-            get { return _topGlue; }
-            set
-            {
-                if (Equals(value, _topGlue)) return;
-                _topGlue = value;
-                OnPropertyChanged("TopGlue");
-            }
-        }
-
-        public Glue BottomGlue
-        {
-            get { return _bottomGlue; }
-            set
-            {
-                if (Equals(value, _bottomGlue)) return;
-                _bottomGlue = value;
-                OnPropertyChanged("BottomGlue");
-            }
-        }
-
-        public Glue LeftGlue
-        {
-            get { return _leftGlue; }
-            set
-            {
-                if (Equals(value, _leftGlue)) return;
-                _leftGlue = value;
-                OnPropertyChanged("LeftGlue");
-            }
-        }
-
-        public Glue RightGlue
-        {
-            get { return _rightGlue; }
-            set
-            {
-                if (Equals(value, _rightGlue)) return;
-                _rightGlue = value;
-                OnPropertyChanged("RightGlue");
+                if (Equals(value, _tile)) return;
+                _tile = value;
+                OnPropertyChanged("Tile");
             }
         }
         #endregion
 
         #region Constructors
-        public SingleTile(TileType tileType)
+        public SingleTile()
         {
-            TileType = tileType;
             ChangeColor = new DelegateCommand<object>(ChangeColorAction, CanChangeColor);
             ChangeStrength = new DelegateCommand<object>(ChangeStrengthAction, CanChangeStrength);
         }
