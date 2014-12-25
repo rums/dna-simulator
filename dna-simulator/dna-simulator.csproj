@@ -113,7 +113,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewConverters\BoolInverter.cs" />
     <Compile Include="Model\aTAM\Glue.cs" />
     <Compile Include="Model\aTAM\TileAssemblySystem.cs" />
     <Compile Include="Model\aTAM\TileType.cs" />

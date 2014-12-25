@@ -5,23 +5,10 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:aTam="clr-namespace:dna_simulator.ViewModel.aTAM"
-    xmlns:viewConverters="clr-namespace:dna_simulator.ViewConverters"
     xmlns:local="clr-namespace:dna_simulator"
-    xmlns:Custom="http://www.codeplex.com/prism" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     mc:Ignorable="d"
 	x:Class="dna_simulator.SingleTileControl"
 	d:DesignWidth="300" d:DesignHeight="440">
-	<UserControl.Resources>
-		<viewConverters:BoolInverter x:Key="BoolInverter"/>
-		<Style x:Key="TileEdgeControlButton" TargetType="ToggleButton">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="ToggleButton"/>
-				</Setter.Value>
-			</Setter>
-		</Style>
-	</UserControl.Resources>
-	
 	<UserControl.DataContext>
 		<aTam:SingleTile/>
 	</UserControl.DataContext>
@@ -33,7 +20,7 @@
 			<Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" Stroke="#FF009700" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" Canvas.ZIndex="1"/>
 			<Path StrokeDashArray=".5,1" x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" Stroke="Blue" StrokeThickness="2" UseLayoutRounding="False" Width="2" Canvas.ZIndex="1"/>
 			<Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Margin="0" Stretch="Fill" Stroke="Cyan" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom" Canvas.ZIndex="1"/>
-			<ed:RegularPolygon x:Name="TopControl" Fill="{Binding Stroke, ElementName=TileTop}" IsHitTestVisible="{Binding IsOpen, Converter={viewConverters:BoolInverter}, ElementName=EdgeMenu, Mode=OneWay}" InnerRadius="1" Opacity="0" PointCount="3" RenderTransformOrigin="0.5,0.5" Style="{StaticResource TileControlStyle}" Stretch="Fill" UseLayoutRounding="False" Height="100" Width="200" Margin="0,0,0,100">
+			<ed:RegularPolygon x:Name="TopControl" Fill="{Binding Stroke, ElementName=TileTop}" InnerRadius="1" Opacity="0" PointCount="3" RenderTransformOrigin="0.5,0.5" Style="{StaticResource TileControlStyle}" Stretch="Fill" UseLayoutRounding="False" Height="100" Width="200" Margin="0,0,0,100">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="MouseLeave">
 						<ei:ChangePropertyAction PropertyName="Opacity" Value="0"/>
