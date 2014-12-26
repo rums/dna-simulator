@@ -1,10 +1,10 @@
 ﻿using System.Windows.Controls;
 
-namespace dna_simulator.View
+namespace dna_simulator.View.Atam
 {
-    public partial class aTAMEdgeOptions : UserControl
+    public partial class RightEdgeOptions : UserControl
     {
-        public aTAMEdgeOptions()
+        public RightEdgeOptions()
         {
             // Required to initialize variables
             InitializeComponent();

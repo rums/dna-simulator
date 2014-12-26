@@ -4,11 +4,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="clr-namespace:dna_simulator.View"
+    xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     x:Class="dna_simulator.View.MainPage"
+    x:Name="AtamConfig"
     mc:Ignorable="d"
-    d:DesignHeight="505" d:DesignWidth="703" Width="640" Height="480">
+    d:DesignHeight="505" d:DesignWidth="703" Width="Auto" Height="Auto">
 
-    <Border BorderBrush="#FFF38630" BorderThickness="2" Margin="10" Padding="10" DataContext="{Binding Source={StaticResource SampleTilesSource}}" CornerRadius="5">
+    <UserControl.DataContext>
+        <atam:AtamConfig />
+    </UserControl.DataContext>
+
+    <Border BorderBrush="#FFF38630" BorderThickness="2" Margin="10" Padding="10" CornerRadius="5">
 
         <Grid x:Name="LayoutRoot" Margin="-2">
             <Grid.ColumnDefinitions>
@@ -16,7 +22,7 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <view:SingleTileControl />
-            <view:MultiTileControl Grid.Column="1" />
+            <view:MultiTileControl Grid.Column="1" Width="Auto" />
         </Grid>
     </Border>
 </UserControl>

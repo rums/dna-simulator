@@ -3,28 +3,31 @@
 	xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Name="childWindow"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                 x:Name="ColorPickerWindow"
     x:Class="dna_simulator.View.ColorPicker"
 	Title="ColorPicker" Width="300">
+
     <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <innerProduct:ColorPickr HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <innerProduct:ColorPickr Name="ColorPickr" Color="{Binding PickedColor, FallbackValue=White}" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
         <Button x:Name="OkButton" Content="OK" Click="OKButton_Click" Width="75" Height="23" Margin="0,0,79,0" HorizontalAlignment="Right" Grid.Row="1">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <ei:CallMethodAction TargetObject="{Binding ElementName=childWindow}" MethodName="Close" />
+                    <ei:CallMethodAction TargetObject="{Binding ElementName=ColorPickerWindow}" MethodName="Close" />
+                    <i:InvokeCommandAction Command="{Binding ApplyColorCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
         <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Grid.Row="1">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <ei:CallMethodAction TargetObject="{Binding ElementName=childWindow}" MethodName="Close" />
+                    <ei:CallMethodAction TargetObject="{Binding ElementName=ColorPickerWindow}" MethodName="Close" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>

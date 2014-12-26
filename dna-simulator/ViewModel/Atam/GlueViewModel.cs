@@ -1,10 +1,11 @@
 ﻿using dna_simulator.Annotations;
-using dna_simulator.Model.aTAM;
+using dna_simulator.Model.Atam;
 using System.ComponentModel;
+using System.Windows.Media;
 
-namespace dna_simulator.ViewModel.aTAM
+namespace dna_simulator.ViewModel.Atam
 {
-    public class MultiTile : INotifyPropertyChanged
+    public class GlueViewModel : INotifyPropertyChanged
     {
         #region Implement INotifyPropertyChanged
 
@@ -21,18 +22,20 @@ namespace dna_simulator.ViewModel.aTAM
 
         #region Properties
 
-        private TileAssemblySystem _tileAssemblySystem;
+        private Glue _glue;
 
-        public TileAssemblySystem TileAssemblySystem
+        public Glue Glue
         {
-            get { return _tileAssemblySystem; }
+            get { return _glue; }
             set
             {
-                if (Equals(value, _tileAssemblySystem)) return;
-                _tileAssemblySystem = value;
-                OnPropertyChanged("TileAssemblySystem");
+                if (Equals(value, _glue)) return;
+                _glue = value;
+                OnPropertyChanged("Glue");
             }
         }
+
+        public Brush DisplayColor { get; set; }
 
         #endregion Properties
     }

@@ -1,4 +1,4 @@
-﻿namespace dna_simulator.Model.aTAM
+﻿namespace dna_simulator.Model.Atam
 {
     public class Glue
     {

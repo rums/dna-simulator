@@ -3,23 +3,21 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:aTAM="clr-namespace:dna_simulator.ViewModel.aTAM" xmlns:Primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
-	mc:Ignorable="d"
-	x:Class="dna_simulator.View.MultiTileControl"
-	d:DesignWidth="300" d:DesignHeight="440">
+    xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
+    mc:Ignorable="d"
+	x:Class="dna_simulator.View.MultiTileControl" d:DesignHeight="440" Width="379.801">
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="12*" />
+            <RowDefinition Height="11*" />
+            <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <Grid.DataContext>
-            <aTAM:MultiTile />
-        </Grid.DataContext>
-        <Primitives:TabPanel HorizontalAlignment="Left" Height="350" VerticalAlignment="Top" Width="300">
-            <sdk:TabControl HorizontalAlignment="Left" Height="37" VerticalAlignment="Top" Width="300" BorderBrush="{x:Null}" Background="{x:Null}">
+        <primitives:TabPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+            <sdk:TabControl HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}">
                 <sdk:TabItem x:Name="ListViewTab" Header="ListView">
-                    <Grid Margin="0,0,0,-370">
+                    <Grid Margin="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="10*" />
                             <RowDefinition Height="150*" />
@@ -30,20 +28,21 @@
                             <ColumnDefinition Width="10*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock TextWrapping="Wrap" Text="Label" Grid.Column="1" VerticalAlignment="Bottom" />
-                        <TextBlock TextWrapping="Wrap" Text="Seed" Grid.Column="2" VerticalAlignment="Bottom" />
-                        <ListBox ItemsSource="{Binding TileAssemblySystem}" Grid.Row="1" Grid.ColumnSpan="3" SelectionMode="Extended">
+                        <TextBlock x:Name="LabelHeader" TextWrapping="Wrap" Text="Label" Grid.Column="1" VerticalAlignment="Bottom" />
+                        <TextBlock x:Name="SeedHeader" TextWrapping="Wrap" Text="Seed" Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" />
+                        <ListBox x:Name="TileListByLabel" ItemsSource="{Binding TileAssemblySystem.TileTypeViewModels}" Grid.Row="1" Grid.ColumnSpan="3"
+                                 Grid.Column="0" SelectionMode="Extended">
                             <ListBox.Resources>
-                                <DataTemplate x:Key="ItemTemplate">
+                                <DataTemplate x:Key="ListViewItemTemplate" DataType="atam:TileTypeViewModel">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="10*" />
                                             <ColumnDefinition Width="3*" />
                                         </Grid.ColumnDefinitions>
-                                        <Rectangle Width="10" Height="10" HorizontalAlignment="Left" Fill="#FFBD0000" />
-                                        <TextBlock Text="{Binding Property1}" HorizontalAlignment="Left" Grid.Column="1" />
-                                        <RadioButton GroupName="SeedSelection" HorizontalAlignment="Center" Grid.Column="2" />
+                                        <Rectangle x:Name="TileColorPreview" Width="10" Height="10" HorizontalAlignment="Left" Fill="{Binding DisplayColor}" />
+                                        <TextBlock x:Name="TileLabel" Text="{Binding Label}" HorizontalAlignment="Left" Grid.Column="1" />
+                                        <RadioButton x:Name="SeedChoice" IsChecked="{Binding IsSeed}" GroupName="SeedSelection" HorizontalAlignment="Center" Grid.Column="2" />
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.Resources>
@@ -54,17 +53,17 @@
                                 </Style>
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
-                                <StaticResource ResourceKey="ItemTemplate" />
+                                <StaticResource ResourceKey="ListViewItemTemplate" />
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <Button Content="A function" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
                     </Grid>
                 </sdk:TabItem>
                 <sdk:TabItem x:Name="TileViewTab" Header="TileView">
-                    <Grid Background="#FFE5E5E5" />
+                    <Grid Background="#FFE5E5E5" Margin="0,0,-82,0" />
                 </sdk:TabItem>
-                <sdk:TabItem x:Name="LabelViewTab" Header="LabelView" HorizontalAlignment="Left" VerticalAlignment="Top" DataContext="{Binding Source={StaticResource LabelSampleData}}">
-                    <Grid Margin="0,0,0,-370">
+                <sdk:TabItem x:Name="LabelViewTab" Header="LabelView" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Grid Margin="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="10*" />
                             <RowDefinition Height="150*" />
@@ -75,7 +74,7 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock TextWrapping="Wrap" Text="Label" Grid.Column="0" VerticalAlignment="Bottom" />
-                        <ListBox Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Collection}" SelectionMode="Extended">
+                        <ListBox Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" SelectionMode="Extended">
                             <ListBox.Resources>
                                 <DataTemplate x:Key="ItemTemplate">
                                     <StackPanel>
@@ -91,8 +90,12 @@
                     </Grid>
                 </sdk:TabItem>
             </sdk:TabControl>
-        </Primitives:TabPanel>
-        <Border Grid.Row="1" BorderThickness="2" CornerRadius="5" Background="#FFA7DBD8">
+        </primitives:TabPanel>
+        <StackPanel Grid.Row="1" Margin="0" Orientation="Horizontal">
+            <TextBlock x:Name="TemperatureLabel" TextWrapping="Wrap" Text="Temperature:" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Black" />
+            <TextBox x:Name="Temperature" TextWrapping="Wrap" Text="0" Width="24" VerticalAlignment="Center" Margin="5,0,0,0" />
+        </StackPanel>
+        <Border Grid.Row="2" BorderThickness="2" CornerRadius="5" Background="#FFA7DBD8">
             <StackPanel x:Name="TileListOptions" Orientation="Horizontal">
                 <Button x:Name="LoadTilesetButton" Content="Load Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />
                 <Button x:Name="SaveTilesetButton" Content="Save Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />

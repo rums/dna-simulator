@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace dna_simulator.Model.aTAM
+namespace dna_simulator.Model.Atam
 {
     public class TileAssemblySystem
     {

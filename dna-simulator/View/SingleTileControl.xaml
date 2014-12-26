@@ -4,136 +4,163 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-    xmlns:aTam="clr-namespace:dna_simulator.ViewModel.aTAM"
     xmlns:view="clr-namespace:dna_simulator.View"
 	xmlns:behaviors="clr-namespace:dna_simulator.View.Behaviors"
-	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:atam="clr-namespace:dna_simulator.View.Atam"
 	mc:Ignorable="d"
 	x:Class="dna_simulator.View.SingleTileControl"
 	d:DesignWidth="300" d:DesignHeight="440">
-    <UserControl.DataContext>
-        <aTam:SingleTile />
-    </UserControl.DataContext>
-
-    <UserControl.Resources>
-        <sys:Boolean x:Key="BoolTrue">True</sys:Boolean>
-        <sys:Boolean x:Key="BoolFalse">False</sys:Boolean>
-    </UserControl.Resources>
 
     <i:Interaction.Behaviors>
         <behaviors:OpenCloseChildWindowBehavior WindowType="view:ColorPicker" Open="{Binding ColorPickerIsOpen, Mode=TwoWay}" />
     </i:Interaction.Behaviors>
 
     <Grid x:Name="LayoutRoot" Background="White">
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="aTAM mode (no signals)" Foreground="#FF69D2E7" Margin="0,0,0,102" />
-        <Grid Background="Transparent" x:Name="Tile" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Center" Width="200" Height="200" Margin="50,69,50,171">
-            <TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="{Binding Tile.Label, FallbackValue=Tile label}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1" />
-            <Path x:Name="TileRight" Data="M149,100 L150,200" Margin="0" Stretch="Fill" Stroke="Red" StrokeThickness="2" UseLayoutRounding="False" Width="3" HorizontalAlignment="Right" Canvas.ZIndex="1" />
-            <Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" Stroke="#FF009700" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" Canvas.ZIndex="1" />
-            <Path StrokeDashArray=".5,1" x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" Stroke="Blue" StrokeThickness="2" UseLayoutRounding="False" Width="2" Canvas.ZIndex="1" />
-            <Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Margin="0" Stretch="Fill" Stroke="Cyan" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom" Canvas.ZIndex="1" />
-            <ed:RegularPolygon x:Name="TopControl" Fill="{Binding Stroke, ElementName=TileTop}" InnerRadius="1" Opacity="0" PointCount="3" RenderTransformOrigin="0.5,0.5" Style="{StaticResource TileControlStyle}" Stretch="Fill" UseLayoutRounding="False" Height="100" Width="200" Margin="0,0,0,100">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <ei:ChangePropertyAction Value="True" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ed:RegularPolygon.RenderTransform>
-                    <CompositeTransform ScaleY="-1" />
-                </ed:RegularPolygon.RenderTransform>
-            </ed:RegularPolygon>
-            <ed:RegularPolygon x:Name="BottomControl" Height="100" InnerRadius="1" Margin="0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileBottom}" HorizontalAlignment="Center" Opacity="0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <ei:ChangePropertyAction Value="True" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ed:RegularPolygon.RenderTransform>
-                    <CompositeTransform />
-                </ed:RegularPolygon.RenderTransform>
-            </ed:RegularPolygon>
-            <ed:RegularPolygon x:Name="LeftControl" Height="100" InnerRadius="1" Margin="-50,0,0,0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileLeft}" HorizontalAlignment="Left" Opacity="0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <ei:ChangePropertyAction Value="True" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ed:RegularPolygon.RenderTransform>
-                    <CompositeTransform Rotation="90" />
-                </ed:RegularPolygon.RenderTransform>
-            </ed:RegularPolygon>
-            <ed:RegularPolygon x:Name="RightControl" Height="100" InnerRadius="1" Margin="0,0,-50,0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileRight}" HorizontalAlignment="Right" Opacity="0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <ei:ChangePropertyAction Value="True" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ed:RegularPolygon.RenderTransform>
-                    <CompositeTransform Rotation="-90" />
-                </ed:RegularPolygon.RenderTransform>
-            </ed:RegularPolygon>
-            <Popup x:Name="EdgeMenu" HorizontalAlignment="Left" VerticalAlignment="Top" Height="0" Width="0">
-                <Grid x:Name="Options" Margin="5,5,0,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-                    <Grid.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFD6ECEA" Offset="0" />
-                            <GradientStop Color="#FFA7DBD8" Offset="1" />
-                        </LinearGradientBrush>
-                    </Grid.Background>
-                    <view:aTAMEdgeOptions Margin="0,0,-5,-5" />
-                    <Button x:Name="Done" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Margin="5" Grid.Row="1">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <ei:ChangePropertyAction TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-                </Grid>
-            </Popup>
-        </Grid>
-        <Grid x:Name="TileColorPicker" Margin="0,338,0,34">
-            <Rectangle x:Name="TileColor" HorizontalAlignment="Right" Height="30" Margin="0,0,35,0" StrokeThickness="2" VerticalAlignment="Center" Width="30" Fill="#FFBD0000" Canvas.ZIndex="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="20*" x:Name="TileRow" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" x:Name="TextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="aTAM mode (no signals)" Foreground="#FF69D2E7" Margin="0" />
+        <Viewbox x:Name="TileViewbox" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid Background="Transparent" x:Name="Tile">
+                <TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="{Binding CurrentTileType.Label, FallbackValue=Tile label}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1" />
+                <Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" Stroke="{Binding CurrentTileType.Top.DisplayColor}" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" Canvas.ZIndex="1" />
+                <Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Margin="0" Stretch="Fill" Stroke="{Binding CurrentTileType.Bottom.DisplayColor}" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom" Canvas.ZIndex="1" />
+                <Path x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" Stroke="{Binding CurrentTileType.Left.DisplayColor}" StrokeThickness="2" UseLayoutRounding="False" Width="2" Canvas.ZIndex="1" />
+                <Path x:Name="TileRight" Data="M149,100 L150,200" Margin="0" Stretch="Fill" Stroke="{Binding CurrentTileType.Right.DisplayColor}" StrokeThickness="2" UseLayoutRounding="False" Width="3" HorizontalAlignment="Right" Canvas.ZIndex="1" />
+                <ed:RegularPolygon x:Name="TopControl" Fill="{Binding Stroke, ElementName=TileTop}" InnerRadius="1" Opacity="0" PointCount="3" RenderTransformOrigin="0.5,0.5" Style="{StaticResource TileControlStyle}" Stretch="Fill" UseLayoutRounding="False" Height="100" Width="200" Margin="0,0,0,100">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <ei:ChangePropertyAction x:Name="MouseLeaveOpacity" PropertyName="Opacity" Value="0" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <ei:ChangePropertyAction x:Name="MouseEnterOpacity" PropertyName="Opacity" Value="0.1" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                            <ei:ChangePropertyAction x:Name="OpenEdgeMenu" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" Value="True" />
+                            <ei:ChangePropertyAction x:Name="SetTopMenuOptions" TargetName="topEdgeOptions" TargetObject="{Binding ElementName=topEdgeOptions}" PropertyName="Visibility" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ed:RegularPolygon.RenderTransform>
+                        <CompositeTransform ScaleY="-1" />
+                    </ed:RegularPolygon.RenderTransform>
+                </ed:RegularPolygon>
+                <ed:RegularPolygon x:Name="BottomControl" Height="100" InnerRadius="1" Margin="0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileBottom}" HorizontalAlignment="Center" Opacity="0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                            <ei:ChangePropertyAction Value="True" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
+                            <ei:ChangePropertyAction x:Name="SetBottomMenuOptions" TargetName="bottomEdgeOptions" TargetObject="{Binding ElementName=bottomEdgeOptions}" PropertyName="Visibility" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ed:RegularPolygon.RenderTransform>
+                        <CompositeTransform />
+                    </ed:RegularPolygon.RenderTransform>
+                </ed:RegularPolygon>
+                <ed:RegularPolygon x:Name="LeftControl" Height="100" InnerRadius="1" Margin="-50,0,0,0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileLeft}" HorizontalAlignment="Left" Opacity="0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                            <ei:ChangePropertyAction Value="True" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
+                            <ei:ChangePropertyAction x:Name="SetLeftMenuOptions" TargetName="leftEdgeOptions" TargetObject="{Binding ElementName=leftEdgeOptions}" PropertyName="Visibility" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ed:RegularPolygon.RenderTransform>
+                        <CompositeTransform Rotation="90" />
+                    </ed:RegularPolygon.RenderTransform>
+                </ed:RegularPolygon>
+                <ed:RegularPolygon x:Name="RightControl" Height="100" InnerRadius="1" Margin="0,0,-50,0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileRight}" HorizontalAlignment="Right" Opacity="0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                            <ei:ChangePropertyAction Value="True" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
+                            <ei:ChangePropertyAction x:Name="SetRightMenuOptions" TargetName="rightEdgeOptions" TargetObject="{Binding ElementName=rightEdgeOptions}" PropertyName="Visibility" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ed:RegularPolygon.RenderTransform>
+                        <CompositeTransform Rotation="-90" />
+                    </ed:RegularPolygon.RenderTransform>
+                </ed:RegularPolygon>
+            </Grid>
+        </Viewbox>
+        <StackPanel x:Name="PickTileColorStackPanel" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="PickColorRequest" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Pick tile color for simulation:" VerticalAlignment="Center" Margin="5,0,0,0" />
+            <Rectangle x:Name="TileColor" HorizontalAlignment="Right" Height="30" StrokeThickness="2" VerticalAlignment="Center" Width="30" Fill="{Binding CurrentTileType.DisplayColor}" Canvas.ZIndex="0" Margin="5,0,0,0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction Command="{Binding OpenColorPickerCommand}" CommandParameter="{StaticResource BoolTrue}" />
+                        <i:InvokeCommandAction CommandParameter="DisplayColor" Command="{Binding OpenColorPickerCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Rectangle>
-            <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Pick tile color for simulation:" VerticalAlignment="Center" />
-        </Grid>
-        <Border x:Name="SingleTileOptionsBorder" CornerRadius="5" BorderThickness="2" Background="#FFF38630" Margin="0,406,0,0">
+        </StackPanel>
+        <Border Grid.Row="3" x:Name="SingleTileOptionsBorder" CornerRadius="5" BorderThickness="2" Background="#FFF38630" Margin="0">
             <StackPanel x:Name="SingleTileOptionsPanel" Orientation="Horizontal">
                 <Button x:Name="NewTileButton" Content="New Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
                 <Button x:Name="SaveTileButton" Content="Save Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
             </StackPanel>
         </Border>
+        <Popup x:Name="EdgeMenu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel.Effect>
+                    <DropShadowEffect />
+                </StackPanel.Effect>
+                <StackPanel.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFD6ECEA" Offset="0" />
+                        <GradientStop Color="#FFA7DBD8" Offset="1" />
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <atam:TopEdgeOptions x:Name="topEdgeOptions" Visibility="Collapsed" />
+                    <atam:BottomEdgeOptions x:Name="bottomEdgeOptions" Visibility="Collapsed" />
+                    <atam:LeftEdgeOptions x:Name="leftEdgeOptions" Visibility="Collapsed" />
+                    <atam:RightEdgeOptions x:Name="rightEdgeOptions" Visibility="Collapsed" />
+                </StackPanel>
+                <Button x:Name="Done" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Margin="5">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <ei:ChangePropertyAction x:Name="CloseMenuAction" TargetName="EdgeMenu" TargetObject="{Binding ElementName=EdgeMenu}" PropertyName="IsOpen" />
+                            <ei:ChangePropertyAction x:Name="HideTopEdgeOptions" TargetName="topEdgeOptions" TargetObject="{Binding ElementName=topEdgeOptions}" PropertyName="Visibility">
+                                <ei:ChangePropertyAction.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </ei:ChangePropertyAction.Value>
+                            </ei:ChangePropertyAction>
+                            <ei:ChangePropertyAction x:Name="HideBottomEdgeOptions" TargetName="bottomEdgeOptions" TargetObject="{Binding ElementName=bottomEdgeOptions}" PropertyName="Visibility">
+                                <ei:ChangePropertyAction.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </ei:ChangePropertyAction.Value>
+                            </ei:ChangePropertyAction>
+                            <ei:ChangePropertyAction x:Name="HideLeftEdgeOptions" TargetName="leftEdgeOptions" TargetObject="{Binding ElementName=leftEdgeOptions}" PropertyName="Visibility">
+                                <ei:ChangePropertyAction.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </ei:ChangePropertyAction.Value>
+                            </ei:ChangePropertyAction>
+                            <ei:ChangePropertyAction x:Name="HideRightEdgeOptions" TargetName="rightEdgeOptions" TargetObject="{Binding ElementName=rightEdgeOptions}" PropertyName="Visibility">
+                                <ei:ChangePropertyAction.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </ei:ChangePropertyAction.Value>
+                            </ei:ChangePropertyAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </StackPanel>
+        </Popup>
     </Grid>
 </UserControl>

@@ -66,6 +66,7 @@
     </Reference>
     <Reference Include="Microsoft.Expression.Controls" />
     <Reference Include="Microsoft.Expression.Drawing" />
+    <Reference Include="Microsoft.Expression.Effects" />
     <Reference Include="Microsoft.Expression.Interactions, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.4.1.0.0\lib\SL5\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
@@ -104,8 +105,21 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\aTAMEdgeOptions.xaml.cs">
-      <DependentUpon>aTAMEdgeOptions.xaml</DependentUpon>
+    <Compile Include="ViewModel\Atam\GlueViewModel.cs" />
+    <Compile Include="ViewModel\Atam\TasViewModel.cs" />
+    <Compile Include="ViewModel\Atam\TileTypeViewModel.cs" />
+    <Compile Include="ViewModel\ColorPickerViewModel.cs" />
+    <Compile Include="View\Atam\BottomEdgeOptions.xaml.cs">
+      <DependentUpon>BottomEdgeOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Atam\LeftEdgeOptions.xaml.cs">
+      <DependentUpon>LeftEdgeOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Atam\RightEdgeOptions.xaml.cs">
+      <DependentUpon>RightEdgeOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Atam\TopEdgeOptions.xaml.cs">
+      <DependentUpon>TopEdgeOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Behaviors\OpenCloseChildWindowBehavior.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">
@@ -114,9 +128,9 @@
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Model\aTAM\Glue.cs" />
-    <Compile Include="Model\aTAM\TileAssemblySystem.cs" />
-    <Compile Include="Model\aTAM\TileType.cs" />
+    <Compile Include="Model\Atam\Glue.cs" />
+    <Compile Include="Model\Atam\TileAssemblySystem.cs" />
+    <Compile Include="Model\Atam\TileType.cs" />
     <Compile Include="View\MultiTileControl.xaml.cs">
       <DependentUpon>MultiTileControl.xaml</DependentUpon>
     </Compile>
@@ -131,15 +145,26 @@
     <Compile Include="View\SingleTileControl.xaml.cs">
       <DependentUpon>SingleTileControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\aTAM\MultiTile.cs" />
-    <Compile Include="ViewModel\aTAM\SingleTile.cs" />
+    <Compile Include="ViewModel\Atam\AtamConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="View\aTAMEdgeOptions.xaml">
+    <Page Include="View\Atam\BottomEdgeOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Atam\LeftEdgeOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Atam\RightEdgeOptions.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Atam\TopEdgeOptions.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -178,9 +203,7 @@
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\LabelSampleData\LabelSampleData.xsd" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataStore\DataStore\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
