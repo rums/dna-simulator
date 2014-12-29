@@ -49,9 +49,13 @@ namespace dna_simulator.ViewModel.Atam
                 // initialize CurrentTileViewModel
                 CurrentTileViewModel = MultiTileViewModel.SingleTileViewModels[0];
             });
+
+            // initialize commands
             CreateTileCommand = new RelayCommand<object>(ExecuteCreateTile, CanCreateTile);
             OpenColorPickerCommand = new RelayCommand<string>(ExecuteOpenColorPicker, CanOpenColorPicker);
             CurrentView = CurrentTileViewModel;
+
+            // register message listeners
             Messenger.Default.Register<NotificationMessage>(this, message =>
             {
                 switch (message.Notification)

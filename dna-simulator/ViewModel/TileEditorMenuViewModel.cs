@@ -23,6 +23,11 @@ namespace dna_simulator.ViewModel
 
         #region Commands
 
+        /// <summary>
+        /// This command asks for a color picker. It takes a string which identifies the applicable property (e.g., TileColor).
+        /// Note: This mechanism seems dirty and could probably be improved; a simple typo in
+        /// the string being passed may be a difficult bug.
+        /// </summary>
         public RelayCommand<string> OpenColorPickerCommand { get; private set; }
 
         public bool CanOpenColorPicker(string message)
