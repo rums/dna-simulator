@@ -33,7 +33,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _displayColor)) return;
                 _displayColor = value;
-                RaisePropertyChanged("DisplayColor");
+                RaisePropertyChanged();
             }
         }
 
@@ -44,7 +44,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _label)) return;
                 _label = value;
-                RaisePropertyChanged("Label");
+                RaisePropertyChanged();
             }
         }
 
@@ -55,7 +55,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _topGlue)) return;
                 _topGlue = value;
-                RaisePropertyChanged("TopGlue");
+                RaisePropertyChanged();
             }
         }
 
@@ -66,7 +66,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _bottomGlue)) return;
                 _bottomGlue = value;
-                RaisePropertyChanged("BottomGlue");
+                RaisePropertyChanged();
             }
         }
 
@@ -77,7 +77,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _leftGlue)) return;
                 _leftGlue = value;
-                RaisePropertyChanged("LeftGlue");
+                RaisePropertyChanged();
             }
         }
 
@@ -88,7 +88,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _rightGlue)) return;
                 _rightGlue = value;
-                RaisePropertyChanged("RightGlue");
+                RaisePropertyChanged();
             }
         }
 
@@ -99,7 +99,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _isSeed)) return;
                 _isSeed = value;
-                RaisePropertyChanged("IsSeed");
+                RaisePropertyChanged();
             }
         }
 
@@ -110,7 +110,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _displayColorBrush)) return;
                 _displayColorBrush = value;
-                RaisePropertyChanged("DisplayColorBrush");
+                RaisePropertyChanged();
             }
         }
 
@@ -121,7 +121,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _topGlueBrush)) return;
                 _topGlueBrush = value;
-                RaisePropertyChanged("TopGlueBrush");
+                RaisePropertyChanged();
             }
         }
 
@@ -132,7 +132,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _bottomGlueBrush)) return;
                 _bottomGlueBrush = value;
-                RaisePropertyChanged("BottomGlueBrush");
+                RaisePropertyChanged();
             }
         }
 
@@ -143,7 +143,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _leftGlueBrush)) return;
                 _leftGlueBrush = value;
-                RaisePropertyChanged("LeftGlueBrush");
+                RaisePropertyChanged();
             }
         }
 
@@ -154,7 +154,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _rightGlueBrush)) return;
                 _rightGlueBrush = value;
-                RaisePropertyChanged("RightGlueBrush");
+                RaisePropertyChanged();
             }
         }
 

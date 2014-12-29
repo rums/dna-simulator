@@ -119,6 +119,7 @@
     <Compile Include="ViewModel\Atam\SingleTileViewModel.cs" />
     <Compile Include="ViewModel\ColorPickerViewModel.cs" />
     <Compile Include="ViewModel\TileEditorMenuViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AtamEdgeOptions.xaml.cs">
       <DependentUpon>AtamEdgeOptions.xaml</DependentUpon>

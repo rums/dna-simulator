@@ -1,6 +1,5 @@
 ﻿using dna_simulator.Model;
 using dna_simulator.Model.Atam;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
@@ -112,7 +111,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _currentTileViewModel)) return;
                 _currentTileViewModel = value;
-                RaisePropertyChanged("CurrentTileViewModel");
+                RaisePropertyChanged();
             }
         }
 
@@ -133,7 +132,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _multiTileViewModel)) return;
                 _multiTileViewModel = value;
-                RaisePropertyChanged("MultiTileViewModel");
+                RaisePropertyChanged();
             }
         }
 
@@ -146,7 +145,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value.Equals(_colorPickerIsOpen)) return;
                 _colorPickerIsOpen = value;
-                RaisePropertyChanged("ColorPickerIsOpen");
+                RaisePropertyChanged();
             }
         }
 
@@ -161,7 +160,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _currentView)) return;
                 _currentView = value;
-                RaisePropertyChanged("CurrentView");
+                RaisePropertyChanged();
             }
         }
 

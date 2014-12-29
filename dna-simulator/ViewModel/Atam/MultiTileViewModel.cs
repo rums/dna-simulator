@@ -16,7 +16,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _singleTileViewModels)) return;
                 _singleTileViewModels = value;
-                RaisePropertyChanged("SingleTileViewModels");
+                RaisePropertyChanged();
             }
         }
 
@@ -29,7 +29,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _temperature)) return;
                 _temperature = value;
-                RaisePropertyChanged("Temperature");
+                RaisePropertyChanged();
             }
         }
 

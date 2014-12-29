@@ -18,22 +18,5 @@ namespace dna_simulator.ViewModel
         {
             base.RaisePropertyChanged(property);
         }
-
-        bool? _closeWindowFlag;
-        public bool? CloseWindowFlag
-        {
-            get { return _closeWindowFlag; }
-            set
-            {
-                if (Equals(value, _closeWindowFlag)) return;
-                _closeWindowFlag = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public virtual void CloseWindow(bool? result = true)
-        {
-            CloseWindowFlag = CloseWindowFlag == null ? true : !CloseWindowFlag;
-        }
     }
 }

@@ -32,7 +32,7 @@ namespace dna_simulator.ViewModel
             {
                 if (Equals(value, _currentColor)) return;
                 _currentColor = value;
-                RaisePropertyChanged("CurrentColor");
+                RaisePropertyChanged();
             }
         }
 
