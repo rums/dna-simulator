@@ -7,12 +7,17 @@
     xmlns:view="clr-namespace:dna_simulator.View"
     xmlns:viewModel="clr-namespace:dna_simulator.ViewModel"
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
+    xmlns:behaviors="clr-namespace:dna_simulator.View.Behaviors"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.SingleTileControl"
     x:Name="SingleTileName"
 	d:DesignWidth="300" d:DesignHeight="440">
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <i:Interaction.Behaviors>
+        <behaviors:OpenCloseChildWindowBehavior WindowType="view:ColorPicker" Open="{Binding ColorPickerIsOpen, Mode=TwoWay}" />
+    </i:Interaction.Behaviors>
+
+            <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="20*" />
@@ -24,10 +29,6 @@
             <ContentControl.Resources>
                 <DataTemplate DataType="atam:SingleTileViewModel">
                     <view:TileEditorControl />
-                </DataTemplate>
-
-                <DataTemplate DataType="viewModel:ColorPickerViewModel">
-                    <view:ColorPicker />
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

@@ -135,6 +135,7 @@
     <Compile Include="View\Atam\TopEdgeOptions.xaml.cs">
       <DependentUpon>TopEdgeOptions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Behaviors\OpenCloseChildWindowBehavior.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>

@@ -68,7 +68,7 @@ namespace dna_simulator.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<ColorPickerViewModel>();
+                return ServiceLocator.Current.GetInstance<AtamConfig>().ColorPickerViewModel;
             }
         }
 

@@ -1,39 +1,33 @@
-﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<sdk:ChildWindow xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
-    xmlns:helpers="clr-namespace:dna_simulator.ViewModel.Helpers"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    x:Name="ColorPickerWindow"
+                 xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                 xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+                 x:Name="ColorPickerWindow"
     x:Class="dna_simulator.View.ColorPicker"
-    Width="300">
+    Width="300"
+    DataContext="{Binding ColorPickerViewModel, Source={StaticResource Locator}}">
 
-    <StackPanel Orientation="Vertical" Width="282">
-        <StackPanel.Effect>
-            <DropShadowEffect />
-        </StackPanel.Effect>
-        <StackPanel.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="#FFD6ECEA" Offset="0" />
-                <GradientStop Color="#FFA7DBD8" Offset="1" />
-            </LinearGradientBrush>
-        </StackPanel.Background>
-        <innerProduct:ColorPickr x:Name="ColorPickr" Color="{Binding CurrentColor, Mode=TwoWay, FallbackValue=White, TargetNullValue=White}" HorizontalAlignment="Left" VerticalAlignment="Top" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="22">
-            <Button x:Name="Ok" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,0,5,0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding ApplyColorCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-            <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,0,5,0">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding ApplyColorCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </Button>
-        </StackPanel>
-    </StackPanel>
-</UserControl>
+	<StackPanel Orientation="Vertical" Width="282">
+		<innerProduct:ColorPickr x:Name="ColorPickr" Color="{Binding CurrentColor, FallbackValue=White, Mode=TwoWay, TargetNullValue=White}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="22">
+			<Button x:Name="Ok" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,0,5,0">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<i:InvokeCommandAction Command="{Binding ApplyColorCommand}" />
+						<ei:CallMethodAction TargetObject="{Binding ElementName=ColorPickerWindow}" MethodName="Close"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</Button>
+			<Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,0,5,0">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Click">
+						<i:InvokeCommandAction Command="{Binding ApplyColorCommand}" />
+						<ei:CallMethodAction TargetObject="{Binding ElementName=ColorPickerWindow}" MethodName="Close"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</Button>
+		</StackPanel>
+	</StackPanel>
+</sdk:ChildWindow>

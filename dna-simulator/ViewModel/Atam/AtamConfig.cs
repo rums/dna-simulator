@@ -178,12 +178,9 @@ namespace dna_simulator.ViewModel.Atam
 
         private void ExecuteOpenColorPicker(string targetProperty)
         {
-            CurrentView = new ColorPickerViewModel
-                {
-                    CurrentColor = Colors.Green,
-                    BaseViewModel = this,
-                    TargetProperty = targetProperty
-                };
+            ColorPickerViewModel = ColorPickerViewModel ?? new ColorPickerViewModel();
+            ColorPickerViewModel.TargetProperty = targetProperty;
+            ColorPickerIsOpen = true;
         }
 
         public RelayCommand<object> CreateTileCommand { get; private set; }
@@ -214,19 +211,44 @@ namespace dna_simulator.ViewModel.Atam
                 case "TileColor":
                     CurrentTileViewModel.DisplayColor = color;
                     CurrentTileViewModel.DisplayColorBrush = new SolidColorBrush(color);
-                    _dataService.SetTileType(new TileType
-                    {
-                        Top = CurrentTileViewModel.TopGlue,
-                        Bottom = CurrentTileViewModel.BottomGlue,
-                        Left = CurrentTileViewModel.LeftGlue,
-                        Right = CurrentTileViewModel.RightGlue,
-                        DisplayColor = color,
-                        Label = CurrentTileViewModel.Label
-                    }, _currentTileIndex);
+                    break;
+                case "TopColor":
+                    CurrentTileViewModel.TopGlue.DisplayColor = color;
+                    CurrentTileViewModel.TopGlueBrush = new SolidColorBrush(color);
+                    break;
+                case "BottomColor":
+                    CurrentTileViewModel.BottomGlue.DisplayColor = color;
+                    CurrentTileViewModel.BottomGlueBrush = new SolidColorBrush(color);
+                    break;
+                case "LeftColor":
+                    CurrentTileViewModel.LeftGlue.DisplayColor = color;
+                    CurrentTileViewModel.LeftGlueBrush = new SolidColorBrush(color);
+                    break;
+                case "RightColor":
+                    CurrentTileViewModel.RightGlue.DisplayColor = color;
+                    CurrentTileViewModel.RightGlueBrush = new SolidColorBrush(color);
                     break;
             }
+            _dataService.SetTileType(FromSingleTileViewModel(CurrentTileViewModel), _currentTileIndex);
         }
 
         #endregion Messenger methods
+
+        #region Helper methods
+
+        private TileType FromSingleTileViewModel(SingleTileViewModel tile)
+        {
+            return new TileType
+            {
+                DisplayColor = tile.DisplayColor,
+                Label = tile.Label,
+                Top = tile.TopGlue,
+                Bottom = tile.BottomGlue,
+                Left = tile.LeftGlue,
+                Right = tile.RightGlue
+            };
+        }
+
+        #endregion
     }
 }
