@@ -1,4 +1,5 @@
-﻿using dna_simulator.View;
+﻿using dna_simulator.ViewModel;
+using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Windows;
 
@@ -8,20 +9,22 @@ namespace dna_simulator
     {
         public App()
         {
-            this.Startup += this.Application_Startup;
-            this.Exit += this.Application_Exit;
-            this.UnhandledException += this.Application_UnhandledException;
+            Startup += Application_Startup;
+            Exit += Application_Exit;
+            UnhandledException += Application_UnhandledException;
 
             InitializeComponent();
         }
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            this.RootVisual = new MainPage();
+            RootVisual = new MainPage();
+            DispatcherHelper.Initialize();
         }
 
         private void Application_Exit(object sender, EventArgs e)
         {
+            ViewModelLocator.Cleanup();
         }
 
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
@@ -36,7 +39,10 @@ namespace dna_simulator
                 // For production applications this error handling should be replaced with something that will
                 // report the error to the website and stop the application.
                 e.Handled = true;
-                Deployment.Current.Dispatcher.BeginInvoke(delegate { ReportErrorToDOM(e); });
+                Deployment.Current.Dispatcher.BeginInvoke(delegate
+                {
+                    ReportErrorToDOM(e);
+                });
             }
         }
 

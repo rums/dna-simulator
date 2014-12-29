@@ -1,25 +1,11 @@
-﻿using dna_simulator.Annotations;
-using dna_simulator.Model.Atam;
-using System.ComponentModel;
+﻿using dna_simulator.Model.Atam;
 using System.Windows.Media;
+using GalaSoft.MvvmLight;
 
 namespace dna_simulator.ViewModel.Atam
 {
-    public class GlueViewModel : INotifyPropertyChanged
+    public class GlueViewModel : ViewModelBase
     {
-        #region Implement INotifyPropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion Implement INotifyPropertyChanged
-
         #region Properties
 
         private Glue _glue;
@@ -31,7 +17,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (Equals(value, _glue)) return;
                 _glue = value;
-                OnPropertyChanged("Glue");
+                RaisePropertyChanged("Glue");
             }
         }
 

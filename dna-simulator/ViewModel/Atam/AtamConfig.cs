@@ -1,55 +1,139 @@
-﻿using dna_simulator.Annotations;
+﻿using dna_simulator.Model;
 using dna_simulator.Model.Atam;
-using Microsoft.Practices.Prism.Commands;
-using System;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Media;
 
 namespace dna_simulator.ViewModel.Atam
 {
-    public class AtamConfig : INotifyPropertyChanged
+    public class AtamConfig : ViewModelBase
     {
-        #region Implement INotifyPropertyChanged
+        #region Constructors
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged(string propertyName)
+        public AtamConfig(IDataService dataService)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            _dataService = dataService;
+            _dataService.GetTileAssemblySystem((item, error) =>
+            {
+                if (error != null)
+                {
+                    // Report error here
+                    return;
+                }
+
+                if (item.TileTypes == null) return;
+
+                // Initialize MultiTileViewModel
+                MultiTileViewModel.Temperature = item.Temperature;
+                MultiTileViewModel.SingleTileViewModels = new ObservableCollection<SingleTileViewModel>();
+                foreach (var tvm in item.TileTypes.Select(t => new SingleTileViewModel
+                {
+                    DisplayColor = t.DisplayColor,
+                    Label = t.Label,
+                    TopGlue = t.Top,
+                    BottomGlue = t.Bottom,
+                    LeftGlue = t.Left,
+                    RightGlue = t.Right,
+                    TopGlueBrush = new SolidColorBrush(t.Top.DisplayColor),
+                    BottomGlueBrush = new SolidColorBrush(t.Bottom.DisplayColor),
+                    LeftGlueBrush = new SolidColorBrush(t.Left.DisplayColor),
+                    RightGlueBrush = new SolidColorBrush(t.Right.DisplayColor),
+                    DisplayColorBrush = new SolidColorBrush(t.DisplayColor),
+                    IsSeed = (item.Seed.Label == t.Label)
+                }))
+                {
+                    MultiTileViewModel.SingleTileViewModels.Add(tvm);
+                }
+                // initialize CurrentTileViewModel
+                CurrentTileViewModel = MultiTileViewModel.SingleTileViewModels[0];
+            });
+            CreateTileCommand = new RelayCommand<object>(ExecuteCreateTile, CanCreateTile);
+            OpenColorPickerCommand = new RelayCommand<string>(ExecuteOpenColorPicker, CanOpenColorPicker);
+            CurrentView = CurrentTileViewModel;
+            Messenger.Default.Register<NotificationMessage>(this, message =>
+            {
+                switch (message.Notification)
+                {
+                    case "ApplyColorDone":
+                        CloseColorPicker();
+                        break;
+                }
+            });
+            Messenger.Default.Register<NotificationMessage<Color>>(this, ExecuteSaveColor);
+            Messenger.Default.Register<NotificationMessage<string>>(this, message =>
+            {
+                var edgeName = message.Content;
+                switch (message.Notification)
+                {
+                    case "OpenColorPicker":
+                        ExecuteOpenColorPicker(edgeName);
+                        break;
+                }
+            });
         }
 
-        #endregion Implement INotifyPropertyChanged
+        #endregion Constructors
 
         #region Properties
 
-        private TasViewModel _tileAssemblySystem;
+        private IDataService _dataService;
 
-        public TasViewModel TileAssemblySystem
+        private int _currentTileIndex;
+
+        private SingleTileViewModel _currentTileViewModel;
+
+        public SingleTileViewModel CurrentTileViewModel
         {
-            get { return _tileAssemblySystem; }
+            get
+            {
+                if (_currentTileViewModel == null)
+                {
+                    CurrentTileViewModel = new SingleTileViewModel
+                    {
+                        Label = "Tile 0",
+                        TopGlue = new Glue { Color = 0, Strength = 0 },
+                        BottomGlue = new Glue { Color = 0, Strength = 0 },
+                        LeftGlue = new Glue { Color = 0, Strength = 0 },
+                        RightGlue = new Glue { Color = 0, Strength = 0 },
+                        IsSeed = true,
+                        DisplayColorBrush = new SolidColorBrush(Colors.Purple),
+                        TopGlueBrush = new SolidColorBrush(Colors.Blue),
+                        BottomGlueBrush = new SolidColorBrush(Colors.Blue),
+                        LeftGlueBrush = new SolidColorBrush(Colors.Blue),
+                        RightGlueBrush = new SolidColorBrush(Colors.Blue),
+                    };
+                }
+                return _currentTileViewModel;
+            }
             set
             {
-                if (Equals(value, _tileAssemblySystem)) return;
-                _tileAssemblySystem = value;
-                OnPropertyChanged("TileAssemblySystem");
+                if (Equals(value, _currentTileViewModel)) return;
+                _currentTileViewModel = value;
+                RaisePropertyChanged("CurrentTileViewModel");
             }
         }
 
-        private TileTypeViewModel _currentTileType;
+        private MultiTileViewModel _multiTileViewModel;
 
-        public TileTypeViewModel CurrentTileType
+        public MultiTileViewModel MultiTileViewModel
         {
-            get { return _currentTileType; }
+            get
+            {
+                if (_multiTileViewModel != null) return _multiTileViewModel;
+                MultiTileViewModel = new MultiTileViewModel
+                {
+                    Temperature = 0,
+                };
+                return _multiTileViewModel;
+            }
             set
             {
-                if (Equals(value, _currentTileType)) return;
-                _currentTileType = value;
-                OnPropertyChanged("CurrentTileType");
+                if (Equals(value, _multiTileViewModel)) return;
+                _multiTileViewModel = value;
+                RaisePropertyChanged("MultiTileViewModel");
             }
         }
 
@@ -62,62 +146,30 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value.Equals(_colorPickerIsOpen)) return;
                 _colorPickerIsOpen = value;
-                OnPropertyChanged("ColorPickerIsOpen");
+                RaisePropertyChanged("ColorPickerIsOpen");
             }
         }
 
-        public ColorPickerViewModel ColorPicker { get; set; }
+        public ColorPickerViewModel ColorPickerViewModel { get; set; }
+
+        private ViewModelBase _currentView;
+
+        public ViewModelBase CurrentView
+        {
+            get { return _currentView; }
+            set
+            {
+                if (Equals(value, _currentView)) return;
+                _currentView = value;
+                RaisePropertyChanged("CurrentView");
+            }
+        }
 
         #endregion Properties
 
-        #region Constructors
-
-        public AtamConfig()
-        {
-            CurrentTileType = CurrentTileType ??
-                              new TileTypeViewModel
-                              {
-                                  Label = "Tile 0",
-                                  IsSeed = true,
-                                  DisplayColor = new SolidColorBrush(Colors.Purple),
-                                  Top = new GlueViewModel
-                                 {
-                                     Glue = new Glue { Color = 0, Strength = 0 },
-                                     DisplayColor = new SolidColorBrush(Colors.Red)
-                                 },
-                                  Bottom = new GlueViewModel
-                                  {
-                                      Glue = new Glue { Color = 0, Strength = 0 },
-                                      DisplayColor = new SolidColorBrush(Colors.Blue)
-                                  },
-                                  Left = new GlueViewModel
-                                  {
-                                      Glue = new Glue { Color = 0, Strength = 0 },
-                                      DisplayColor = new SolidColorBrush(Colors.Green)
-                                  },
-                                  Right = new GlueViewModel
-                                  {
-                                      Glue = new Glue { Color = 0, Strength = 0 },
-                                      DisplayColor = new SolidColorBrush(Colors.Cyan)
-                                  }
-                              };
-            TileAssemblySystem = TileAssemblySystem ??
-                                 new TasViewModel
-                                 {
-                                     Temperature = 0,
-                                     TileTypeViewModels = new ObservableCollection<TileTypeViewModel>()
-                                 };
-            TileAssemblySystem.TileTypeViewModels.Add(CurrentTileType);
-            CreateTileCommand = new DelegateCommand<object>(ExecuteCreateTile, CanCreateTile);
-            OpenColorPickerCommand = new DelegateCommand<string>(ExecuteOpenColorPicker, CanOpenColorPicker);
-            ApplyColorCommand = new DelegateCommand<object>(ExecuteApplyColor, CanApplyColor);
-        }
-
-        #endregion Constructors
-
         #region Commands
 
-        public DelegateCommand<string> OpenColorPickerCommand { get; private set; }
+        public RelayCommand<string> OpenColorPickerCommand { get; private set; }
 
         private bool CanOpenColorPicker(string targetProperty)
         {
@@ -126,12 +178,15 @@ namespace dna_simulator.ViewModel.Atam
 
         private void ExecuteOpenColorPicker(string targetProperty)
         {
-            ColorPicker = ColorPicker ??
-                          new ColorPickerViewModel { CurrentColor = Colors.White, TargetProperty = targetProperty };
-            ColorPickerIsOpen = true;
+            CurrentView = new ColorPickerViewModel
+                {
+                    CurrentColor = Colors.Green,
+                    BaseViewModel = this,
+                    TargetProperty = targetProperty
+                };
         }
 
-        public DelegateCommand<object> CreateTileCommand { get; private set; }
+        public RelayCommand<object> CreateTileCommand { get; private set; }
 
         private bool CanCreateTile(object o)
         {
@@ -142,32 +197,36 @@ namespace dna_simulator.ViewModel.Atam
         {
         }
 
-        public DelegateCommand<object> ApplyColorCommand { get; private set; }
+        #endregion Commands
 
-        private bool CanApplyColor(object o)
+        #region Messenger methods
+
+        private void CloseColorPicker()
         {
-            return true;
+            CurrentView = CurrentTileViewModel;
         }
 
-        private void ExecuteApplyColor(object o)
+        private void ExecuteSaveColor(NotificationMessage<Color> message)
         {
-            if (ColorPicker == null) return;
-            var propertyInfo = GetProp(GetType(), ColorPicker.TargetProperty);
-            if (propertyInfo != null)
+            var color = message.Content;
+            switch (message.Notification)
             {
-                propertyInfo.SetValue(propertyInfo, new SolidColorBrush(ColorPicker.CurrentColor), null);
+                case "TileColor":
+                    CurrentTileViewModel.DisplayColor = color;
+                    CurrentTileViewModel.DisplayColorBrush = new SolidColorBrush(color);
+                    _dataService.SetTileType(new TileType
+                    {
+                        Top = CurrentTileViewModel.TopGlue,
+                        Bottom = CurrentTileViewModel.BottomGlue,
+                        Left = CurrentTileViewModel.LeftGlue,
+                        Right = CurrentTileViewModel.RightGlue,
+                        DisplayColor = color,
+                        Label = CurrentTileViewModel.Label
+                    }, _currentTileIndex);
+                    break;
             }
         }
 
-        #endregion Commands
-
-        public PropertyInfo GetProp(Type baseType, string propertyName)
-        {
-            string[] parts = propertyName.Split('.');
-
-            return (parts.Length > 1)
-                ? GetProp(baseType.GetProperty(parts[0]).PropertyType, parts.Skip(1).Aggregate((a, i) => a + "." + i))
-                : baseType.GetProperty(propertyName);
-        }
+        #endregion Messenger methods
     }
 }

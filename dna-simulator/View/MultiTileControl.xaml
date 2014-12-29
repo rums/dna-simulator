@@ -30,17 +30,17 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock x:Name="LabelHeader" TextWrapping="Wrap" Text="Label" Grid.Column="1" VerticalAlignment="Bottom" />
                         <TextBlock x:Name="SeedHeader" TextWrapping="Wrap" Text="Seed" Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" />
-                        <ListBox x:Name="TileListByLabel" ItemsSource="{Binding TileAssemblySystem.TileTypeViewModels}" Grid.Row="1" Grid.ColumnSpan="3"
-                                 Grid.Column="0" SelectionMode="Extended">
+                        <ListBox x:Name="TileListByLabel" ItemsSource="{Binding MultiTileViewModel.SingleTileViewModels}" Grid.Row="1" Grid.ColumnSpan="3"
+                                             Grid.Column="0" SelectionMode="Extended">
                             <ListBox.Resources>
-                                <DataTemplate x:Key="ListViewItemTemplate" DataType="atam:TileTypeViewModel">
+                                <DataTemplate x:Key="ListViewItemTemplate" DataType="atam:SingleTileViewModel">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="1*" />
                                             <ColumnDefinition Width="10*" />
                                             <ColumnDefinition Width="3*" />
                                         </Grid.ColumnDefinitions>
-                                        <Rectangle x:Name="TileColorPreview" Width="10" Height="10" HorizontalAlignment="Left" Fill="{Binding DisplayColor}" />
+                                        <Rectangle x:Name="TileColorPreview" Width="10" Height="10" HorizontalAlignment="Left" Fill="{Binding DisplayColorBrush}" />
                                         <TextBlock x:Name="TileLabel" Text="{Binding Label}" HorizontalAlignment="Left" Grid.Column="1" />
                                         <RadioButton x:Name="SeedChoice" IsChecked="{Binding IsSeed}" GroupName="SeedSelection" HorizontalAlignment="Center" Grid.Column="2" />
                                     </Grid>
@@ -49,7 +49,7 @@
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="HorizontalContentAlignment"
-										Value="Stretch" />
+										            Value="Stretch" />
                                 </Style>
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
