@@ -1,9 +1,5 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using System;
-using System.Linq;
-using System.Reflection;
 using System.Windows.Media;
 
 namespace dna_simulator.ViewModel
@@ -15,8 +11,19 @@ namespace dna_simulator.ViewModel
         public ColorPickerViewModel()
         {
             // New default value syntax in C# 6 will be nice :)
-            CurrentColor = Colors.Red;
+            CurrentColor = Colors.White;
             ApplyColorCommand = new RelayCommand(ExecuteApplyColor, CanApplyColor);
+            // Register message listeners
+            Messenger.Default.Register<NotificationMessage<string>>(this, message =>
+            {
+                var targetProperty = message.Content;
+                switch (message.Notification)
+                {
+                    case "TargetProperty":
+                        TargetProperty = targetProperty;
+                        break;
+                }
+            });
         }
 
         #endregion Constructors
@@ -52,7 +59,6 @@ namespace dna_simulator.ViewModel
         private void ExecuteApplyColor()
         {
             Messenger.Default.Send(new NotificationMessage<Color>(CurrentColor, TargetProperty));
-            Messenger.Default.Send(new NotificationMessage("ApplyColorDone"));
         }
 
         #endregion Commands

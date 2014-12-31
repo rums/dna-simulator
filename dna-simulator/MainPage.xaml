@@ -5,8 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ignore="http://www.ignore.com"
              xmlns:view="clr-namespace:dna_simulator.View"
-             mc:Ignorable="d ignore"
-             DataContext="{Binding AtamConfig, Source={StaticResource Locator}}">
+             mc:Ignorable="d ignore">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -23,8 +22,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <view:SingleTileControl />
-            <view:MultiTileControl Grid.Column="1" Width="Auto" />
+            <view:SingleTileControl DataContext="{Binding SingleTileViewModel, Source={StaticResource Locator}}" />
+            <view:MultiTileControl Grid.Column="1" Width="Auto" DataContext="{Binding MultiTileViewModel, Source={StaticResource Locator}}" />
         </Grid>
     </Border>
 </UserControl>

@@ -1,5 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+﻿using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace dna_simulator.ViewModel
@@ -18,6 +17,12 @@ namespace dna_simulator.ViewModel
         {
             OpenColorPickerCommand = new RelayCommand<string>(ExecuteOpenColorPicker, CanOpenColorPicker);
         }
+
+        #endregion
+
+        #region Properties
+
+
 
         #endregion
 

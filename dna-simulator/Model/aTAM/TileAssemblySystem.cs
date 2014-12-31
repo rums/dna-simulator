@@ -1,26 +1,44 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 
 namespace dna_simulator.Model.Atam
 {
-    public class TileAssemblySystem
+    public class TileAssemblySystem : ModelBase
     {
-        public ObservableCollection<TileType> TileTypes { get; set; }
-
-        public TileType Seed { get; set; }
-
         private int _temperature;
+        private ObservableDictionary<string, TileType> _tileTypes;
+        private TileType _seed;
 
         public int Temperature
         {
             get { return _temperature; }
             set
             {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException("Temperature cannot be less than 0.");
-                }
+                if (value == _temperature) return;
+                if (value < 0) { throw new ArgumentOutOfRangeException("Temperature cannot be less than 0."); }
                 _temperature = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableDictionary<string, TileType> TileTypes
+        {
+            get { return _tileTypes; }
+            set
+            {
+                if (Equals(value, _tileTypes)) return;
+                _tileTypes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public TileType Seed
+        {
+            get { return _seed; }
+            set
+            {
+                if (Equals(value, _seed)) return;
+                _seed = value;
+                OnPropertyChanged();
             }
         }
     }

@@ -11,7 +11,6 @@
 
 using dna_simulator.Model;
 using dna_simulator.ViewModel.Atam;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -30,7 +29,7 @@ namespace dna_simulator.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            if (ViewModelBase.IsInDesignModeStatic)
+            if (GalaSoft.MvvmLight.ViewModelBase.IsInDesignModeStatic)
             {
                 SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
             }
@@ -39,23 +38,9 @@ namespace dna_simulator.ViewModel
                 SimpleIoc.Default.Register<IDataService, DataService>();
             }
 
-            SimpleIoc.Default.Register<AtamConfig>();
             SimpleIoc.Default.Register<ColorPickerViewModel>();
-            SimpleIoc.Default.Register<TileEditorMenuViewModel>();
-        }
-
-        /// <summary>
-        /// Gets the AtamConfig property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public AtamConfig AtamConfig
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<AtamConfig>();
-            }
+            SimpleIoc.Default.Register<SingleTileViewModel>();
+            SimpleIoc.Default.Register<MultiTileViewModel>();
         }
 
         /// <summary>
@@ -68,7 +53,21 @@ namespace dna_simulator.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<AtamConfig>().ColorPickerViewModel;
+                return ServiceLocator.Current.GetInstance<ColorPickerViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the SingleTileViewModel property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public SingleTileViewModel SingleTileViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SingleTileViewModel>();
             }
         }
 
@@ -78,11 +77,11 @@ namespace dna_simulator.ViewModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
-        public TileEditorMenuViewModel TileEditorMenuViewModel
+        public MultiTileViewModel MultiTileViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<TileEditorMenuViewModel>();
+                return ServiceLocator.Current.GetInstance<MultiTileViewModel>();
             }
         }
 

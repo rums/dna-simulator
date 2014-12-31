@@ -1,14 +1,16 @@
-﻿using dna_simulator.Model.Atam;
-using System;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using dna_simulator.Model.Atam;
 
 namespace dna_simulator.Model
 {
-    public interface IDataService
+    public interface IDataService : INotifyPropertyChanged
     {
-        void GetTileAssemblySystem(Action<TileAssemblySystem, Exception> callback);
+        TileAssemblySystem TileAssemblySystem { get; set; }
 
-        void SetTileAssemblySystem(TileAssemblySystem tileAssemblySystem);
+        void NewDefaultTile(Action<TileType, Exception> callback);
 
-        void SetTileType(TileType tile, int tileIndex);
+        void Commit();
     }
 }

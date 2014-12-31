@@ -1,8 +1,8 @@
 ﻿using System.Windows.Media;
 
-namespace dna_simulator.Model.Atam
+namespace dna_simulator.ViewModel.Atam
 {
-    public class Glue : ModelBase
+    public class GlueVm : ViewModelBase
     {
         private Color _displayColor;
         private int _color;
@@ -15,7 +15,7 @@ namespace dna_simulator.Model.Atam
             {
                 if (value.Equals(_displayColor)) return;
                 _displayColor = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -26,7 +26,7 @@ namespace dna_simulator.Model.Atam
             {
                 if (value == _color) return;
                 _color = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
 
@@ -37,7 +37,7 @@ namespace dna_simulator.Model.Atam
             {
                 if (value == _strength) return;
                 _strength = value;
-                OnPropertyChanged();
+                RaisePropertyChanged();
             }
         }
     }

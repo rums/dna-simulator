@@ -5,8 +5,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:view="clr-namespace:dna_simulator.View"
-    xmlns:viewModel="clr-namespace:dna_simulator.ViewModel"
-    xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     xmlns:behaviors="clr-namespace:dna_simulator.View.Behaviors"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.SingleTileControl"
@@ -17,7 +15,7 @@
         <behaviors:OpenCloseChildWindowBehavior WindowType="view:ColorPicker" Open="{Binding ColorPickerIsOpen, Mode=TwoWay}" />
     </i:Interaction.Behaviors>
 
-            <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
             <RowDefinition Height="20*" />
@@ -25,16 +23,15 @@
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" x:Name="TextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="aTAM mode (no signals)" Foreground="#FF69D2E7" Margin="0" />
-        <ContentControl Grid.Row="1" Content="{Binding CurrentView}" HorizontalContentAlignment="Stretch">
-            <ContentControl.Resources>
-                <DataTemplate DataType="atam:SingleTileViewModel">
-                    <view:TileEditorControl />
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
+        <Grid Grid.Row="1">
+            <view:TileEditorControl x:Name="TileEditorControl" />
+        </Grid>
         <StackPanel x:Name="PickTileColorStackPanel" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock x:Name="PickColorRequest" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Pick tile color for simulation:" VerticalAlignment="Center" Margin="5,0,0,0" />
-            <Rectangle x:Name="TileColor" HorizontalAlignment="Right" Height="30" StrokeThickness="2" VerticalAlignment="Center" Width="30" Fill="{Binding CurrentTileViewModel.DisplayColorBrush}" Canvas.ZIndex="0" Margin="5,0,0,0">
+            <Rectangle x:Name="TileColor" HorizontalAlignment="Right" Height="30" StrokeThickness="2" VerticalAlignment="Center" Width="30" Canvas.ZIndex="0" Margin="5,0,0,0">
+                <Rectangle.Fill>
+                    <SolidColorBrush Color="{Binding CurrentTileTypeVm.DisplayColor}" />
+                </Rectangle.Fill>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="TileColor" Command="{Binding OpenColorPickerCommand}" />
@@ -44,8 +41,8 @@
         </StackPanel>
         <Border Grid.Row="3" x:Name="SingleTileOptionsBorder" CornerRadius="5" BorderThickness="2" Background="#FFF38630" Margin="0">
             <StackPanel x:Name="SingleTileOptionsPanel" Orientation="Horizontal">
-                <Button x:Name="NewTileButton" Content="New Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
-                <Button x:Name="SaveTileButton" Content="Save Tile" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <Button x:Name="NewTileButton" Content="New Tile" Command="{Binding CreateTileCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <Button x:Name="SaveTileButton" Content="Save Tile" Command="{Binding SaveTileCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
             </StackPanel>
         </Border>
     </Grid>

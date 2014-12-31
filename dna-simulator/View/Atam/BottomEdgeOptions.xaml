@@ -28,6 +28,6 @@
         </Rectangle>
         <TextBlock x:Name="StrengthCaption" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Text="Strength:" Margin="5" Grid.Row="2"
                    Grid.Column="0" />
-        <TextBox x:Name="StrengthInput" TextWrapping="Wrap" Margin="5" Grid.Row="2" Grid.Column="1" Width="30" VerticalAlignment="Center" Text="{Binding Tile.Top.Strength, FallbackValue=0, Mode=TwoWay, TargetNullValue=0}" />
+        <TextBox x:Name="StrengthInput" TextWrapping="Wrap" Margin="5" Grid.Row="2" Grid.Column="1" Width="30" VerticalAlignment="Center" Text="{Binding TileTypeVm.Top.Strength, FallbackValue=0, Mode=TwoWay, TargetNullValue=0}" />
     </Grid>
 </UserControl>
