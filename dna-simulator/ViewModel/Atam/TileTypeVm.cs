@@ -1,10 +1,17 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.ComponentModel;
+using System.Windows.Media;
 using dna_simulator.Model.Atam;
 
 namespace dna_simulator.ViewModel.Atam
 {
     public class TileTypeVm : ViewModelBase
     {
+        private void TopOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            RaisePropertyChanged("Top");
+        }
+
         // from model
         private Color _displayColor;
         private string _label;
@@ -46,6 +53,7 @@ namespace dna_simulator.ViewModel.Atam
                 if (Equals(value, _top)) return;
                 _top = value;
                 RaisePropertyChanged();
+                Top.PropertyChanged += TopOnPropertyChanged;
             }
         }
 

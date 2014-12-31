@@ -122,23 +122,10 @@
     <Compile Include="ViewModel\Atam\TileAssemblySystemVm.cs" />
     <Compile Include="ViewModel\Atam\TileTypeVm.cs" />
     <Compile Include="ViewModel\ColorPickerViewModel.cs" />
-    <Compile Include="ViewModel\TileEditorMenuViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AtamEdgeOptions.xaml.cs">
       <DependentUpon>AtamEdgeOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Atam\BottomEdgeOptions.xaml.cs">
-      <DependentUpon>BottomEdgeOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Atam\LeftEdgeOptions.xaml.cs">
-      <DependentUpon>LeftEdgeOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Atam\RightEdgeOptions.xaml.cs">
-      <DependentUpon>RightEdgeOptions.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Atam\TopEdgeOptions.xaml.cs">
-      <DependentUpon>TopEdgeOptions.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Behaviors\OpenCloseChildWindowBehavior.cs" />
     <Compile Include="View\ColorPicker.xaml.cs">
@@ -168,22 +155,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\AtamEdgeOptions.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Atam\BottomEdgeOptions.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Atam\LeftEdgeOptions.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Atam\RightEdgeOptions.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Atam\TopEdgeOptions.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

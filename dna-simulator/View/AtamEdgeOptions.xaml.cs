@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -34,11 +35,11 @@ namespace dna_simulator.View
         {  
             var atamEdgeOptions = dependencyObject as AtamEdgeOptions;
             if (atamEdgeOptions == null) return;
-            atamEdgeOptions.OnPropertyChanged("Glue");  
-            atamEdgeOptions.OnGluePropertyChanged((GlueVm)e.NewValue);
+            atamEdgeOptions.OnPropertyChanged("Glue");
+            atamEdgeOptions.OnGluePropertyChanged((GlueVm)e.OldValue, (GlueVm)e.NewValue);
         }
 
-        private void OnGluePropertyChanged(GlueVm newValue)
+        private void OnGluePropertyChanged(GlueVm oldValue, GlueVm newValue)
         {
             StrengthInput.Text = newValue.Strength.ToString(CultureInfo.CurrentCulture);
             GlueDisplayColor.Fill = new SolidColorBrush(newValue.DisplayColor);
