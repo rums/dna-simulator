@@ -26,9 +26,7 @@ namespace dna_simulator.View
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var glue = DataContext as GlueVm;
-            if (glue == null)
-            StrengthInput.Text = glue.Strength.ToString(CultureInfo.CurrentCulture);
-            GlueDisplayColor.Fill = new SolidColorBrush(glue.DisplayColor);
+            if (glue != null) OnGluePropertyChanged(glue);
         }
 
         public static readonly DependencyProperty GlueProperty = DependencyProperty.Register("Glue",
@@ -45,6 +43,8 @@ namespace dna_simulator.View
 
         private void OnGluePropertyChanged(GlueVm newValue)
         {
+            EdgeNameCaption.Text = newValue.Name;
+            ColorInput.Text = newValue.Color.ToString(CultureInfo.CurrentCulture);
             StrengthInput.Text = newValue.Strength.ToString(CultureInfo.CurrentCulture);
             GlueDisplayColor.Fill = new SolidColorBrush(newValue.DisplayColor);
         }
@@ -53,29 +53,6 @@ namespace dna_simulator.View
         {
             get { return (GlueVm)GetValue(GlueProperty); }
             set { SetValue(GlueProperty, value); }
-        }
-
-        public static readonly DependencyProperty EdgeNameProperty = DependencyProperty.Register("EdgeName",
-            typeof(string),
-            typeof(AtamEdgeOptions),
-            new PropertyMetadata(string.Empty, OnEdgeNamePropertyChanged));
-
-        private static void OnEdgeNamePropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-        {
-            var atamEdgeOptions = dependencyObject as AtamEdgeOptions;
-            if (atamEdgeOptions == null) return;
-            atamEdgeOptions.OnEdgeNamePropertyChanged((string)e.NewValue);
-        }
-
-        private void OnEdgeNamePropertyChanged(string newValue)
-        {
-            EdgeNameTextBlock.Text = newValue;
-        }
-
-        public string EdgeName
-        {
-            get { return GetValue(EdgeNameProperty).ToString(); }
-            set { SetValue(EdgeNameProperty, value); }
         }
     }
 }

@@ -6,7 +6,6 @@
 	xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
-	xmlns:atam="clr-namespace:dna_simulator.View.Atam"
     xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
     xmlns:view="clr-namespace:dna_simulator.View"
     mc:Ignorable="d"
@@ -107,10 +106,10 @@
 					</LinearGradientBrush>
 				</StackPanel.Background>
 				<StackPanel Orientation="Horizontal">
-                    <view:AtamEdgeOptions x:Name="TopEdgeOptions" DataContext="{Binding SingleTileViewModel.CurrentTileTypeVm.Top, Source={StaticResource Locator}}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Top, ElementName=LayoutRoot}" EdgeName="Top" />
-                    <view:AtamEdgeOptions x:Name="BottomEdgeOptions" DataContext="{Binding SingleTileViewModel.CurrentTileTypeVm.Bottom, Source={StaticResource Locator}}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Bottom, ElementName=LayoutRoot}" EdgeName="Bottom" />
-                    <view:AtamEdgeOptions x:Name="LeftEdgeOptions" DataContext="{Binding SingleTileViewModel.CurrentTileTypeVm.Left, Source={StaticResource Locator}}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Left, ElementName=LayoutRoot}" EdgeName="Left" />
-                    <view:AtamEdgeOptions x:Name="RightEdgeOptions" DataContext="{Binding SingleTileViewModel.CurrentTileTypeVm.Right, Source={StaticResource Locator}}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Right, ElementName=LayoutRoot}" EdgeName="Right" />
+                    <view:AtamEdgeOptions x:Name="TopEdgeOptions" DataContext="{Binding CurrentTileTypeVm.Top}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Top, ElementName=LayoutRoot}" />
+                    <view:AtamEdgeOptions x:Name="BottomEdgeOptions" DataContext="{Binding CurrentTileTypeVm.Bottom, ElementName=LayoutRoot}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Bottom, ElementName=LayoutRoot}" />
+                    <view:AtamEdgeOptions x:Name="LeftEdgeOptions" DataContext="{Binding CurrentTileTypeVm.Left}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Left, ElementName=LayoutRoot}" />
+                    <view:AtamEdgeOptions x:Name="RightEdgeOptions" DataContext="{Binding CurrentTileTypeVm.Right}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Right, ElementName=LayoutRoot}" />
 				</StackPanel>
 				<Button x:Name="Done" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Margin="5">
 					<i:Interaction.Triggers>

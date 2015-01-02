@@ -4,9 +4,13 @@ namespace dna_simulator.ViewModel.Atam
 {
     public class GlueVm : ViewModelBase
     {
+        // from model
         private Color _displayColor;
         private int _color;
         private int _strength;
+
+        // viewmodel specific
+        private string _name;
 
         public Color DisplayColor
         {
@@ -37,6 +41,17 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value == _strength) return;
                 _strength = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (value == _name) return;
+                _name = value;
                 RaisePropertyChanged();
             }
         }
