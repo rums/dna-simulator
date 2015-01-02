@@ -23,28 +23,28 @@ namespace dna_simulator.ViewModel
                 DisplayColor = defaultTileType.DisplayColor,
                 Label = defaultTileType.Label,
                 Top = new GlueVm {
-                    Name = "Top",
+                    Label = "Top",
                     Color = defaultTileType.Top.Color,
                     Strength = defaultTileType.Top.Strength,
                     DisplayColor = defaultTileType.Top.DisplayColor
                 },
                 Bottom = new GlueVm
                 {
-                    Name = "Bottom",
+                    Label = "Bottom",
                     Color = defaultTileType.Bottom.Color,
                     Strength = defaultTileType.Bottom.Strength,
                     DisplayColor = defaultTileType.Bottom.DisplayColor
                 },
                 Left = new GlueVm
                 {
-                    Name = "Left",
+                    Label = "Left",
                     Color = defaultTileType.Left.Color,
                     Strength = defaultTileType.Left.Strength,
                     DisplayColor = defaultTileType.Left.DisplayColor
                 },
                 Right = new GlueVm
                 {
-                    Name = "Right",
+                    Label = "Right",
                     Color = defaultTileType.Right.Color,
                     Strength = defaultTileType.Right.Strength,
                     DisplayColor = defaultTileType.Right.DisplayColor
@@ -73,6 +73,7 @@ namespace dna_simulator.ViewModel
                 switch (message.Notification)
                 {
                     case "DisplayTile":
+                        ExecuteSaveTile();
                         CurrentTileTypeVm = tile;
                         break;
                 }

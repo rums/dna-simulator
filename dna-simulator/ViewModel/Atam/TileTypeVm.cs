@@ -7,11 +7,6 @@ namespace dna_simulator.ViewModel.Atam
 {
     public class TileTypeVm : ViewModelBase
     {
-        private void TopOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            RaisePropertyChanged("Top");
-        }
-
         // from model
         private Color _displayColor;
         private string _label;
@@ -53,7 +48,6 @@ namespace dna_simulator.ViewModel.Atam
                 if (Equals(value, _top)) return;
                 _top = value;
                 RaisePropertyChanged();
-                Top.PropertyChanged += TopOnPropertyChanged;
             }
         }
 
@@ -129,16 +123,9 @@ namespace dna_simulator.ViewModel.Atam
         /// <returns></returns>
         public static TileTypeVm ToTileTypeVm(TileType tile, TileAssemblySystem tileAssemblySystem)
         {
-            return new TileTypeVm
-            {
-                DisplayColor = tile.DisplayColor,
-                Label = tile.Label,
-                Top = new GlueVm { Color = tile.Top.Color, Strength = tile.Top.Strength, DisplayColor = tile.Top.DisplayColor },
-                Bottom = new GlueVm { Color = tile.Bottom.Color, Strength = tile.Bottom.Strength, DisplayColor = tile.Bottom.DisplayColor },
-                Left = new GlueVm { Color = tile.Left.Color, Strength = tile.Left.Strength, DisplayColor = tile.Left.DisplayColor },
-                Right = new GlueVm { Color = tile.Right.Color, Strength = tile.Right.Strength, DisplayColor = tile.Right.DisplayColor },
-                IsSeed = Equals(tile.Label, tileAssemblySystem.Seed.Label)
-            };
+            var tileWithSeed = ToTileTypeVm(tile);
+            tileWithSeed.IsSeed = Equals(tile.Label, tileAssemblySystem.Seed.Label);
+            return tileWithSeed;
         }
 
         /// <summary>
@@ -152,10 +139,10 @@ namespace dna_simulator.ViewModel.Atam
             {
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
-                Top = new GlueVm { Color = tile.Top.Color, Strength = tile.Top.Strength, DisplayColor = tile.Top.DisplayColor },
-                Bottom = new GlueVm { Color = tile.Bottom.Color, Strength = tile.Bottom.Strength, DisplayColor = tile.Bottom.DisplayColor },
-                Left = new GlueVm { Color = tile.Left.Color, Strength = tile.Left.Strength, DisplayColor = tile.Left.DisplayColor },
-                Right = new GlueVm { Color = tile.Right.Color, Strength = tile.Right.Strength, DisplayColor = tile.Right.DisplayColor },
+                Top = new GlueVm { Label = "Top", Color = tile.Top.Color, Strength = tile.Top.Strength, DisplayColor = tile.Top.DisplayColor },
+                Bottom = new GlueVm { Label = "Bottom", Color = tile.Bottom.Color, Strength = tile.Bottom.Strength, DisplayColor = tile.Bottom.DisplayColor },
+                Left = new GlueVm { Label = "Left", Color = tile.Left.Color, Strength = tile.Left.Strength, DisplayColor = tile.Left.DisplayColor },
+                Right = new GlueVm { Label = "Right", Color = tile.Right.Color, Strength = tile.Right.Strength, DisplayColor = tile.Right.DisplayColor },
             };
         }
 

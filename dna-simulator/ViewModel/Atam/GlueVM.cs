@@ -10,7 +10,7 @@ namespace dna_simulator.ViewModel.Atam
         private int _strength;
 
         // viewmodel specific
-        private string _name;
+        private string _label;
 
         public Color DisplayColor
         {
@@ -45,13 +45,13 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public string Name
+        public string Label
         {
-            get { return _name; }
+            get { return _label; }
             set
             {
-                if (value == _name) return;
-                _name = value;
+                if (value == _label) return;
+                _label = value;
                 RaisePropertyChanged();
             }
         }

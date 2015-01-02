@@ -14,10 +14,10 @@ namespace dna_simulator.View
         {
             // Required to initialize variables
             InitializeComponent();
-            Loaded += OnLoaded;
+            DataContextChanged += OnDataContextChanged;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var glue = DataContext as GlueVm;
             if (glue != null) glue.PropertyChanged += OnPropertyChanged;
@@ -43,7 +43,7 @@ namespace dna_simulator.View
 
         private void OnGluePropertyChanged(GlueVm newValue)
         {
-            EdgeNameCaption.Text = newValue.Name;
+            EdgeNameCaption.Text = newValue.Label;
             ColorInput.Text = newValue.Color.ToString(CultureInfo.CurrentCulture);
             StrengthInput.Text = newValue.Strength.ToString(CultureInfo.CurrentCulture);
             GlueDisplayColor.Fill = new SolidColorBrush(newValue.DisplayColor);

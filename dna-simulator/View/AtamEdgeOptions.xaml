@@ -19,15 +19,15 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock x:Name="EdgeNameCaption" Grid.Row="0" TextWrapping="Wrap" Text="{Binding Glue.Name}" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2"
+        <TextBlock x:Name="EdgeNameCaption" Grid.Row="0" TextWrapping="Wrap" Text="{Binding Glue.Label, ElementName=LayoutRoot}" Margin="5,5,5,5" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2"
                    Grid.Column="0" />
         <TextBlock x:Name="ColorCaption" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Text="Color:" Margin="17.398,8,16.601,8"
                    Grid.Row="1" Grid.Column="0" />
-        <TextBox x:Name="ColorInput" Text="{Binding Glue.Color}" TextWrapping="Wrap" Margin="5" Grid.Row="1"
+        <TextBox x:Name="ColorInput" Text="{Binding Glue.Color, ElementName=LayoutRoot}" TextWrapping="Wrap" Margin="5" Grid.Row="1"
                  Grid.Column="1" Width="30" VerticalAlignment="Center" />
         <TextBlock x:Name="StrengthCaption" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" Text="Strength:" Margin="5" Grid.Row="2"
                    Grid.Column="0" />
-        <TextBox x:Name="StrengthInput" Text="{Binding Glue.Strength}" TextWrapping="Wrap" Margin="5" Grid.Row="2" Grid.Column="1" Width="30" VerticalAlignment="Center" />
+        <TextBox x:Name="StrengthInput" Text="{Binding Glue.Strength, ElementName=LayoutRoot}" TextWrapping="Wrap" Margin="5" Grid.Row="2" Grid.Column="1" Width="30" VerticalAlignment="Center" />
         <TextBlock x:Name="DisplayColorCaption" Grid.Row="3" Grid.Column="0" TextWrapping="Wrap" Text="Display:" Margin="5,5,5,5" VerticalAlignment="Center" RenderTransformOrigin="0.481,0.5" HorizontalAlignment="Center" />
         <Rectangle x:Name="GlueDisplayColor" Fill="{Binding Glue.DisplayColor, ElementName=LayoutRoot}" Height="20" Margin="5,5,5,5" Grid.Row="3" Grid.Column="1" Width="20">
             <i:Interaction.Triggers>
