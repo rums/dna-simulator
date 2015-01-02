@@ -5,7 +5,7 @@ namespace dna_simulator.Model.Atam
     public class TileAssemblySystem : ModelBase
     {
         private int _temperature;
-        private ObservableDictionary<string, TileType> _tileTypes;
+        private ObservableDictionary<int, TileType> _tileTypes;
         private TileType _seed;
 
         public int Temperature
@@ -20,7 +20,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableDictionary<string, TileType> TileTypes
+        public ObservableDictionary<int, TileType> TileTypes
         {
             get { return _tileTypes; }
             set

@@ -29,10 +29,12 @@ namespace dna_simulator.Design
         #region Data source
 
         //need to setup a database or use xml files or something
+        private int _tileId = 0;
         private TileAssemblySystem _mockData = new TileAssemblySystem
         {
             Seed = new TileType
             {
+                Id = 0,
                 Label = "Tile 100",
                 Top = new Glue { Color = 0, Strength = 2, DisplayColor = Colors.Red },
                 Bottom = new Glue { Color = 0, Strength = 0, DisplayColor = Colors.Blue },
@@ -41,11 +43,12 @@ namespace dna_simulator.Design
                 DisplayColor = Colors.Purple,
             },
             Temperature = 0,
-            TileTypes = new ObservableDictionary<string, TileType>
+            TileTypes = new ObservableDictionary<int, TileType>
             {
-                { "Tile 100",
+                { 0,
                     new TileType
                     {
+                        Id = 0,
                         Label = "Tile 100",
                         Top = new Glue { Color = 0, Strength = 2, DisplayColor = Colors.Red },
                         Bottom = new Glue { Color = 0, Strength = 0, DisplayColor = Colors.Blue },
@@ -66,7 +69,7 @@ namespace dna_simulator.Design
             TileAssemblySystem = new TileAssemblySystem
             {
                 Temperature = _mockData.Temperature,
-                TileTypes = new ObservableDictionary<string, TileType>(),
+                TileTypes = new ObservableDictionary<int, TileType>(),
                 Seed = _mockData.Seed
             };
             foreach (var tvm in _mockData.TileTypes.Select(t => new TileType
@@ -79,7 +82,7 @@ namespace dna_simulator.Design
                 Right = new Glue { Color = t.Value.Right.Color, Strength = t.Value.Right.Strength, DisplayColor = t.Value.Right.DisplayColor },
             }))
             {
-                TileAssemblySystem.TileTypes[tvm.Label] = tvm;
+                TileAssemblySystem.TileTypes[tvm.Id] = tvm;
             }
         }
 
@@ -105,6 +108,7 @@ namespace dna_simulator.Design
             var tileLabel = RandomTileLabel(4);
             var newTile = new TileType
             {
+                Id = ++_tileId,
                 Label = tileLabel,
                 Top = new Glue { Color = 0, Strength = 2, DisplayColor = Colors.Red },
                 Bottom = new Glue { Color = 0, Strength = 0, DisplayColor = Colors.Blue },
@@ -112,7 +116,7 @@ namespace dna_simulator.Design
                 Right = new Glue { Color = 0, Strength = 0, DisplayColor = Colors.Cyan },
                 DisplayColor = Colors.Purple,
             };
-            TileAssemblySystem.TileTypes.Add(tileLabel, newTile);
+            TileAssemblySystem.TileTypes.Add(_tileId, newTile);
             callback(newTile, null);
         }
 

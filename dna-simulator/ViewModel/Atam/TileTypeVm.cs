@@ -8,6 +8,7 @@ namespace dna_simulator.ViewModel.Atam
     public class TileTypeVm : ViewModelBase
     {
         // from model
+        private int _id;
         private Color _displayColor;
         private string _label;
         private GlueVm _top;
@@ -17,6 +18,17 @@ namespace dna_simulator.ViewModel.Atam
 
         // viewmodel specific
         private bool _isSeed;
+
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                if (value == _id) return;
+                _id = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public Color DisplayColor
         {
@@ -106,6 +118,7 @@ namespace dna_simulator.ViewModel.Atam
         {
             return new TileType
             {
+                Id = tile.Id,
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
                 Top = new Glue { Color = tile.Top.Color, Strength = tile.Top.Strength, DisplayColor = tile.Top.DisplayColor },
@@ -137,6 +150,7 @@ namespace dna_simulator.ViewModel.Atam
         {
             return new TileTypeVm
             {
+                Id = tile.Id,
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
                 Top = new GlueVm { Label = "Top", Color = tile.Top.Color, Strength = tile.Top.Strength, DisplayColor = tile.Top.DisplayColor },

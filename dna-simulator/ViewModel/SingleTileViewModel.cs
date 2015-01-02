@@ -140,6 +140,7 @@ namespace dna_simulator.ViewModel
 
         private void ExecuteSaveTile()
         {
+            _dataService.TileAssemblySystem.TileTypes[CurrentTileTypeVm.Id] = TileTypeVm.ToTileType(CurrentTileTypeVm);
             _dataService.Commit();
         }
 
@@ -181,7 +182,7 @@ namespace dna_simulator.ViewModel
                     CurrentTileTypeVm.Right.DisplayColor = color;
                     break;
             }
-            _dataService.TileAssemblySystem.TileTypes[CurrentTileTypeVm.Label] = TileTypeVm.ToTileType(CurrentTileTypeVm);
+            _dataService.TileAssemblySystem.TileTypes[CurrentTileTypeVm.Id] = TileTypeVm.ToTileType(CurrentTileTypeVm);
         }
 
         #endregion Messenger methods

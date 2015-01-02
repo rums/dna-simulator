@@ -24,5 +24,18 @@ namespace dna_simulator.Model
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private int _id;
+
+        public int Id
+        {
+            get { return _id; }
+            set
+            {
+                if (value == _id) return;
+                _id = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
