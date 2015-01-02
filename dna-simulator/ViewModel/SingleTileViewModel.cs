@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using System.Windows.Media;
 using dna_simulator.Model;
+using dna_simulator.ViewModel.Atam;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 
-namespace dna_simulator.ViewModel.Atam
+namespace dna_simulator.ViewModel
 {
     public class SingleTileViewModel : ViewModelBase
     {

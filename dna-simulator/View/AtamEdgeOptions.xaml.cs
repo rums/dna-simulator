@@ -1,29 +1,34 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
-using dna_simulator.Annotations;
 using dna_simulator.ViewModel.Atam;
 
 namespace dna_simulator.View
 {
-    public partial class AtamEdgeOptions : INotifyPropertyChanged
+    public partial class AtamEdgeOptions
     {
         public AtamEdgeOptions()
         {
             // Required to initialize variables
             InitializeComponent();
+            Loaded += OnLoaded;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+            var glue = DataContext as GlueVm;
+            if (glue != null) glue.PropertyChanged += OnPropertyChanged;
+        }
+
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var glue = DataContext as GlueVm;
+            if (glue == null)
+            StrengthInput.Text = glue.Strength.ToString(CultureInfo.CurrentCulture);
+            GlueDisplayColor.Fill = new SolidColorBrush(glue.DisplayColor);
         }
 
         public static readonly DependencyProperty GlueProperty = DependencyProperty.Register("Glue",
@@ -35,11 +40,10 @@ namespace dna_simulator.View
         {  
             var atamEdgeOptions = dependencyObject as AtamEdgeOptions;
             if (atamEdgeOptions == null) return;
-            atamEdgeOptions.OnPropertyChanged("Glue");
-            atamEdgeOptions.OnGluePropertyChanged((GlueVm)e.OldValue, (GlueVm)e.NewValue);
+            atamEdgeOptions.OnGluePropertyChanged((GlueVm)e.NewValue);
         }
 
-        private void OnGluePropertyChanged(GlueVm oldValue, GlueVm newValue)
+        private void OnGluePropertyChanged(GlueVm newValue)
         {
             StrengthInput.Text = newValue.Strength.ToString(CultureInfo.CurrentCulture);
             GlueDisplayColor.Fill = new SolidColorBrush(newValue.DisplayColor);
@@ -60,7 +64,6 @@ namespace dna_simulator.View
         {
             var atamEdgeOptions = dependencyObject as AtamEdgeOptions;
             if (atamEdgeOptions == null) return;
-            atamEdgeOptions.OnPropertyChanged("EdgeName");
             atamEdgeOptions.OnEdgeNamePropertyChanged((string)e.NewValue);
         }
 

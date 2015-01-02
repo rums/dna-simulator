@@ -10,7 +10,6 @@
 */
 
 using dna_simulator.Model;
-using dna_simulator.ViewModel.Atam;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -72,7 +71,7 @@ namespace dna_simulator.ViewModel
         }
 
         /// <summary>
-        /// Gets the TileEditorMenuViewModel property.
+        /// Gets the MultiTileViewModel property.
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",

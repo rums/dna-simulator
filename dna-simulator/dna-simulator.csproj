@@ -117,8 +117,8 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="ViewModel\Atam\GlueVm.cs" />
-    <Compile Include="ViewModel\Atam\MultiTileViewModel.cs" />
-    <Compile Include="ViewModel\Atam\SingleTileViewModel.cs" />
+    <Compile Include="ViewModel\MultiTileViewModel.cs" />
+    <Compile Include="ViewModel\SingleTileViewModel.cs" />
     <Compile Include="ViewModel\Atam\TileAssemblySystemVm.cs" />
     <Compile Include="ViewModel\Atam\TileTypeVm.cs" />
     <Compile Include="ViewModel\ColorPickerViewModel.cs" />

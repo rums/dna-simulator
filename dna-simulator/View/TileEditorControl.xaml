@@ -17,7 +17,7 @@
 		<innerProduct:ColorToBrush x:Key="ColorToBrush"/>
 	</UserControl.Resources>
 
-	<Grid>
+	<Grid x:Name="LayoutRoot">
 		<Viewbox x:Name="TileViewbox" HorizontalAlignment="Center" VerticalAlignment="Center">
 			<Grid Background="Transparent" x:Name="Tile">
 				<TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="{Binding CurrentTileTypeVm.Label, FallbackValue=Tile label, Mode=OneWay}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1" />
@@ -95,7 +95,7 @@
 				</ed:RegularPolygon>
 			</Grid>
 		</Viewbox>
-        <Popup DataContext="{Binding SingleTileViewModel, Source={StaticResource Locator}}" Grid.Row="0" x:Name="EdgeMenu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
+        <Popup DataContext="{Binding ElementName=LayoutRoot, Path=DataContext}" Grid.Row="0" x:Name="EdgeMenu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0">
 			<StackPanel Orientation="Vertical">
 				<StackPanel.Effect>
 					<DropShadowEffect />
@@ -107,10 +107,10 @@
 					</LinearGradientBrush>
 				</StackPanel.Background>
 				<StackPanel Orientation="Horizontal">
-                    <view:AtamEdgeOptions x:Name="TopEdgeOptions" Visibility="Collapsed" Glue="{Binding CurrentTileTypeVm.Top}" EdgeName="Top" />
-                    <view:AtamEdgeOptions x:Name="BottomEdgeOptions" Visibility="Collapsed" Glue="{Binding CurrentTileTypeVm.Bottom}" EdgeName="Bottom" />
-                    <view:AtamEdgeOptions x:Name="LeftEdgeOptions" Visibility="Collapsed" Glue="{Binding CurrentTileTypeVm.Left}" EdgeName="Left" />
-                    <view:AtamEdgeOptions x:Name="RightEdgeOptions" Visibility="Collapsed" Glue="{Binding CurrentTileTypeVm.Right}" EdgeName="Right" />
+                    <view:AtamEdgeOptions x:Name="TopEdgeOptions" DataContext="{Binding SingleTileViewModel.CurrentTileTypeVm.Top, Source={StaticResource Locator}}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Top, ElementName=LayoutRoot}" EdgeName="Top" />
+                    <view:AtamEdgeOptions x:Name="BottomEdgeOptions" DataContext="{Binding SingleTileViewModel.CurrentTileTypeVm.Bottom, Source={StaticResource Locator}}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Bottom, ElementName=LayoutRoot}" EdgeName="Bottom" />
+                    <view:AtamEdgeOptions x:Name="LeftEdgeOptions" DataContext="{Binding SingleTileViewModel.CurrentTileTypeVm.Left, Source={StaticResource Locator}}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Left, ElementName=LayoutRoot}" EdgeName="Left" />
+                    <view:AtamEdgeOptions x:Name="RightEdgeOptions" DataContext="{Binding SingleTileViewModel.CurrentTileTypeVm.Right, Source={StaticResource Locator}}" Visibility="Collapsed" Glue="{Binding DataContext.CurrentTileTypeVm.Right, ElementName=LayoutRoot}" EdgeName="Right" />
 				</StackPanel>
 				<Button x:Name="Done" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Margin="5">
 					<i:Interaction.Triggers>
