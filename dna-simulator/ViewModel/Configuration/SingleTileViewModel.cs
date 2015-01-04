@@ -8,7 +8,7 @@ namespace dna_simulator.ViewModel.Configuration
 {
     public class SingleTileViewModel : ViewModelBase
     {
-        public IServiceBundle ServiceBundle;
+        private IServiceBundle _serviceBundle;
         private IDataService _dataService;
         private IColorPickerService _colorPickerService;
 
@@ -17,9 +17,9 @@ namespace dna_simulator.ViewModel.Configuration
 
         public SingleTileViewModel(IServiceBundle serviceBundle)
         {
-            ServiceBundle = serviceBundle;
-            _dataService = ServiceBundle.DataService;
-            _colorPickerService = ServiceBundle.ColorPickerService;
+            _serviceBundle = serviceBundle;
+            _dataService = _serviceBundle.DataService;
+            _colorPickerService = _serviceBundle.ColorPickerService;
 
             // initialize properties
             var defaultTileType = _dataService.TileAssemblySystem.TileTypes.Values.First();
