@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using dna_simulator.Model;
 using dna_simulator.Model.Atam;
 
-namespace dna_simulator.Model
+namespace dna_simulator.Services
 {
     public interface IDataService : INotifyPropertyChanged
     {

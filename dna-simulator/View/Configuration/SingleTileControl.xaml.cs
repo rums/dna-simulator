@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace dna_simulator.View
+namespace dna_simulator.View.Configuration
 {
     public partial class SingleTileControl : UserControl
     {

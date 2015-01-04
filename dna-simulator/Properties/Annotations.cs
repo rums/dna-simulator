@@ -9,7 +9,7 @@
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
-namespace dna_simulator.Annotations
+namespace dna_simulator.Properties
 {
     /// <summary>
     /// Indicates that the value of the marked element could be <c>null</c> sometimes,

@@ -1,10 +1,10 @@
-﻿using System.ComponentModel;
+﻿using dna_simulator.ViewModel.Atam;
+using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
-using dna_simulator.ViewModel.Atam;
 
-namespace dna_simulator.View
+namespace dna_simulator.View.Configuration
 {
     public partial class AtamEdgeOptions
     {
@@ -28,12 +28,12 @@ namespace dna_simulator.View
         }
 
         public static readonly DependencyProperty GlueProperty = DependencyProperty.Register("Glue",
-            typeof (GlueVm),
-            typeof (AtamEdgeOptions),
-            new PropertyMetadata(new GlueVm { Color = 0, DisplayColor = Colors.Red, Strength = 0}, OnGluePropertyChanged));
+            typeof(GlueVm),
+            typeof(AtamEdgeOptions),
+            new PropertyMetadata(null, OnGluePropertyChanged));
 
         private static void OnGluePropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
-        {  
+        {
             var atamEdgeOptions = dependencyObject as AtamEdgeOptions;
             if (atamEdgeOptions == null) return;
             atamEdgeOptions.OnGluePropertyChanged((GlueVm)e.NewValue);

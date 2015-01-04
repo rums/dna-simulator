@@ -5,6 +5,7 @@ namespace dna_simulator.Model.Atam
     public class Glue : ModelBase
     {
         private Color _displayColor;
+        private string _label;
         private int _color;
         private int _strength;
 
@@ -15,6 +16,17 @@ namespace dna_simulator.Model.Atam
             {
                 if (value.Equals(_displayColor)) return;
                 _displayColor = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Label
+        {
+            get { return _label; }
+            set
+            {
+                if (value == _label) return;
+                _label = value;
                 OnPropertyChanged();
             }
         }

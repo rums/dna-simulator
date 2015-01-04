@@ -5,8 +5,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     mc:Ignorable="d"
-	x:Class="dna_simulator.View.AtamEdgeOptions" d:DesignHeight="96"
->
+	x:Class="dna_simulator.View.Configuration.AtamEdgeOptions" d:DesignHeight="96">
 
     <Grid x:Name="LayoutRoot" Margin="6,1">
         <Grid.ColumnDefinitions>
@@ -31,9 +30,9 @@
         <TextBlock x:Name="DisplayColorCaption" Grid.Row="3" Grid.Column="0" TextWrapping="Wrap" Text="Display:" Margin="5,5,5,5" VerticalAlignment="Center" RenderTransformOrigin="0.481,0.5" HorizontalAlignment="Center" />
         <Rectangle x:Name="GlueDisplayColor" Fill="{Binding DataContext.DisplayColor, ElementName=LayoutRoot}" Height="20" Margin="5,5,5,5" Grid.Row="3" Grid.Column="1" Width="20">
             <i:Interaction.Triggers>
-            	<i:EventTrigger EventName="MouseLeftButtonUp">
-            		<i:InvokeCommandAction CommandParameter="{Binding Text, ElementName=EdgeNameCaption}" Command="{Binding SingleTileViewModel.OpenColorPickerCommand, Mode=OneWay, Source={StaticResource Locator}}" />
-            	</i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction CommandParameter="{Binding DataContext.Label, ElementName=LayoutRoot}" Command="{Binding MainViewModel.CurrentViewModel.ChangeGlueDisplayColorCommand, Mode=OneWay, Source={StaticResource Locator}}" />
+                </i:EventTrigger>
             </i:Interaction.Triggers>
         </Rectangle>
     </Grid>

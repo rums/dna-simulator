@@ -7,7 +7,7 @@
     xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     mc:Ignorable="d"
-	x:Class="dna_simulator.View.MultiTileControl" d:DesignHeight="440" Width="379.801">
+	x:Class="dna_simulator.View.Configuration.MultiTileControl" d:DesignHeight="440">
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>

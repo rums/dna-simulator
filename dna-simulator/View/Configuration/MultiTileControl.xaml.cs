@@ -1,7 +1,4 @@
-﻿using System.Windows.Controls;
-using dna_simulator.ViewModel.Atam;
-
-namespace dna_simulator.View
+﻿namespace dna_simulator.View.Configuration
 {
     public partial class MultiTileControl
     {

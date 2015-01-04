@@ -1,8 +1,5 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Threading;
-using dna_simulator.Annotations;
+﻿using System.Runtime.CompilerServices;
+using dna_simulator.Properties;
 
 namespace dna_simulator.ViewModel
 {

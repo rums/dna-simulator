@@ -9,7 +9,7 @@
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
-using dna_simulator.Model;
+using dna_simulator.Services;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -30,16 +30,29 @@ namespace dna_simulator.ViewModel
 
             if (GalaSoft.MvvmLight.ViewModelBase.IsInDesignModeStatic)
             {
-                SimpleIoc.Default.Register<IDataService, Design.DesignDataService>();
+                SimpleIoc.Default.Register<IServiceBundle, Design.DesignServiceBundle>();
             }
             else
             {
-                SimpleIoc.Default.Register<IDataService, DataService>();
+                SimpleIoc.Default.Register<IServiceBundle, ServiceBundle>();
             }
 
+            SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<ColorPickerViewModel>();
-            SimpleIoc.Default.Register<SingleTileViewModel>();
-            SimpleIoc.Default.Register<MultiTileViewModel>();
+        }
+
+        /// <summary>
+        /// Gets the MainViewModel property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public MainViewModel MainViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
         }
 
         /// <summary>
@@ -53,34 +66,6 @@ namespace dna_simulator.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<ColorPickerViewModel>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the SingleTileViewModel property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public SingleTileViewModel SingleTileViewModel
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<SingleTileViewModel>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the MultiTileViewModel property.
-        /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public MultiTileViewModel MultiTileViewModel
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MultiTileViewModel>();
             }
         }
 

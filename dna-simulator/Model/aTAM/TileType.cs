@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace dna_simulator.Model.Atam
 {
@@ -6,10 +7,10 @@ namespace dna_simulator.Model.Atam
     {
         private Color _displayColor;
         private string _label;
-        private Glue _top;
-        private Glue _bottom;
-        private Glue _left;
-        private Glue _right;
+        private ObservableCollection<Glue> _topEdges;
+        private ObservableCollection<Glue> _bottomEdges;
+        private ObservableCollection<Glue> _leftEdges;
+        private ObservableCollection<Glue> _rightEdges;
 
         public Color DisplayColor
         {
@@ -33,46 +34,46 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public Glue Top
+        public ObservableCollection<Glue> TopEdges
         {
-            get { return _top; }
+            get { return _topEdges; }
             set
             {
-                if (Equals(value, _top)) return;
-                _top = value;
+                if (Equals(value, _topEdges)) return;
+                _topEdges = value;
                 OnPropertyChanged();
             }
         }
 
-        public Glue Bottom
+        public ObservableCollection<Glue> BottomEdges
         {
-            get { return _bottom; }
+            get { return _bottomEdges; }
             set
             {
-                if (Equals(value, _bottom)) return;
-                _bottom = value;
+                if (Equals(value, _bottomEdges)) return;
+                _bottomEdges = value;
                 OnPropertyChanged();
             }
         }
 
-        public Glue Left
+        public ObservableCollection<Glue> LeftEdges
         {
-            get { return _left; }
+            get { return _leftEdges; }
             set
             {
-                if (Equals(value, _left)) return;
-                _left = value;
+                if (Equals(value, _leftEdges)) return;
+                _leftEdges = value;
                 OnPropertyChanged();
             }
         }
 
-        public Glue Right
+        public ObservableCollection<Glue> RightEdges
         {
-            get { return _right; }
+            get { return _rightEdges; }
             set
             {
-                if (Equals(value, _right)) return;
-                _right = value;
+                if (Equals(value, _rightEdges)) return;
+                _rightEdges = value;
                 OnPropertyChanged();
             }
         }

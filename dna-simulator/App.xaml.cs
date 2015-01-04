@@ -1,11 +1,12 @@
-﻿using dna_simulator.ViewModel;
+﻿using dna_simulator.View;
+using dna_simulator.ViewModel;
 using GalaSoft.MvvmLight.Threading;
 using System;
 using System.Windows;
 
 namespace dna_simulator
 {
-    public partial class App : Application
+    public partial class App
     {
         public App()
         {

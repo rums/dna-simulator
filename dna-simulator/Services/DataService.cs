@@ -7,11 +7,10 @@ using System.Windows.Media;
 using dna_simulator.Model;
 using dna_simulator.Model.Atam;
 using dna_simulator.Properties;
-using dna_simulator.Services;
 
-namespace dna_simulator.Design
+namespace dna_simulator.Services
 {
-    public class DesignDataService : IDataService
+    public class DataService : IDataService
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -28,17 +27,17 @@ namespace dna_simulator.Design
 
         private TileAssemblySystem _mockData;
 
-        public DesignDataService()
+        public DataService()
         {
             var mockTile = new TileType
             {
                 Id = 0,
                 Label = "Tile 100",
                 DisplayColor = Colors.Purple,
-                TopEdges = new ObservableCollection<Glue> { new Glue { Label = "Top", Color = 0, Strength = 2, DisplayColor = Colors.Red } },
-                BottomEdges = new ObservableCollection<Glue> { new Glue { Label = "Bottom", Color = 0, Strength = 0, DisplayColor = Colors.Blue } },
-                LeftEdges = new ObservableCollection<Glue> { new Glue { Label = "Left", Color = 0, Strength = 0, DisplayColor = Colors.Green } },
-                RightEdges = new ObservableCollection<Glue> { new Glue { Label = "Right", Color = 0, Strength = 0, DisplayColor = Colors.Cyan } }
+                TopEdges = new ObservableCollection<Glue> { new Glue {Label = "Top", Color = 0, Strength = 2, DisplayColor = Colors.Red}},
+                BottomEdges = new ObservableCollection<Glue> { new Glue {Label = "Bottom", Color = 0, Strength = 0, DisplayColor = Colors.Blue}},
+                LeftEdges = new ObservableCollection<Glue> { new Glue {Label = "Left", Color = 0, Strength = 0, DisplayColor = Colors.Green}},
+                RightEdges = new ObservableCollection<Glue> { new Glue {Label = "Right", Color = 0, Strength = 0, DisplayColor = Colors.Cyan}}
             };
             _mockData = new TileAssemblySystem
             {

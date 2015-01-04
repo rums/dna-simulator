@@ -5,8 +5,8 @@ namespace dna_simulator.Model.Atam
     public class TileAssemblySystem : ModelBase
     {
         private int _temperature;
-        private ObservableDictionary<int, TileType> _tileTypes;
         private TileType _seed;
+        private ObservableDictionary<int, TileType> _tileTypes;
 
         public int Temperature
         {
@@ -20,17 +20,6 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableDictionary<int, TileType> TileTypes
-        {
-            get { return _tileTypes; }
-            set
-            {
-                if (Equals(value, _tileTypes)) return;
-                _tileTypes = value;
-                OnPropertyChanged();
-            }
-        }
-
         public TileType Seed
         {
             get { return _seed; }
@@ -38,6 +27,17 @@ namespace dna_simulator.Model.Atam
             {
                 if (Equals(value, _seed)) return;
                 _seed = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableDictionary<int, TileType> TileTypes
+        {
+            get { return _tileTypes; }
+            set
+            {
+                if (Equals(value, _tileTypes)) return;
+                _tileTypes = value;
                 OnPropertyChanged();
             }
         }

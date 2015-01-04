@@ -6,8 +6,6 @@ namespace dna_simulator.ViewModel
 {
     public class ColorPickerViewModel : ViewModelBase
     {
-        #region Constructors
-
         public ColorPickerViewModel()
         {
             // New default value syntax in C# 6 will be nice :)
@@ -26,10 +24,6 @@ namespace dna_simulator.ViewModel
             });
         }
 
-        #endregion Constructors
-
-        #region Properties
-
         private Color _currentColor;
 
         public Color CurrentColor
@@ -45,10 +39,6 @@ namespace dna_simulator.ViewModel
 
         public string TargetProperty { get; set; }
 
-        #endregion Properties
-
-        #region Commands
-
         public RelayCommand ApplyColorCommand { get; private set; }
 
         private bool CanApplyColor()
@@ -60,7 +50,5 @@ namespace dna_simulator.ViewModel
         {
             Messenger.Default.Send(new NotificationMessage<Color>(CurrentColor, TargetProperty));
         }
-
-        #endregion Commands
     }
 }

@@ -1,44 +1,33 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using dna_simulator.Model;
+﻿using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 
-namespace dna_simulator.ViewModel
+namespace dna_simulator.ViewModel.Configuration
 {
     public class MultiTileViewModel : ViewModelBase
     {
+        private IServiceBundle _serviceBundle;
         private IDataService _dataService;
 
-        #region Constructors
+        private TileAssemblySystemVm _currentTileAssemblySystemVm;
 
-        public MultiTileViewModel(IDataService dataService)
+        public MultiTileViewModel(IServiceBundle serviceBundle)
         {
-            _dataService = dataService;
+            _serviceBundle = serviceBundle;
+            _dataService = _serviceBundle.DataService;
             var tileAssemblySystem = _dataService.TileAssemblySystem;
 
             // Initialize TileAssemblySystemVm
             CurrentTileAssemblySystemVm = new TileAssemblySystemVm
             {
                 Temperature = tileAssemblySystem.Temperature,
-                TileTypes = new ObservableCollection<TileTypeVm>(),
+                TileTypes = new ObservableCollection<TileTypeVm>(tileAssemblySystem.TileTypes.Values.Select(t => TileTypeVm.ToTileTypeVm(t, tileAssemblySystem))),
                 Seed = TileTypeVm.ToTileTypeVm(tileAssemblySystem.Seed, tileAssemblySystem)
             };
-            foreach (var tvm in tileAssemblySystem.TileTypes.Select(t => new TileTypeVm
-            {
-                DisplayColor = t.Value.DisplayColor,
-                Label = t.Value.Label,
-                Top = new GlueVm { Color = t.Value.Top.Color, Strength = t.Value.Top.Strength, DisplayColor = t.Value.Top.DisplayColor },
-                Bottom = new GlueVm { Color = t.Value.Bottom.Color, Strength = t.Value.Bottom.Strength, DisplayColor = t.Value.Bottom.DisplayColor },
-                Left = new GlueVm { Color = t.Value.Left.Color, Strength = t.Value.Left.Strength, DisplayColor = t.Value.Left.DisplayColor },
-                Right = new GlueVm { Color = t.Value.Right.Color, Strength = t.Value.Right.Strength, DisplayColor = t.Value.Right.DisplayColor },
-                IsSeed = (tileAssemblySystem.Seed.Label == t.Value.Label)
-            }))
-            {
-                CurrentTileAssemblySystemVm.TileTypes.Add(tvm);
-            }
 
             // Register event handlers
             _dataService.PropertyChanged += DataServiceOnPropertyChanged;
@@ -46,11 +35,6 @@ namespace dna_simulator.ViewModel
             // initialize commands
             DisplayTileTypeCommand = new RelayCommand<object>(ExecuteDisplayTileType, CanDisplayTileType);
         }
-
-        #endregion
-        #region Properties
-
-        private TileAssemblySystemVm _currentTileAssemblySystemVm;
 
         public TileAssemblySystemVm CurrentTileAssemblySystemVm
         {
@@ -62,10 +46,6 @@ namespace dna_simulator.ViewModel
                 RaisePropertyChanged();
             }
         }
-
-        #endregion Properties
-
-        #region Commands
 
         public RelayCommand<object> DisplayTileTypeCommand { get; private set; }
 
@@ -79,11 +59,6 @@ namespace dna_simulator.ViewModel
             var tile = o as TileTypeVm;
             Messenger.Default.Send(new NotificationMessage<TileTypeVm>(tile, "DisplayTile"));
         }
-
-        #endregion
-
-        #region Event handlers
-
 
         private void DataServiceOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -99,7 +74,5 @@ namespace dna_simulator.ViewModel
                     break;
             }
         }
-
-        #endregion
     }
 }

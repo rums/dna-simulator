@@ -4,16 +4,11 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:view="clr-namespace:dna_simulator.View"
-    xmlns:behaviors="clr-namespace:dna_simulator.View.Behaviors"
+    xmlns:configuration="clr-namespace:dna_simulator.View.Configuration"
     mc:Ignorable="d"
-	x:Class="dna_simulator.View.SingleTileControl"
+	x:Class="dna_simulator.View.Configuration.SingleTileControl"
     x:Name="SingleTileName"
 	d:DesignWidth="300" d:DesignHeight="440">
-
-    <i:Interaction.Behaviors>
-        <behaviors:OpenCloseChildWindowBehavior WindowType="view:ColorPicker" Open="{Binding ColorPickerIsOpen, Mode=TwoWay}" />
-    </i:Interaction.Behaviors>
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
@@ -24,7 +19,7 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" x:Name="TextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="aTAM mode (no signals)" Foreground="#FF69D2E7" Margin="0" />
         <Grid Grid.Row="1">
-            <view:TileEditorControl x:Name="TileEditorControl" />
+            <configuration:TileEditorControl x:Name="TileEditorControl" />
         </Grid>
         <StackPanel x:Name="PickTileColorStackPanel" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock x:Name="PickColorRequest" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Pick tile color for simulation:" VerticalAlignment="Center" Margin="5,0,0,0" />
@@ -34,7 +29,7 @@
                 </Rectangle.Fill>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="TileColor" Command="{Binding OpenColorPickerCommand}" />
+                        <i:InvokeCommandAction CommandParameter="TileColor" Command="{Binding ChangeTileDisplayColorCommand}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Rectangle>

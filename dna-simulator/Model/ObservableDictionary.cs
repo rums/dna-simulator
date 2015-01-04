@@ -16,34 +16,35 @@ namespace dna_simulator.Model
 
         protected IDictionary<TKey, TValue> Dictionary { get; private set; }
 
-        #region Constructors
         public ObservableDictionary()
         {
             Dictionary = new Dictionary<TKey, TValue>();
         }
+
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary)
         {
             Dictionary = new Dictionary<TKey, TValue>(dictionary);
         }
+
         public ObservableDictionary(IEqualityComparer<TKey> comparer)
         {
             Dictionary = new Dictionary<TKey, TValue>(comparer);
         }
+
         public ObservableDictionary(int capacity)
         {
             Dictionary = new Dictionary<TKey, TValue>(capacity);
         }
+
         public ObservableDictionary(IDictionary<TKey, TValue> dictionary, IEqualityComparer<TKey> comparer)
         {
             Dictionary = new Dictionary<TKey, TValue>(dictionary, comparer);
         }
+
         public ObservableDictionary(int capacity, IEqualityComparer<TKey> comparer)
         {
             Dictionary = new Dictionary<TKey, TValue>(capacity, comparer);
         }
-        #endregion
-
-        #region IDictionary<TKey,TValue> Members
 
         public void Add(TKey key, TValue value)
         {
@@ -96,10 +97,6 @@ namespace dna_simulator.Model
             }
         }
 
-        #endregion
-
-        #region ICollection<KeyValuePair<TKey,TValue>> Members
-
         public void Add(KeyValuePair<TKey, TValue> item)
         {
             Insert(item.Key, item.Value, true);
@@ -139,38 +136,19 @@ namespace dna_simulator.Model
             return Remove(item.Key);
         }
 
-
-        #endregion
-
-        #region IEnumerable<KeyValuePair<TKey,TValue>> Members
-
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return Dictionary.GetEnumerator();
         }
-
-        #endregion
-
-        #region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ((IEnumerable)Dictionary).GetEnumerator();
         }
 
-        #endregion
-
-        #region INotifyCollectionChanged Members
-
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
-        #endregion
-
-        #region INotifyPropertyChanged Members
-
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
 
         public void AddRange(IDictionary<TKey, TValue> items)
         {
