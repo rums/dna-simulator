@@ -51,11 +51,11 @@
                                         </Grid.ColumnDefinitions>
                                         <Rectangle x:Name="TileColorPreview" Width="10" Height="10" HorizontalAlignment="Left">
                                             <Rectangle.Fill>
-                                                <SolidColorBrush Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" />
+                                                <SolidColorBrush Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
                                             </Rectangle.Fill>
                                         </Rectangle>
                                         <TextBlock x:Name="TileLabel" Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Grid.Column="1" />
-                                        <RadioButton x:Name="SeedChoice" IsChecked="{Binding IsSeed, Mode=TwoWay}" GroupName="SeedSelection" HorizontalAlignment="Center" Grid.Column="2" />
+                                        <RadioButton x:Name="SeedChoice" IsChecked="{Binding IsSeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GroupName="SeedSelection" HorizontalAlignment="Center" Grid.Column="2" />
                                     </Grid>
                                 </DataTemplate>
                             </ListBox.Resources>

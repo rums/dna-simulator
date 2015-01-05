@@ -108,13 +108,7 @@
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Design\DesignServiceBundle.cs" />
     <Compile Include="Services\IColorPickerService.cs" />
-    <Compile Include="Services\IConfigurationService.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Services\IServiceBundle.cs" />
-    <Compile Include="Services\ConfigurationService.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Services\ServiceBundle.cs" />
     <Compile Include="ViewModel\Atam\GlueVmList.cs" />
     <Compile Include="View\Configuration\GlueEditorControl.xaml.cs">
@@ -152,9 +146,6 @@
     <Compile Include="ViewModel\ColorPickerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\Configuration\AtamEdgeOptions.xaml.cs">
-      <DependentUpon>AtamEdgeOptions.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Behaviors\OpenCloseChildWindowBehavior.cs" />
     <Compile Include="View\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
@@ -192,10 +183,6 @@
     <Page Include="View\Configuration\ConfigView.xaml">
       <SubType>Form</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Configuration\AtamEdgeOptions.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Controls\ColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>

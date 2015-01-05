@@ -13,13 +13,10 @@
         <innerProduct:ColorToBrush x:Key="ColorToBrush" />
         
         <DataTemplate x:Key="GlueConfigTemplate" DataType="atam:GlueVm">
-            <Border CornerRadius="4">
-                <Border.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FFD6ECEA" Offset="0" />
-                        <GradientStop Color="#FFA7DBD8" Offset="1" />
-                    </LinearGradientBrush>
-                </Border.Background>
+            <Border BorderThickness="2">
+                <Border.BorderBrush>
+                    <SolidColorBrush Color="{Binding DisplayColor}" Opacity="0.25" />
+                </Border.BorderBrush>
                 <StackPanel x:Name="Panel" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid Margin="6,1">
                         <Grid.ColumnDefinitions>
@@ -56,7 +53,7 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <ListBox ItemsSource="{Binding GlueVms}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ListBox BorderThickness="0" ItemsSource="{Binding GlueVms}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ListBox.ItemTemplate>
                 <StaticResource ResourceKey="GlueConfigTemplate" />
             </ListBox.ItemTemplate>

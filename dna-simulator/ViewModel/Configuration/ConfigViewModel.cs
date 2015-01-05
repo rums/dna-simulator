@@ -34,10 +34,10 @@ namespace dna_simulator.ViewModel.Configuration
             ChangeGlueDisplayColorCommand = new RelayCommand<string>(ChangeGlueDisplayColor, CanChangeGlueDisplayColor);
             ConfigureEdgeCommand = new RelayCommand<GlueVm>(ConfigureEdge, CanConfigureEdge);
             ConfigureTileCommand = new RelayCommand(ConfigureTile, CanConfigureTile);
-            CreateTileCommand = new RelayCommand(ExecuteCreateTile, CanCreateTile);
-            SaveTileCommand = new RelayCommand(ExecuteSaveTile, CanSaveTile);
+            CreateTileCommand = new RelayCommand(CreateTile, CanCreateTile);
+            SaveTileCommand = new RelayCommand(SaveTile, CanSaveTile);
             ChangeTileDisplayColorCommand = new RelayCommand(ChangeTileDisplayColor, CanChangeTileDisplayColor);
-            DisplayTileTypeCommand = new RelayCommand<object>(ExecuteDisplayTileType, CanDisplayTileType);
+            DisplayTileTypeCommand = new RelayCommand<object>(DisplayTileType, CanDisplayTileType);
         }
 
         private SingleTileViewModel _currentSingleTileViewModel;
@@ -130,15 +130,14 @@ namespace dna_simulator.ViewModel.Configuration
             return true;
         }
 
-        private void ExecuteCreateTile()
+        private void CreateTile()
         {
-            ExecuteSaveTile();
-            _dataService.NewDefaultTile((item, error) =>
-            {
-                CurrentSingleTileViewModel.CurrentTileTypeVm = TileTypeVm.ToTileTypeVm(item, _dataService.TileAssemblySystem);
-            });
-            CurrentSingleTileViewModel.CurrentEditorModel = CurrentSingleTileViewModel.CurrentTileTypeVm;
-            //RaisePropertyChanged("CurrentTileTypeVm");
+            // fetch tile from data service
+            _dataService.NewDefaultTile((item, error) => CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Add(TileTypeVm.ToTileTypeVm(item, _dataService.TileAssemblySystem)));
+            CurrentSingleTileViewModel.CurrentTileTypeVm = CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Last();
+
+            // display the new tile
+            DisplayTileType(CurrentSingleTileViewModel.CurrentTileTypeVm);
         }
 
         public RelayCommand SaveTileCommand { get; private set; }
@@ -148,7 +147,7 @@ namespace dna_simulator.ViewModel.Configuration
             return true;
         }
 
-        private void ExecuteSaveTile()
+        private void SaveTile()
         {
             _dataService.TileAssemblySystem.TileTypes[CurrentSingleTileViewModel.CurrentTileTypeVm.Id] = TileTypeVm.ToTileTypeBase(CurrentSingleTileViewModel.CurrentTileTypeVm);
             _dataService.Commit();
@@ -176,10 +175,10 @@ namespace dna_simulator.ViewModel.Configuration
             return true;
         }
 
-        public void ExecuteDisplayTileType(object o)
+        public void DisplayTileType(object o)
         {
             // save current tile
-            ExecuteSaveTile();
+            SaveTile();
 
             // switch tile context
             var tile = o as TileTypeVm;

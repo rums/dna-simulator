@@ -34,7 +34,7 @@ namespace dna_simulator.Services
                 Id = 0,
                 Label = "Tile 0",
                 DisplayColor = Colors.Magenta,
-                TopEdges = new ObservableCollection<Glue> { new Glue {Label = "Top", Color = 0, Strength = 0, DisplayColor = Colors.Red}},
+                TopEdges = new ObservableCollection<Glue> { new Glue { Label = "Top", Color = 0, Strength = 0, DisplayColor = Colors.Red }, new Glue { Label = "Top 2", Color = 0, Strength = 0, DisplayColor = Colors.Brown } },
                 BottomEdges = new ObservableCollection<Glue> { new Glue {Label = "Bottom", Color = 0, Strength = 0, DisplayColor = Colors.Blue}},
                 LeftEdges = new ObservableCollection<Glue> { new Glue {Label = "Left", Color = 0, Strength = 0, DisplayColor = Colors.Green}},
                 RightEdges = new ObservableCollection<Glue> { new Glue {Label = "Right", Color = 0, Strength = 0, DisplayColor = Colors.Cyan}}

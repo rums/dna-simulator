@@ -19,7 +19,7 @@
         <DataTemplate DataType="atam:TileTypeVm">
             <Viewbox x:Name="TileViewbox" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid Background="Transparent" x:Name="Tile">
-                    <TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="{Binding Label, FallbackValue=Tile label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1" />
+                    <TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="{Binding Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1" />
                     <Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" Canvas.ZIndex="1" Stroke="{Binding TopEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}}" />
                     <Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom" Canvas.ZIndex="1" Stroke="{Binding BottomEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}}" />
                     <Path x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" Width="2" Canvas.ZIndex="1" Stroke="{Binding LeftEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}}" />
@@ -90,28 +90,43 @@
         </DataTemplate>
 
         <DataTemplate x:Key="EdgeItemTemplate" DataType="atam:GlueVm">
-            <Border CornerRadius="4" BorderBrush="Gray" BorderThickness="1">
+            <Border CornerRadius="4" BorderBrush="{Binding DisplayColor, Converter={StaticResource ColorToBrush}}" BorderThickness="1">
                 <Border.Background>
-                    <SolidColorBrush Color="{Binding DisplayColor}" Opacity="0.25" />
+                    <LinearGradientBrush Opacity="0.25" StartPoint="0.5,0" EndPoint="0.5,1">
+                        <GradientStopCollection>
+                            <GradientStop Color="Transparent" Offset="0" />
+                            <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
+                        </GradientStopCollection>
+                    </LinearGradientBrush>
                 </Border.Background>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction PropertyName="Background" >
+                            <ei:ChangePropertyAction.Value>
+                                <LinearGradientBrush Opacity="0.5" StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStopCollection>
+                                        <GradientStop Color="Transparent" Offset="0" />
+                                        <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush>
+                            </ei:ChangePropertyAction.Value>
+                        </ei:ChangePropertyAction>
+                        <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding MainViewModel.CurrentViewModel.ConfigureEdgeCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction PropertyName="Background">
+                            <ei:ChangePropertyAction.Value>
+                                <LinearGradientBrush Opacity="0.25" StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStopCollection>
+                                        <GradientStop Color="Transparent" Offset="0" />
+                                        <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
+                                    </GradientStopCollection>
+                                </LinearGradientBrush>
+                            </ei:ChangePropertyAction.Value>
+                        </ei:ChangePropertyAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <Grid x:Name="EdgeItem" Margin="-1">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseEnter">
-                            <ei:ChangePropertyAction PropertyName="Background">
-                                <ei:ChangePropertyAction.Value>
-                                    <SolidColorBrush Color="{Binding DisplayColor}" Opacity="0.75" />
-                                </ei:ChangePropertyAction.Value>
-                            </ei:ChangePropertyAction>
-                            <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding MainViewModel.CurrentViewModel.ConfigureEdgeCommand, Source={StaticResource Locator}}" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseLeave">
-                            <ei:ChangePropertyAction PropertyName="Background">
-                                <ei:ChangePropertyAction.Value>
-                                    <SolidColorBrush Color="{Binding DisplayColor}" Opacity="0.25"></SolidColorBrush>
-                                </ei:ChangePropertyAction.Value>
-                            </ei:ChangePropertyAction>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                     <TextBlock Margin="4,4,4,4" Text="{Binding Label}" />
                 </Grid>
             </Border>
@@ -229,7 +244,7 @@
             </ListBox.ItemsPanel>
         </ListBox>
         <Grid Grid.Row="1" Grid.Column="1" x:Name="EditorModelDisplay">
-            <ContentControl Content="{Binding CurrentEditorModel}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+            <ContentControl Content="{Binding CurrentEditorModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         </Grid>
     </Grid>
 </UserControl>

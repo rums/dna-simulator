@@ -49,11 +49,12 @@ namespace dna_simulator.ViewModel.Configuration
             switch (e.PropertyName)
             {
                 case "TileAssemblySystem":
-                    CurrentTileAssemblySystemVm.TileTypes = new ObservableCollection<TileTypeVm>(_dataService
-                        .TileAssemblySystem
-                        .TileTypes
-                        .Values
-                        .Select(t => TileTypeVm.ToTileTypeVm(t, _dataService.TileAssemblySystem)));
+                    // Note: This code may cause bugs; for example, SingleTileViewModel.CurrentTileTypeVm will reference the old object.
+                    //CurrentTileAssemblySystemVm.TileTypes = new ObservableCollection<TileTypeVm>(_dataService
+                    //    .TileAssemblySystem
+                    //    .TileTypes
+                    //    .Values
+                    //    .Select(t => TileTypeVm.ToTileTypeVm(t, _dataService.TileAssemblySystem)));
                     RaisePropertyChanged("CurrentTileAssemblySystemVm");
                     break;
             }
