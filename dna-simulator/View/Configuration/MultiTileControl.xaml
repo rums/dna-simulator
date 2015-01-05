@@ -85,7 +85,10 @@
                             <sdk:DataGridTextColumn Header="Strength" Binding="{Binding Strength}" />
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>
-                    <Button Content="Set strength" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <Button Content="Set color" VerticalAlignment="Center" />
+                        <Button Content="Set strength" VerticalAlignment="Center" Margin="5,0,0,0" />
+                    </StackPanel>
                 </Grid>
             </sdk:TabItem>
             <sdk:TabItem x:Name="TileViewTab" Header="TileView">
