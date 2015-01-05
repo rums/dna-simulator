@@ -12,98 +12,86 @@
     <UserControl.Resources>
     </UserControl.Resources>
 
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="11*" />
             <RowDefinition Height="1*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
-        <primitives:TabPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-            <sdk:TabControl HorizontalAlignment="Left" VerticalAlignment="Top" BorderBrush="{x:Null}" Background="{x:Null}">
-                <sdk:TabItem x:Name="ListViewTab" Header="ListView">
-                    <Grid Margin="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="10*" />
-                            <RowDefinition Height="150*" />
-                            <RowDefinition Height="20*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="10*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="LabelHeader" TextWrapping="Wrap" Text="Label" Grid.Column="1" VerticalAlignment="Bottom" />
-                        <TextBlock x:Name="SeedHeader" TextWrapping="Wrap" Text="Seed" Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" />
-                        <ListBox x:Name="TileListByLabel" ItemsSource="{Binding CurrentTileAssemblySystemVm.TileTypes}" Grid.Row="1" Grid.ColumnSpan="3"
-                                             Grid.Column="0" SelectionMode="Extended">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger SourceName="TileListByLabel" EventName="SelectionChanged">
-                                    <i:InvokeCommandAction CommandParameter="{Binding ElementName=TileListByLabel, Path=SelectedItem}" Command="{Binding MainViewModel.CurrentViewModel.DisplayTileTypeCommand, Source={StaticResource Locator}}" />
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                            <ListBox.Resources>
-                                <DataTemplate x:Key="ListViewItemTemplate" DataType="atam:TileTypeVm">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="1*" />
-                                            <ColumnDefinition Width="10*" />
-                                            <ColumnDefinition Width="3*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Rectangle x:Name="TileColorPreview" Width="10" Height="10" HorizontalAlignment="Left">
+        <sdk:TabControl>
+            <sdk:TabItem x:Name="ListViewTab" Header="Tiles">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <sdk:DataGrid x:Name="TileList" AutoGenerateColumns="False" Grid.Column="0" ItemsSource="{Binding CurrentTileAssemblySystemVm.TileTypes}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger SourceName="TileList" EventName="SelectionChanged">
+                                <i:InvokeCommandAction CommandParameter="{Binding SelectedItem, ElementName=TileList}" Command="{Binding MainViewModel.CurrentViewModel.DisplayTileTypeCommand, Source={StaticResource Locator}}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <sdk:DataGrid.Columns>
+                            <sdk:DataGridTemplateColumn Header="Display">
+                                <sdk:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Rectangle Height="20" Width="20">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding MainViewModel.CurrentViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
                                             <Rectangle.Fill>
                                                 <SolidColorBrush Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
                                             </Rectangle.Fill>
                                         </Rectangle>
-                                        <TextBlock x:Name="TileLabel" Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Grid.Column="1" />
-                                        <RadioButton x:Name="SeedChoice" IsChecked="{Binding IsSeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" GroupName="SeedSelection" HorizontalAlignment="Center" Grid.Column="2" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.Resources>
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="HorizontalContentAlignment"
-										            Value="Stretch" />
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemTemplate>
-                                <StaticResource ResourceKey="ListViewItemTemplate" />
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <Button x:Name="button" Content="A function" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" />
-                    </Grid>
-                </sdk:TabItem>
-                <sdk:TabItem x:Name="TileViewTab" Header="TileView">
-                    <Grid Background="#FFE5E5E5" Margin="0,0,-82,0" />
-                </sdk:TabItem>
-                <sdk:TabItem x:Name="LabelViewTab" Header="LabelView" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Grid Margin="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="10*" />
-                            <RowDefinition Height="150*" />
-                            <RowDefinition Height="20*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock TextWrapping="Wrap" Text="Label" Grid.Column="0" VerticalAlignment="Bottom" />
-                        <ListBox Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" SelectionMode="Extended">
-                            <ListBox.Resources>
-                                <DataTemplate x:Key="ItemTemplate">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Property1}" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ListBox.Resources>
-                            <ListBox.ItemTemplate>
-                                <StaticResource ResourceKey="ItemTemplate" />
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <Button Content="Set strength" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" />
-                    </Grid>
-                </sdk:TabItem>
-            </sdk:TabControl>
-        </primitives:TabPanel>
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellTemplate>
+                            </sdk:DataGridTemplateColumn>
+                            <sdk:DataGridTextColumn Header="Label" Binding="{Binding Label}" />
+                            <sdk:DataGridTemplateColumn Header="Seed">
+                                <sdk:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <RadioButton HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="IsSeedGroup" IsChecked="{Binding IsSeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellTemplate>
+                            </sdk:DataGridTemplateColumn>
+                        </sdk:DataGrid.Columns>
+                    </sdk:DataGrid>
+                </Grid>
+            </sdk:TabItem>
+            <sdk:TabItem x:Name="EdgeViewTab" Header="Edges" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="160*" />
+                        <RowDefinition Height="20*" />
+                    </Grid.RowDefinitions>
+                    <sdk:DataGrid AutoGenerateColumns="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Edges}">
+                        <sdk:DataGrid.Columns>
+                            <sdk:DataGridTemplateColumn Header="Display">
+                                <sdk:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Rectangle Height="20" Width="20">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding MainViewModel.CurrentViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                            <Rectangle.Fill>
+                                                <SolidColorBrush Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </DataTemplate>
+                                </sdk:DataGridTemplateColumn.CellTemplate>
+                            </sdk:DataGridTemplateColumn>
+                            <sdk:DataGridTextColumn Header="Label" Binding="{Binding Label}" />
+                            <sdk:DataGridTextColumn Header="Color" Binding="{Binding Color}" />
+                            <sdk:DataGridTextColumn Header="Strength" Binding="{Binding Strength}" />
+                        </sdk:DataGrid.Columns>
+                    </sdk:DataGrid>
+                    <Button Content="Set strength" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+                </Grid>
+            </sdk:TabItem>
+            <sdk:TabItem x:Name="TileViewTab" Header="TileView">
+                <Grid Background="#FFE5E5E5" Margin="0,0,-82,0" />
+            </sdk:TabItem>
+        </sdk:TabControl>
         <StackPanel Grid.Row="1" Margin="0" Orientation="Horizontal">
             <TextBlock x:Name="TemperatureLabel" TextWrapping="Wrap" Text="Temperature:" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Black" />
             <TextBox x:Name="Temperature" TextWrapping="Wrap" Text="{Binding CurrentTileAssemblySystemVm.Temperature}" Width="24" VerticalAlignment="Center" Margin="5,0,0,0" />

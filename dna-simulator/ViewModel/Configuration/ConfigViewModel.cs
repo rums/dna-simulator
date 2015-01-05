@@ -36,7 +36,7 @@ namespace dna_simulator.ViewModel.Configuration
             ConfigureTileCommand = new RelayCommand(ConfigureTile, CanConfigureTile);
             CreateTileCommand = new RelayCommand(CreateTile, CanCreateTile);
             SaveTileCommand = new RelayCommand(SaveTile, CanSaveTile);
-            ChangeTileDisplayColorCommand = new RelayCommand(ChangeTileDisplayColor, CanChangeTileDisplayColor);
+            ChangeTileDisplayColorCommand = new RelayCommand<string>(ChangeTileDisplayColor, CanChangeTileDisplayColor);
             DisplayTileTypeCommand = new RelayCommand<object>(DisplayTileType, CanDisplayTileType);
         }
 
@@ -76,19 +76,7 @@ namespace dna_simulator.ViewModel.Configuration
         {
             _colorPickerService.ShowColorPicker(c =>
             {
-                foreach (var glue in CurrentSingleTileViewModel.CurrentTileTypeVm.TopEdges.Where(e => e.Label == label))
-                {
-                    glue.DisplayColor = c;
-                }
-                foreach (var glue in CurrentSingleTileViewModel.CurrentTileTypeVm.BottomEdges.Where(e => e.Label == label))
-                {
-                    glue.DisplayColor = c;
-                }
-                foreach (var glue in CurrentSingleTileViewModel.CurrentTileTypeVm.LeftEdges.Where(e => e.Label == label))
-                {
-                    glue.DisplayColor = c;
-                }
-                foreach (var glue in CurrentSingleTileViewModel.CurrentTileTypeVm.RightEdges.Where(e => e.Label == label))
+                foreach (var glue in CurrentMultiTileViewModel.Edges.Where(e => e.Label == label))
                 {
                     glue.DisplayColor = c;
                 }
@@ -153,18 +141,21 @@ namespace dna_simulator.ViewModel.Configuration
             _dataService.Commit();
         }
 
-        public RelayCommand ChangeTileDisplayColorCommand { get; private set; }
+        public RelayCommand<string> ChangeTileDisplayColorCommand { get; private set; }
 
-        private bool CanChangeTileDisplayColor()
+        private bool CanChangeTileDisplayColor(string label)
         {
             return true;
         }
 
-        private void ChangeTileDisplayColor()
+        private void ChangeTileDisplayColor(string label)
         {
             _colorPickerService.ShowColorPicker(c =>
             {
-                CurrentSingleTileViewModel.CurrentTileTypeVm.DisplayColor = c;
+                foreach (var tile in CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Where(e => e.Label == label))
+                {
+                    tile.DisplayColor = c;
+                }
             });
         }
 

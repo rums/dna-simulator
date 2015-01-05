@@ -17,7 +17,10 @@
             <RowDefinition Height="2*" />
             <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" x:Name="TextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="aTAM mode (no signals)" Foreground="#FF69D2E7" Margin="0" />
+        <ComboBox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ComboBoxItem Name="ModeAtam" IsSelected="True" Content="ATAM" />
+            <ComboBoxItem Name="Mode2Ham" Content="2HAM" />
+        </ComboBox>
         <Grid Grid.Row="1">
             <confv:TileEditorControl x:Name="TileEditorControl" />
         </Grid>

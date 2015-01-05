@@ -244,7 +244,7 @@
             </ListBox.ItemsPanel>
         </ListBox>
         <Grid Grid.Row="1" Grid.Column="1" x:Name="EditorModelDisplay">
-            <ContentControl Content="{Binding CurrentEditorModel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+            <ContentControl Content="{Binding CurrentEditorModel}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
         </Grid>
     </Grid>
 </UserControl>

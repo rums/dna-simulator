@@ -1,7 +1,6 @@
-﻿using dna_simulator.Services;
+﻿using System.Collections.Generic;
+using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -44,6 +43,16 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
+        public ObservableCollection<GlueVm> Edges
+        {
+            get
+            {
+                return
+                    new ObservableCollection<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
+                        t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
+            }
+        }
+
         private void DataServiceOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -56,6 +65,7 @@ namespace dna_simulator.ViewModel.Configuration
                     //    .Values
                     //    .Select(t => TileTypeVm.ToTileTypeVm(t, _dataService.TileAssemblySystem)));
                     RaisePropertyChanged("CurrentTileAssemblySystemVm");
+                    RaisePropertyChanged("Edges");
                     break;
             }
         }
