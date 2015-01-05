@@ -32,9 +32,9 @@ namespace dna_simulator.Services
             var mockTile = new TileType
             {
                 Id = 0,
-                Label = "Tile 100",
-                DisplayColor = Colors.Purple,
-                TopEdges = new ObservableCollection<Glue> { new Glue {Label = "Top", Color = 0, Strength = 2, DisplayColor = Colors.Red}},
+                Label = "Tile 0",
+                DisplayColor = Colors.Magenta,
+                TopEdges = new ObservableCollection<Glue> { new Glue {Label = "Top", Color = 0, Strength = 0, DisplayColor = Colors.Red}},
                 BottomEdges = new ObservableCollection<Glue> { new Glue {Label = "Bottom", Color = 0, Strength = 0, DisplayColor = Colors.Blue}},
                 LeftEdges = new ObservableCollection<Glue> { new Glue {Label = "Left", Color = 0, Strength = 0, DisplayColor = Colors.Green}},
                 RightEdges = new ObservableCollection<Glue> { new Glue {Label = "Right", Color = 0, Strength = 0, DisplayColor = Colors.Cyan}}
@@ -73,8 +73,8 @@ namespace dna_simulator.Services
             {
                 Id = ++_tileId,
                 Label = tileLabel,
-                DisplayColor = Colors.Purple,
-                TopEdges = new ObservableCollection<Glue> { new Glue { Label = "Top", Color = 0, Strength = 2, DisplayColor = Colors.Red } },
+                DisplayColor = Colors.Magenta,
+                TopEdges = new ObservableCollection<Glue> { new Glue { Label = "Top", Color = 0, Strength = 0, DisplayColor = Colors.Red } },
                 BottomEdges = new ObservableCollection<Glue> { new Glue { Label = "Bottom", Color = 0, Strength = 0, DisplayColor = Colors.Blue } },
                 LeftEdges = new ObservableCollection<Glue> { new Glue { Label = "Left", Color = 0, Strength = 0, DisplayColor = Colors.Green } },
                 RightEdges = new ObservableCollection<Glue> { new Glue { Label = "Right", Color = 0, Strength = 0, DisplayColor = Colors.Cyan } }

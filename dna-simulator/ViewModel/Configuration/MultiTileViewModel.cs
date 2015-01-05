@@ -31,9 +31,6 @@ namespace dna_simulator.ViewModel.Configuration
 
             // Register event handlers
             _dataService.PropertyChanged += DataServiceOnPropertyChanged;
-
-            // initialize commands
-            DisplayTileTypeCommand = new RelayCommand<object>(ExecuteDisplayTileType, CanDisplayTileType);
         }
 
         public TileAssemblySystemVm CurrentTileAssemblySystemVm
@@ -45,19 +42,6 @@ namespace dna_simulator.ViewModel.Configuration
                 _currentTileAssemblySystemVm = value;
                 RaisePropertyChanged();
             }
-        }
-
-        public RelayCommand<object> DisplayTileTypeCommand { get; private set; }
-
-        public bool CanDisplayTileType(object o)
-        {
-            return true;
-        }
-
-        public void ExecuteDisplayTileType(object o)
-        {
-            var tile = o as TileTypeVm;
-            Messenger.Default.Send(new NotificationMessage<TileTypeVm>(tile, "DisplayTile"));
         }
 
         private void DataServiceOnPropertyChanged(object sender, PropertyChangedEventArgs e)

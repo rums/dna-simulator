@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
-using dna_simulator.Model;
 using dna_simulator.Model.Atam;
 
 namespace dna_simulator.ViewModel.Atam

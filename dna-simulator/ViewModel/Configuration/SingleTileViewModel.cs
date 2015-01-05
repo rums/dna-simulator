@@ -14,46 +14,18 @@ namespace dna_simulator.ViewModel.Configuration
 
         private TileTypeVm _currentTileTypeVm;
         private ViewModelBase _currentEditorModel;
+        private GlueVmList _glueVmList;
 
-        public SingleTileViewModel(IServiceBundle serviceBundle)
+        public SingleTileViewModel(IServiceBundle serviceBundle, TileTypeVm currentTile)
         {
             _serviceBundle = serviceBundle;
             _dataService = _serviceBundle.DataService;
             _colorPickerService = _serviceBundle.ColorPickerService;
 
             // initialize properties
-            var defaultTileType = _dataService.TileAssemblySystem.TileTypes.Values.First();
-            CurrentTileTypeVm = TileTypeVm.ToTileTypeVm(defaultTileType);
+            CurrentTileTypeVm = currentTile;
             CurrentEditorModel = CurrentTileTypeVm;
-
-            // initialize commands
-            CreateTileCommand = new RelayCommand(ExecuteCreateTile, CanCreateTile);
-            SaveTileCommand = new RelayCommand(ExecuteSaveTile, CanSaveTile);
-            ChangeTileDisplayColorCommand = new RelayCommand(ChangeTileDisplayColor, CanChangeTileDisplayColor);
-
-            // register message listeners
-            Messenger.Default.Register<NotificationMessage<string>>(this, message =>
-            {
-                var edgeName = message.Content;
-                switch (message.Notification)
-                {
-                    case "OpenColorPicker":
-                        ChangeTileDisplayColor();
-                        break;
-                }
-            });
-            Messenger.Default.Register<NotificationMessage<TileTypeVm>>(this, message =>
-            {
-                var tile = message.Content;
-                switch (message.Notification)
-                {
-                    case "DisplayTile":
-                        ExecuteSaveTile();
-                        CurrentEditorModel = tile;
-                        CurrentTileTypeVm = tile;
-                        break;
-                }
-            });
+            _glueVmList = new GlueVmList();
         }
 
         public TileTypeVm CurrentTileTypeVm
@@ -78,49 +50,15 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
-        public RelayCommand CreateTileCommand { get; private set; }
-
-        private bool CanCreateTile()
+        public GlueVmList GlueVmList
         {
-            return true;
-        }
-
-        private void ExecuteCreateTile()
-        {
-            ExecuteSaveTile();
-            _dataService.NewDefaultTile((item, error) =>
+            get { return _glueVmList; }
+            set
             {
-                CurrentTileTypeVm = TileTypeVm.ToTileTypeVm(item, _dataService.TileAssemblySystem);
-            });
-            RaisePropertyChanged("CurrentTileTypeVm");
-        }
-
-        public RelayCommand SaveTileCommand { get; private set; }
-
-        private bool CanSaveTile()
-        {
-            return true;
-        }
-
-        private void ExecuteSaveTile()
-        {
-            _dataService.TileAssemblySystem.TileTypes[CurrentTileTypeVm.Id] = TileTypeVm.ToTileTypeBase(CurrentTileTypeVm);
-            _dataService.Commit();
-        }
-
-        public RelayCommand ChangeTileDisplayColorCommand { get; private set; }
-
-        private bool CanChangeTileDisplayColor()
-        {
-            return true;
-        }
-
-        private void ChangeTileDisplayColor()
-        {
-            _colorPickerService.ShowColorPicker(c =>
-            {
-                CurrentTileTypeVm.DisplayColor = c;
-            });
+                if (Equals(value, _glueVmList)) return;
+                _glueVmList = value;
+                RaisePropertyChanged();
+            }
         }
     }
 }

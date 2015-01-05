@@ -1,4 +1,5 @@
-﻿using System.Windows.Media;
+﻿using System.Collections.Generic;
+using System.Windows.Media;
 using dna_simulator.Model.Atam;
 
 namespace dna_simulator.ViewModel.Atam
@@ -66,8 +67,7 @@ namespace dna_simulator.ViewModel.Atam
                 _strength = value;
                 RaisePropertyChanged();
             }
-        }
-
+        } 
 
         /// <summary>
         /// Convert a GlueVm to a Glue

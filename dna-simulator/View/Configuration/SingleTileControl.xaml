@@ -4,7 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:configuration="clr-namespace:dna_simulator.View.Configuration"
+    xmlns:confv="clr-namespace:dna_simulator.View.Configuration"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.Configuration.SingleTileControl"
     x:Name="SingleTileName"
@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" x:Name="TextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="aTAM mode (no signals)" Foreground="#FF69D2E7" Margin="0" />
         <Grid Grid.Row="1">
-            <configuration:TileEditorControl x:Name="TileEditorControl" />
+            <confv:TileEditorControl x:Name="TileEditorControl" />
         </Grid>
         <StackPanel x:Name="PickTileColorStackPanel" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock x:Name="PickColorRequest" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Pick tile color for simulation:" VerticalAlignment="Center" Margin="5,0,0,0" />
@@ -29,15 +29,15 @@
                 </Rectangle.Fill>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="TileColor" Command="{Binding ChangeTileDisplayColorCommand}" />
+                        <i:InvokeCommandAction CommandParameter="TileColor" Command="{Binding MainViewModel.CurrentViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Rectangle>
         </StackPanel>
         <Border Grid.Row="3" x:Name="SingleTileOptionsBorder" CornerRadius="5" BorderThickness="2" Background="#FFF38630" Margin="0">
             <StackPanel x:Name="SingleTileOptionsPanel" Orientation="Horizontal">
-                <Button x:Name="NewTileButton" Content="New Tile" Command="{Binding CreateTileCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
-                <Button x:Name="SaveTileButton" Content="Save Tile" Command="{Binding SaveTileCommand}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <Button x:Name="NewTileButton" Content="New Tile" Command="{Binding MainViewModel.CurrentViewModel.CreateTileCommand, Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <Button x:Name="SaveTileButton" Content="Save Tile" Command="{Binding MainViewModel.CurrentViewModel.SaveTileCommand, Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
             </StackPanel>
         </Border>
     </Grid>

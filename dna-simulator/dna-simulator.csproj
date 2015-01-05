@@ -116,6 +116,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\ServiceBundle.cs" />
+    <Compile Include="ViewModel\Atam\GlueVmList.cs" />
     <Compile Include="View\Configuration\GlueEditorControl.xaml.cs">
       <DependentUpon>GlueEditorControl.xaml</DependentUpon>
     </Compile>

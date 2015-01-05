@@ -8,6 +8,9 @@
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.Configuration.MultiTileControl" d:DesignHeight="440">
+    
+    <UserControl.Resources>
+    </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
@@ -35,7 +38,7 @@
                                              Grid.Column="0" SelectionMode="Extended">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger SourceName="TileListByLabel" EventName="SelectionChanged">
-                                    <i:InvokeCommandAction CommandParameter="{Binding ElementName=TileListByLabel, Path=SelectedItem}" Command="{Binding DisplayTileTypeCommand}" />
+                                    <i:InvokeCommandAction CommandParameter="{Binding ElementName=TileListByLabel, Path=SelectedItem}" Command="{Binding MainViewModel.CurrentViewModel.DisplayTileTypeCommand, Source={StaticResource Locator}}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <ListBox.Resources>
