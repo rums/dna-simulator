@@ -8,7 +8,7 @@
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.Configuration.MultiTileControl" d:DesignHeight="440">
-    
+
     <UserControl.Resources>
     </UserControl.Resources>
 
@@ -62,7 +62,7 @@
                         <RowDefinition Height="160*" />
                         <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
-                    <sdk:DataGrid AutoGenerateColumns="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Edges}">
+                    <sdk:DataGrid x:Name="EdgeList" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Edges}">
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTemplateColumn Header="Display">
                                 <sdk:DataGridTemplateColumn.CellTemplate>
@@ -99,7 +99,7 @@
             <TextBlock x:Name="TemperatureLabel" TextWrapping="Wrap" Text="Temperature:" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Black" />
             <TextBox x:Name="Temperature" TextWrapping="Wrap" Text="{Binding CurrentTileAssemblySystemVm.Temperature}" Width="24" VerticalAlignment="Center" Margin="5,0,0,0" />
         </StackPanel>
-        <Border Grid.Row="2" BorderThickness="2" CornerRadius="5" Background="#FFA7DBD8">
+        <Border Grid.Row="2" BorderThickness="2" Background="#FFA7DBD8">
             <StackPanel x:Name="TileListOptions" Orientation="Horizontal">
                 <Button x:Name="LoadTilesetButton" Content="Load Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />
                 <Button x:Name="SaveTilesetButton" Content="Save Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />

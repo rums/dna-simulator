@@ -1,12 +1,12 @@
-﻿using System;
+﻿using dna_simulator.Model;
+using dna_simulator.Model.Atam;
+using dna_simulator.Properties;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Media;
-using dna_simulator.Model;
-using dna_simulator.Model.Atam;
-using dna_simulator.Properties;
 
 namespace dna_simulator.Services
 {
@@ -29,16 +29,8 @@ namespace dna_simulator.Services
 
         public DataService()
         {
-            var mockTile = new TileType
-            {
-                Id = 0,
-                Label = "Tile 0",
-                DisplayColor = Colors.Magenta,
-                TopEdges = new ObservableCollection<Glue> { new Glue { Label = "Top", Color = 0, Strength = 0, DisplayColor = Colors.Red }, new Glue { Label = "More glue!", Color = 0, Strength = 0, DisplayColor = Colors.Brown } },
-                BottomEdges = new ObservableCollection<Glue> { new Glue {Label = "Bottom", Color = 0, Strength = 0, DisplayColor = Colors.Blue}},
-                LeftEdges = new ObservableCollection<Glue> { new Glue {Label = "Left", Color = 0, Strength = 0, DisplayColor = Colors.Green}},
-                RightEdges = new ObservableCollection<Glue> { new Glue {Label = "Right", Color = 0, Strength = 0, DisplayColor = Colors.Cyan}}
-            };
+            var mockTile = new TileType();
+            NewDefaultTile((type, exception) => mockTile = type);
             _mockData = new TileAssemblySystem
             {
                 Seed = mockTile,
@@ -68,18 +60,26 @@ namespace dna_simulator.Services
 
         public void NewDefaultTile(Action<TileType, Exception> callback)
         {
-            var tileLabel = RandomTileLabel(4);
+            var tileLabel = RandomString(4);
             var newTile = new TileType
             {
                 Id = ++_tileId,
                 Label = tileLabel,
-                DisplayColor = Colors.Magenta,
-                TopEdges = new ObservableCollection<Glue> { new Glue { Label = "Top", Color = 0, Strength = 0, DisplayColor = Colors.Red } },
-                BottomEdges = new ObservableCollection<Glue> { new Glue { Label = "Bottom", Color = 0, Strength = 0, DisplayColor = Colors.Blue } },
-                LeftEdges = new ObservableCollection<Glue> { new Glue { Label = "Left", Color = 0, Strength = 0, DisplayColor = Colors.Green } },
-                RightEdges = new ObservableCollection<Glue> { new Glue { Label = "Right", Color = 0, Strength = 0, DisplayColor = Colors.Cyan } }
+                DisplayColor = RandomColor(),
+                TopEdges = new ObservableCollection<Glue>
+                {
+                    new Glue { Label = tileLabel + ".Top", Color = 0, Strength = 0, DisplayColor = RandomColor() },
+                    new Glue { Label = tileLabel + ".Top", Color = 0, Strength = 0, DisplayColor = RandomColor() },
+                    new Glue { Label = tileLabel + ".Top", Color = 0, Strength = 0, DisplayColor = RandomColor() },
+                    new Glue { Label = tileLabel + ".Top", Color = 0, Strength = 0, DisplayColor = RandomColor() },
+                    new Glue { Label = tileLabel + ".Top", Color = 0, Strength = 0, DisplayColor = RandomColor() },
+                    new Glue { Label = tileLabel + ".Top", Color = 0, Strength = 0, DisplayColor = RandomColor() },
+                    new Glue { Label = tileLabel + ".Another glue!", Color = 0, Strength = 0, DisplayColor = RandomColor() }
+                },
+                BottomEdges = new ObservableCollection<Glue> { new Glue { Label = tileLabel + ".Bottom", Color = 0, Strength = 0, DisplayColor = RandomColor() } },
+                LeftEdges = new ObservableCollection<Glue> { new Glue { Label = tileLabel + ".Left", Color = 0, Strength = 0, DisplayColor = RandomColor() } },
+                RightEdges = new ObservableCollection<Glue> { new Glue { Label = tileLabel + ".Right", Color = 0, Strength = 0, DisplayColor = RandomColor() } }
             };
-            TileAssemblySystem.TileTypes.Add(_tileId, newTile);
             callback(newTile, null);
         }
 
@@ -91,16 +91,32 @@ namespace dna_simulator.Services
 
         private static readonly Random Random = new Random((int)DateTime.Now.Ticks);
 
-        private string RandomTileLabel(int size)
+        private static string RandomString(int size)
         {
             var builder = new StringBuilder();
-            builder.Append("Label ");
             for (var i = 0; i < size; i++)
             {
                 var ch = Convert.ToChar(Convert.ToInt32(Math.Floor(26 * Random.NextDouble() + 65)));
                 builder.Append(ch);
             }
             return builder.ToString();
+        }
+
+        private static Color RandomColor()
+        {
+            while (true)
+            {
+                var colorsType = typeof (Colors);
+
+                var properties = colorsType.GetProperties();
+
+                var random = Random.Next(properties.Length);
+                var result = (Color) properties[random].GetValue(null, null);
+
+                if (result == Colors.White || result == Colors.Transparent)
+                    continue;
+                return result;
+            }
         }
     }
 }

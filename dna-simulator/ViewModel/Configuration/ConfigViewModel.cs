@@ -1,9 +1,10 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using dna_simulator.Model.Atam;
 using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace dna_simulator.ViewModel.Configuration
 {
@@ -38,6 +39,7 @@ namespace dna_simulator.ViewModel.Configuration
             SaveTileCommand = new RelayCommand(SaveTile, CanSaveTile);
             ChangeTileDisplayColorCommand = new RelayCommand<string>(ChangeTileDisplayColor, CanChangeTileDisplayColor);
             DisplayTileTypeCommand = new RelayCommand<object>(DisplayTileType, CanDisplayTileType);
+            UpdateMultipleEdgesCommand = new RelayCommand<IList<GlueVm>>(UpdateMultipleEdges, CanUpdateMultipleEdges);
         }
 
         private SingleTileViewModel _currentSingleTileViewModel;
@@ -110,7 +112,6 @@ namespace dna_simulator.ViewModel.Configuration
             CurrentSingleTileViewModel.CurrentEditorModel = CurrentSingleTileViewModel.CurrentTileTypeVm;
         }
 
-
         public RelayCommand CreateTileCommand { get; private set; }
 
         private bool CanCreateTile()
@@ -121,7 +122,12 @@ namespace dna_simulator.ViewModel.Configuration
         private void CreateTile()
         {
             // fetch tile from data service
-            _dataService.NewDefaultTile((item, error) => CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Add(TileTypeVm.ToTileTypeVm(item, _dataService.TileAssemblySystem)));
+            var tile = new TileType();
+            _dataService.NewDefaultTile((item, error) => tile = item);
+            // save new tile
+            _dataService.TileAssemblySystem.TileTypes.Add(tile.Id, tile);
+            // add new tile to view model
+            CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Add(TileTypeVm.ToTileTypeVm(tile, _dataService.TileAssemblySystem));
             CurrentSingleTileViewModel.CurrentTileTypeVm = CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Last();
 
             // display the new tile
@@ -177,6 +183,17 @@ namespace dna_simulator.ViewModel.Configuration
 
             // we should be configuring the new tile
             ConfigureTile();
+        }
+
+        public RelayCommand<IList<GlueVm>> UpdateMultipleEdgesCommand { get; private set; }
+
+        public bool CanUpdateMultipleEdges(IList<GlueVm> edges)
+        {
+            return true;
+        }
+
+        public void UpdateMultipleEdges(IList<GlueVm> edges)
+        {
         }
     }
 }
