@@ -3,91 +3,23 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
 	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
     xmlns:confv="clr-namespace:dna_simulator.View.Configuration"
+    xmlns:confvm="clr-namespace:dna_simulator.ViewModel.Configuration"
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.Configuration.TileEditorControl"
-	d:DesignWidth="640" d:DesignHeight="480">
+	d:DesignWidth="640" d:DesignHeight="480"
+    d:DataContext="{d:DesignInstance confvm:SingleTileViewModel}">
 
     <UserControl.Resources>
         <innerProduct:ColorToBrush x:Key="ColorToBrush" />
 
         <DataTemplate DataType="atam:TileTypeVm">
-            <Viewbox x:Name="TileViewbox" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Grid Background="Transparent" x:Name="Tile">
-                    <TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="{Binding Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1" />
-                    <Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" Canvas.ZIndex="1" Stroke="{Binding TopEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}, FallbackValue=Black}" />
-                    <Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom" Canvas.ZIndex="1" Stroke="{Binding BottomEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}, FallbackValue=Black}" />
-                    <Path x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" Width="2" Canvas.ZIndex="1" Stroke="{Binding LeftEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}, FallbackValue=Black}" />
-                    <Path x:Name="TileRight" Data="M149,100 L150,200" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" Width="3" HorizontalAlignment="Right" Canvas.ZIndex="1" Stroke="{Binding RightEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}, FallbackValue=Black}" />
-                    <ed:RegularPolygon x:Name="TopControl" Fill="{Binding Stroke, ElementName=TileTop}" InnerRadius="1" Opacity="0" PointCount="3" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" Height="100" Width="200" Margin="0,0,0,100">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeave">
-                                <ei:ChangePropertyAction x:Name="MouseLeaveOpacity" PropertyName="Opacity" Value="0" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <ei:ChangePropertyAction x:Name="MouseEnterOpacity" PropertyName="Opacity" Value="0.1" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <ed:RegularPolygon.RenderTransform>
-                            <CompositeTransform ScaleY="-1" />
-                        </ed:RegularPolygon.RenderTransform>
-                    </ed:RegularPolygon>
-                    <ed:RegularPolygon x:Name="BottomControl" Height="100" InnerRadius="1" Margin="0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Bottom" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileBottom}" HorizontalAlignment="Center" Opacity="0">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeave">
-                                <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseLeftButtonUp">
-                                <i:InvokeCommandAction CommandParameter="{Binding BottomEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <ed:RegularPolygon.RenderTransform>
-                            <CompositeTransform />
-                        </ed:RegularPolygon.RenderTransform>
-                    </ed:RegularPolygon>
-                    <ed:RegularPolygon x:Name="LeftControl" Height="100" InnerRadius="1" Margin="-50,0,0,0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileLeft}" HorizontalAlignment="Left" Opacity="0">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeave">
-                                <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseLeftButtonUp">
-                                <i:InvokeCommandAction CommandParameter="{Binding LeftEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <ed:RegularPolygon.RenderTransform>
-                            <CompositeTransform Rotation="90" />
-                        </ed:RegularPolygon.RenderTransform>
-                    </ed:RegularPolygon>
-                    <ed:RegularPolygon x:Name="RightControl" Height="100" InnerRadius="1" Margin="0,0,-50,0" PointCount="3" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" Width="200" RenderTransformOrigin="0.5,0.5" Fill="{Binding Stroke, ElementName=TileRight}" HorizontalAlignment="Right" Opacity="0">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseLeave">
-                                <ei:ChangePropertyAction PropertyName="Opacity" Value="0" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                            </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseLeftButtonUp">
-                                <i:InvokeCommandAction CommandParameter="{Binding RightEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <ed:RegularPolygon.RenderTransform>
-                            <CompositeTransform Rotation="-90" />
-                        </ed:RegularPolygon.RenderTransform>
-                    </ed:RegularPolygon>
-                </Grid>
-            </Viewbox>
+            <confv:TileViewbox />
         </DataTemplate>
 
         <DataTemplate DataType="atam:GlueVmList">
@@ -130,7 +62,7 @@
                         </ei:ChangePropertyAction>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding MainViewModel.CurrentViewModel.ConfigureEdgeCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding ConfigViewModel.ConfigureEdgeCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Grid x:Name="EdgeItem" Margin="-1">
@@ -246,7 +178,7 @@
                     <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="PowderBlue" />
                 </i:EventTrigger>
                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Path Name="AddTopGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
@@ -262,7 +194,7 @@
                     <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="PowderBlue" />
                 </i:EventTrigger>
                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Path Name="AddBottomGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
@@ -278,7 +210,7 @@
                     <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="PowderBlue" />
                 </i:EventTrigger>
                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Path Name="AddLeftGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
@@ -294,7 +226,7 @@
                     <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="PowderBlue" />
                 </i:EventTrigger>
                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <Path Name="AddRightGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />

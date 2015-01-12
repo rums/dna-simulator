@@ -116,6 +116,9 @@
     <Compile Include="View\Configuration\GlueEditorControl.xaml.cs">
       <DependentUpon>GlueEditorControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Configuration\TileViewbox.xaml.cs">
+      <DependentUpon>TileViewbox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -171,6 +174,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="View\Configuration\GlueEditorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Configuration\TileViewbox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

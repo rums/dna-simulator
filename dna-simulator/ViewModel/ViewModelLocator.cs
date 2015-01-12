@@ -10,6 +10,7 @@
 */
 
 using dna_simulator.Services;
+using dna_simulator.ViewModel.Configuration;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -52,6 +53,20 @@ namespace dna_simulator.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the ConfigViewModel property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public ConfigViewModel ConfigViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MainViewModel>().CurrentViewModel as ConfigViewModel;
             }
         }
 

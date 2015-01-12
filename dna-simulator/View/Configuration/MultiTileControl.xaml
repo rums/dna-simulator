@@ -5,14 +5,24 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
+    xmlns:confvm="clr-namespace:dna_simulator.ViewModel.Configuration"
+    xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
+    xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=System.Windows"
     mc:Ignorable="d"
-	x:Class="dna_simulator.View.Configuration.MultiTileControl" d:DesignHeight="440">
+	x:Class="dna_simulator.View.Configuration.MultiTileControl"
+    d:DesignHeight="440"
+    d:DataContext="{d:DesignInstance confvm:MultiTileViewModel}">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Skins/ConfigSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <CollectionViewSource x:Key="LabelSortedGlues" Source="{Binding Glues}">
+                <CollectionViewSource.SortDescriptions>
+                    <componentModel:SortDescription PropertyName="Label" />
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -28,17 +38,17 @@
                     <sdk:DataGrid x:Name="TileList" AutoGenerateColumns="False" Grid.Column="0" ItemsSource="{Binding CurrentTileAssemblySystemVm.TileTypes}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger SourceName="TileList" EventName="SelectionChanged">
-                                <i:InvokeCommandAction CommandParameter="{Binding SelectedItem, ElementName=TileList}" Command="{Binding MainViewModel.CurrentViewModel.DisplayTileTypeCommand, Source={StaticResource Locator}}" />
+                                <i:InvokeCommandAction CommandParameter="{Binding SelectedItem, ElementName=TileList}" Command="{Binding ConfigViewModel.DisplayTileTypeCommand, Source={StaticResource Locator}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <sdk:DataGrid.Columns>
+                        <sdk:DataGrid.Columns >
                             <sdk:DataGridTemplateColumn Header="Display">
                                 <sdk:DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate DataType="atam:TileTypeVm">
                                         <Rectangle Height="20" Width="20">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding MainViewModel.CurrentViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding ConfigViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                             <Rectangle.Fill>
@@ -66,15 +76,15 @@
                         <RowDefinition Height="160*" />
                         <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
-                    <sdk:DataGrid x:Name="EdgeList" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Glues}">
+                    <sdk:DataGrid x:Name="EdgeList" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Source={StaticResource LabelSortedGlues}}">
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTemplateColumn Header="Display">
                                 <sdk:DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
+                                    <DataTemplate DataType="atam:GlueVm">
                                         <Rectangle Height="20" Width="20">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding MainViewModel.CurrentViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding ConfigViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                             <Rectangle.Fill>
