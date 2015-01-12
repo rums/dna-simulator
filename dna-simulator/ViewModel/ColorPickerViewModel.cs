@@ -10,18 +10,6 @@ namespace dna_simulator.ViewModel
         {
             // New default value syntax in C# 6 will be nice :)
             CurrentColor = Colors.White;
-            ApplyColorCommand = new RelayCommand(ExecuteApplyColor, CanApplyColor);
-            // Register message listeners
-            Messenger.Default.Register<NotificationMessage<string>>(this, message =>
-            {
-                var targetProperty = message.Content;
-                switch (message.Notification)
-                {
-                    case "TargetProperty":
-                        TargetProperty = targetProperty;
-                        break;
-                }
-            });
         }
 
         private Color _currentColor;
@@ -35,20 +23,6 @@ namespace dna_simulator.ViewModel
                 _currentColor = value;
                 RaisePropertyChanged();
             }
-        }
-
-        public string TargetProperty { get; set; }
-
-        public RelayCommand ApplyColorCommand { get; private set; }
-
-        private bool CanApplyColor()
-        {
-            return true;
-        }
-
-        private void ExecuteApplyColor()
-        {
-            Messenger.Default.Send(new NotificationMessage<Color>(CurrentColor, TargetProperty));
         }
     }
 }

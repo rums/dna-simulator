@@ -15,7 +15,7 @@
             <Button x:Name="Ok" Content="OK" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,0,5,0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding ApplyColorCommand}" />
+                        <ei:ChangePropertyAction TargetName="ColorPickerWindow" PropertyName="DialogResult" Value="True" />
                         <ei:CallMethodAction TargetObject="{Binding ElementName=ColorPickerWindow}" MethodName="Close" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
@@ -23,7 +23,7 @@
             <Button x:Name="Cancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,0,5,0">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="Click">
-                        <i:InvokeCommandAction Command="{Binding ApplyColorCommand}" />
+                        <ei:ChangePropertyAction TargetName="ColorPickerWindow" PropertyName="DialogResult" Value="False" />
                         <ei:CallMethodAction TargetObject="{Binding ElementName=ColorPickerWindow}" MethodName="Close" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>

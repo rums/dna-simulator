@@ -10,7 +10,7 @@
 	x:Class="dna_simulator.View.Configuration.MultiTileControl" d:DesignHeight="440">
 
     <UserControl.Resources>
-    	<SolidColorBrush x:Key="Brush1" Color="#FFA7DBD8"/>
+    	<SolidColorBrush x:Key="Brush1" Color="#FFA7DBD8" />
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot">

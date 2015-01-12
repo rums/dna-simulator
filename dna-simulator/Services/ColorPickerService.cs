@@ -18,7 +18,10 @@ namespace dna_simulator.Services
             var dialog = sender as ColorPicker;
             if (dialog == null) return;
             dialog.Closed -= OnClosed;
-            dialog.CloseAction(dialog.ColorPickr.Color);
+            if (dialog.DialogResult == true)
+            {
+                dialog.CloseAction(dialog.ColorPickr.Color);
+            }
         }
     }
 }
