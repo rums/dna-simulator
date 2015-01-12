@@ -1,4 +1,6 @@
-﻿using dna_simulator.Services;
+﻿using System;
+using System.Collections.Specialized;
+using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,6 +14,7 @@ namespace dna_simulator.ViewModel.Configuration
         private IDataService _dataService;
 
         private TileAssemblySystemVm _currentTileAssemblySystemVm;
+        private ObservableCollection<GlueVm> _glues; 
 
         public MultiTileViewModel(IServiceBundle serviceBundle)
         {
@@ -19,7 +22,6 @@ namespace dna_simulator.ViewModel.Configuration
             _dataService = _serviceBundle.DataService;
             var tileAssemblySystem = _dataService.TileAssemblySystem;
 
-            // Initialize TileAssemblySystemVm
             CurrentTileAssemblySystemVm = new TileAssemblySystemVm
             {
                 Temperature = tileAssemblySystem.Temperature,
@@ -27,8 +29,12 @@ namespace dna_simulator.ViewModel.Configuration
                 Seed = TileTypeVm.ToTileTypeVm(tileAssemblySystem.Seed, tileAssemblySystem)
             };
 
+            Glues = new ObservableCollection<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
+                        t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
+
             // Register event handlers
             _dataService.PropertyChanged += DataServiceOnPropertyChanged;
+            _dataService.TileAssemblySystem.TileTypes.CollectionChanged += TileTypesOnCollectionChanged;
         }
 
         public TileAssemblySystemVm CurrentTileAssemblySystemVm
@@ -42,14 +48,24 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
-        public ObservableCollection<GlueVm> Edges
+        public ObservableCollection<GlueVm> Glues
         {
             get
             {
-                return
-                    new ObservableCollection<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
-                        t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
+                return new ObservableCollection<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
+                      t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
             }
+            set
+            {
+                if (Equals(value, _glues)) return;
+                _glues = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private void TileTypesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        {
+            RaisePropertyChanged("Glues");
         }
 
         private void DataServiceOnPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -57,14 +73,8 @@ namespace dna_simulator.ViewModel.Configuration
             switch (e.PropertyName)
             {
                 case "TileAssemblySystem":
-                    // Note: This code may cause bugs; for example, SingleTileViewModel.CurrentTileTypeVm will reference the old object.
-                    //CurrentTileAssemblySystemVm.TileTypes = new ObservableCollection<TileTypeVm>(_dataService
-                    //    .TileAssemblySystem
-                    //    .TileTypes
-                    //    .Values
-                    //    .Select(t => TileTypeVm.ToTileTypeVm(t, _dataService.TileAssemblySystem)));
                     RaisePropertyChanged("CurrentTileAssemblySystemVm");
-                    RaisePropertyChanged("Edges");
+                    RaisePropertyChanged("Glues");
                     break;
             }
         }

@@ -4,13 +4,16 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:primitives="clr-namespace:System.Windows.Controls.Primitives;assembly=System.Windows.Controls" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
-    xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
+    xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.Configuration.MultiTileControl" d:DesignHeight="440">
 
     <UserControl.Resources>
-    	<SolidColorBrush x:Key="Brush1" Color="#FFA7DBD8" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Skins/ConfigSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot">
@@ -63,7 +66,7 @@
                         <RowDefinition Height="160*" />
                         <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
-                    <sdk:DataGrid x:Name="EdgeList" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Edges}">
+                    <sdk:DataGrid x:Name="EdgeList" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Glues}">
                         <sdk:DataGrid.Columns>
                             <sdk:DataGridTemplateColumn Header="Display">
                                 <sdk:DataGridTemplateColumn.CellTemplate>
@@ -100,7 +103,7 @@
             <TextBlock x:Name="TemperatureLabel" TextWrapping="Wrap" Text="Temperature:" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Black" />
             <TextBox x:Name="Temperature" TextWrapping="Wrap" Text="{Binding CurrentTileAssemblySystemVm.Temperature}" Width="24" VerticalAlignment="Center" Margin="5,0,0,0" />
         </StackPanel>
-        <Border Grid.Row="2" BorderThickness="2" Background="{StaticResource Brush1}">
+        <Border Grid.Row="2" BorderThickness="2" Background="{StaticResource MultiOptionsBrush}">
             <StackPanel x:Name="TileListOptions" Orientation="Horizontal">
                 <Button x:Name="LoadTilesetButton" Content="Load Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />
                 <Button x:Name="SaveTilesetButton" Content="Save Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />

@@ -1,24 +1,15 @@
-﻿using dna_simulator.Services;
-using dna_simulator.ViewModel.Atam;
+﻿using dna_simulator.ViewModel.Atam;
 
 namespace dna_simulator.ViewModel.Configuration
 {
     public class SingleTileViewModel : ViewModelBase
     {
-        private IServiceBundle _serviceBundle;
-        private IDataService _dataService;
-        private IColorPickerService _colorPickerService;
-
         private TileTypeVm _currentTileTypeVm;
         private ViewModelBase _currentEditorModel;
         private GlueVmList _glueVmList;
 
-        public SingleTileViewModel(IServiceBundle serviceBundle, TileTypeVm currentTile)
+        public SingleTileViewModel(TileTypeVm currentTile)
         {
-            _serviceBundle = serviceBundle;
-            _dataService = _serviceBundle.DataService;
-            _colorPickerService = _serviceBundle.ColorPickerService;
-
             // initialize properties
             CurrentTileTypeVm = currentTile;
             CurrentEditorModel = CurrentTileTypeVm;

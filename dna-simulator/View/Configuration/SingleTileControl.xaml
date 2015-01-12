@@ -10,6 +10,14 @@
     x:Name="SingleTileName"
 	d:DesignWidth="300" d:DesignHeight="440">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Skins/ConfigSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*" />
@@ -37,7 +45,7 @@
                 </i:Interaction.Triggers>
             </Rectangle>
         </StackPanel>
-        <Border Grid.Row="3" x:Name="SingleTileOptionsBorder" BorderThickness="2" Background="#FFF38630" Margin="0">
+        <Border Grid.Row="3" x:Name="SingleTileOptionsBorder" BorderThickness="2" Background="{StaticResource SingleOptionsBrush}" Margin="0">
             <StackPanel x:Name="SingleTileOptionsPanel" Orientation="Horizontal">
                 <Button x:Name="NewTileButton" Content="New Tile" Command="{Binding MainViewModel.CurrentViewModel.AddTileCommand, Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
                 <Button x:Name="SaveTileButton" Content="Save Tile" Command="{Binding MainViewModel.CurrentViewModel.SaveTileCommand, Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
