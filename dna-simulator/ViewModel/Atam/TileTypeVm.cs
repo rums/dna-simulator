@@ -1,7 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using dna_simulator.Model;
+using dna_simulator.Model.Atam;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
-using dna_simulator.Model.Atam;
 
 namespace dna_simulator.ViewModel.Atam
 {
@@ -9,6 +10,7 @@ namespace dna_simulator.ViewModel.Atam
     {
         // from model
         private int _id;
+
         private string _label;
         private Color _displayColor;
         private ObservableCollection<GlueVm> _topEdges;
@@ -107,7 +109,6 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-
         /// <summary>
         /// Convert a TileType to a TileTypeVm
         /// </summary>
@@ -117,7 +118,7 @@ namespace dna_simulator.ViewModel.Atam
         public static TileTypeVm ToTileTypeVm(TileType tile, TileAssemblySystem tileAssemblySystem)
         {
             var tilevm = ToTileTypeVm(tile);
-            tilevm.IsSeed = Equals(tile.Id, tileAssemblySystem.Seed.Id);
+            tilevm.IsSeed = Equals(tile.Label, tileAssemblySystem.Seed.Label);
             return tilevm;
         }
 
@@ -130,13 +131,12 @@ namespace dna_simulator.ViewModel.Atam
         {
             return new TileTypeVm
             {
-                Id = tile.Id,
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
-                TopEdges = new ObservableCollection<GlueVm>(tile.TopEdges.Select(GlueVm.ToGlueVm)),
-                BottomEdges = new ObservableCollection<GlueVm>(tile.BottomEdges.Select(GlueVm.ToGlueVm)),
-                LeftEdges = new ObservableCollection<GlueVm>(tile.LeftEdges.Select(GlueVm.ToGlueVm)),
-                RightEdges = new ObservableCollection<GlueVm>(tile.RightEdges.Select(GlueVm.ToGlueVm)),
+                TopEdges = new ObservableCollection<GlueVm>(tile.TopEdges.Values.Select(GlueVm.ToGlueVm)),
+                BottomEdges = new ObservableCollection<GlueVm>(tile.BottomEdges.Values.Select(GlueVm.ToGlueVm)),
+                LeftEdges = new ObservableCollection<GlueVm>(tile.LeftEdges.Values.Select(GlueVm.ToGlueVm)),
+                RightEdges = new ObservableCollection<GlueVm>(tile.RightEdges.Values.Select(GlueVm.ToGlueVm)),
             };
         }
 
@@ -145,17 +145,16 @@ namespace dna_simulator.ViewModel.Atam
         /// </summary>
         /// <param name="tile">TileTypeVm to be converted to TileType</param>
         /// <returns>TileType</returns>
-        public static TileType ToTileTypeBase(TileTypeVm tile)
+        public static TileType ToTileType(TileTypeVm tile)
         {
             return new TileType
             {
-                Id = tile.Id,
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
-                TopEdges = new ObservableCollection<Glue>(tile.TopEdges.Select(GlueVm.ToGlue)),
-                BottomEdges = new ObservableCollection<Glue>(tile.BottomEdges.Select(GlueVm.ToGlue)),
-                LeftEdges = new ObservableCollection<Glue>(tile.LeftEdges.Select(GlueVm.ToGlue)),
-                RightEdges = new ObservableCollection<Glue>(tile.RightEdges.Select(GlueVm.ToGlue)),
+                TopEdges = new ObservableDictionary<string, Glue>(tile.TopEdges.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
+                BottomEdges = new ObservableDictionary<string, Glue>(tile.BottomEdges.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
+                LeftEdges = new ObservableDictionary<string, Glue>(tile.LeftEdges.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
+                RightEdges = new ObservableDictionary<string, Glue>(tile.RightEdges.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
             };
         }
     }

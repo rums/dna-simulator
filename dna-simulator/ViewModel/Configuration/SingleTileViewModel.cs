@@ -1,8 +1,5 @@
 ﻿using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using System.Linq;
 
 namespace dna_simulator.ViewModel.Configuration
 {

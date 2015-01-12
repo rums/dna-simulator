@@ -8,10 +8,10 @@
              xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
              xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
              mc:Ignorable="d ignore">
-    
+
     <UserControl.Resources>
         <innerProduct:ColorToBrush x:Key="ColorToBrush" />
-        
+
         <DataTemplate x:Key="GlueConfigTemplate" DataType="atam:GlueVm">
             <Border BorderThickness="2">
                 <Border.BorderBrush>

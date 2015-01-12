@@ -1,5 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using dna_simulator.Properties;
+﻿using dna_simulator.Properties;
+using System.Runtime.CompilerServices;
 
 namespace dna_simulator.ViewModel
 {

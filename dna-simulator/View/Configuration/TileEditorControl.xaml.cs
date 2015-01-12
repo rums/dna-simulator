@@ -1,8 +1,4 @@
-﻿using System;
-using System.Windows.Input;
-using System.Windows.Threading;
-
-namespace dna_simulator.View.Configuration
+﻿namespace dna_simulator.View.Configuration
 {
     public partial class TileEditorControl
     {

@@ -1,5 +1,4 @@
-﻿using dna_simulator.Model;
-using dna_simulator.Services;
+﻿using dna_simulator.Services;
 
 namespace dna_simulator.ViewModel.Simulation
 {

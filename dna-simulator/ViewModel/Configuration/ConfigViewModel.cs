@@ -13,7 +13,6 @@ namespace dna_simulator.ViewModel.Configuration
     /// </summary>
     public class ConfigViewModel : ViewModelBase
     {
-        private IServiceBundle _serviceBundle;
         private IDataService _dataService;
         private IColorPickerService _colorPickerService;
 
@@ -22,24 +21,24 @@ namespace dna_simulator.ViewModel.Configuration
         /// </summary>
         public ConfigViewModel(IServiceBundle serviceBundle)
         {
-            _serviceBundle = serviceBundle;
-            _dataService = _serviceBundle.DataService;
-            _colorPickerService = _serviceBundle.ColorPickerService;
+            _dataService = serviceBundle.DataService;
+            _colorPickerService = serviceBundle.ColorPickerService;
 
-            CurrentMultiTileViewModel = new MultiTileViewModel(_serviceBundle);
+            CurrentMultiTileViewModel = new MultiTileViewModel(serviceBundle);
 
             var currentTile = CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.First();
-            CurrentSingleTileViewModel = new SingleTileViewModel(_serviceBundle, currentTile);
+            CurrentSingleTileViewModel = new SingleTileViewModel(serviceBundle, currentTile);
 
             // initialize commands
             ChangeGlueDisplayColorCommand = new RelayCommand<string>(ChangeGlueDisplayColor, CanChangeGlueDisplayColor);
             ConfigureEdgeCommand = new RelayCommand<GlueVm>(ConfigureEdge, CanConfigureEdge);
             ConfigureTileCommand = new RelayCommand(ConfigureTile, CanConfigureTile);
-            CreateTileCommand = new RelayCommand(CreateTile, CanCreateTile);
+            AddTileCommand = new RelayCommand(AddTile, CanAddTile);
             SaveTileCommand = new RelayCommand(SaveTile, CanSaveTile);
             ChangeTileDisplayColorCommand = new RelayCommand<string>(ChangeTileDisplayColor, CanChangeTileDisplayColor);
             DisplayTileTypeCommand = new RelayCommand<object>(DisplayTileType, CanDisplayTileType);
             UpdateMultipleEdgesCommand = new RelayCommand<IList<GlueVm>>(UpdateMultipleEdges, CanUpdateMultipleEdges);
+            AddGlueToCurrentTileCommand = new RelayCommand<ObservableCollection<GlueVm>>(AddGlueToCurrentTile, CanAddGlueToCurrentTile);
         }
 
         private SingleTileViewModel _currentSingleTileViewModel;
@@ -112,20 +111,22 @@ namespace dna_simulator.ViewModel.Configuration
             CurrentSingleTileViewModel.CurrentEditorModel = CurrentSingleTileViewModel.CurrentTileTypeVm;
         }
 
-        public RelayCommand CreateTileCommand { get; private set; }
+        public RelayCommand AddTileCommand { get; private set; }
 
-        private bool CanCreateTile()
+        private bool CanAddTile()
         {
             return true;
         }
 
-        private void CreateTile()
+        private void AddTile()
         {
             // fetch tile from data service
             var tile = new TileType();
             _dataService.NewDefaultTile((item, error) => tile = item);
-            // save new tile
-            _dataService.TileAssemblySystem.TileTypes.Add(tile.Id, tile);
+
+            // stage new tile in model
+            _dataService.TileAssemblySystem.TileTypes.Add(tile.Label, tile);
+
             // add new tile to view model
             CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Add(TileTypeVm.ToTileTypeVm(tile, _dataService.TileAssemblySystem));
             CurrentSingleTileViewModel.CurrentTileTypeVm = CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Last();
@@ -143,7 +144,7 @@ namespace dna_simulator.ViewModel.Configuration
 
         private void SaveTile()
         {
-            _dataService.TileAssemblySystem.TileTypes[CurrentSingleTileViewModel.CurrentTileTypeVm.Id] = TileTypeVm.ToTileTypeBase(CurrentSingleTileViewModel.CurrentTileTypeVm);
+            _dataService.TileAssemblySystem.TileTypes[CurrentSingleTileViewModel.CurrentTileTypeVm.Label] = TileTypeVm.ToTileType(CurrentSingleTileViewModel.CurrentTileTypeVm);
             _dataService.Commit();
         }
 
@@ -183,6 +184,26 @@ namespace dna_simulator.ViewModel.Configuration
 
             // we should be configuring the new tile
             ConfigureTile();
+        }
+
+        public RelayCommand<ObservableCollection<GlueVm>> AddGlueToCurrentTileCommand { get; private set; }
+
+        public bool CanAddGlueToCurrentTile(ObservableCollection<GlueVm> glues)
+        {
+            return true;
+        }
+
+        public void AddGlueToCurrentTile(ObservableCollection<GlueVm> glues)
+        {
+            // fetch default glue from data service
+            var glue = new Glue();
+            _dataService.NewDefaultGlue((item, error) => glue = item);
+
+            // stage the update in model
+            _dataService.TileAssemblySystem.TileTypes[CurrentSingleTileViewModel.CurrentTileTypeVm.Label] = TileTypeVm.ToTileType(CurrentSingleTileViewModel.CurrentTileTypeVm);
+
+            // add glue to view model
+            glues.Add(GlueVm.ToGlueVm(glue));
         }
 
         public RelayCommand<IList<GlueVm>> UpdateMultipleEdgesCommand { get; private set; }

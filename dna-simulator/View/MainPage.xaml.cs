@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace dna_simulator.View
+﻿namespace dna_simulator.View
 {
     public partial class MainPage
     {

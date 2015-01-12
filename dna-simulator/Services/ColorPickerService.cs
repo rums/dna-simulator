@@ -1,6 +1,6 @@
-﻿using System;
+﻿using dna_simulator.View.Controls;
+using System;
 using System.Windows.Media;
-using dna_simulator.View.Controls;
 
 namespace dna_simulator.Services
 {
@@ -13,7 +13,7 @@ namespace dna_simulator.Services
             dialog.Show();
         }
 
-        static void OnClosed(object sender, EventArgs e)
+        private static void OnClosed(object sender, EventArgs e)
         {
             var dialog = sender as ColorPicker;
             if (dialog == null) return;

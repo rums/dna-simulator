@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace dna_simulator.Model.Atam
 {
@@ -7,10 +6,10 @@ namespace dna_simulator.Model.Atam
     {
         private Color _displayColor;
         private string _label;
-        private ObservableCollection<Glue> _topEdges;
-        private ObservableCollection<Glue> _bottomEdges;
-        private ObservableCollection<Glue> _leftEdges;
-        private ObservableCollection<Glue> _rightEdges;
+        private ObservableDictionary<string, Glue> _topEdges;
+        private ObservableDictionary<string, Glue> _bottomEdges;
+        private ObservableDictionary<string, Glue> _leftEdges;
+        private ObservableDictionary<string, Glue> _rightEdges;
 
         public Color DisplayColor
         {
@@ -34,7 +33,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableCollection<Glue> TopEdges
+        public ObservableDictionary<string, Glue> TopEdges
         {
             get { return _topEdges; }
             set
@@ -45,7 +44,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableCollection<Glue> BottomEdges
+        public ObservableDictionary<string, Glue> BottomEdges
         {
             get { return _bottomEdges; }
             set
@@ -56,7 +55,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableCollection<Glue> LeftEdges
+        public ObservableDictionary<string, Glue> LeftEdges
         {
             get { return _leftEdges; }
             set
@@ -67,7 +66,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableCollection<Glue> RightEdges
+        public ObservableDictionary<string, Glue> RightEdges
         {
             get { return _rightEdges; }
             set

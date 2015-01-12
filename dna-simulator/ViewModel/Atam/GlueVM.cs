@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using dna_simulator.Model.Atam;
 using System.Windows.Media;
-using dna_simulator.Model.Atam;
 
 namespace dna_simulator.ViewModel.Atam
 {
@@ -8,6 +7,7 @@ namespace dna_simulator.ViewModel.Atam
     {
         // from model
         private int _id;
+
         private Color _displayColor;
         private string _label;
         private int _color;
@@ -46,7 +46,6 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-
         public int Color
         {
             get { return _color; }
@@ -67,7 +66,7 @@ namespace dna_simulator.ViewModel.Atam
                 _strength = value;
                 RaisePropertyChanged();
             }
-        } 
+        }
 
         /// <summary>
         /// Convert a GlueVm to a Glue
@@ -78,7 +77,6 @@ namespace dna_simulator.ViewModel.Atam
         {
             return new Glue
             {
-                Id = glue.Id,
                 DisplayColor = glue.DisplayColor,
                 Label = glue.Label,
                 Color = glue.Color,
@@ -95,7 +93,6 @@ namespace dna_simulator.ViewModel.Atam
         {
             return new GlueVm
             {
-                Id = glue.Id,
                 DisplayColor = glue.DisplayColor,
                 Label = glue.Label,
                 Color = glue.Color,

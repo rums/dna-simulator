@@ -1,7 +1,6 @@
-﻿using System;
+﻿using dna_simulator.Model.Atam;
+using System;
 using System.ComponentModel;
-using dna_simulator.Model;
-using dna_simulator.Model.Atam;
 
 namespace dna_simulator.Services
 {
@@ -10,6 +9,8 @@ namespace dna_simulator.Services
         TileAssemblySystem TileAssemblySystem { get; set; }
 
         void NewDefaultTile(Action<TileType, Exception> callback);
+
+        void NewDefaultGlue(Action<Glue, Exception> callback);
 
         void Commit();
     }

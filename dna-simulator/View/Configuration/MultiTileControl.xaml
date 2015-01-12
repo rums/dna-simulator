@@ -10,6 +10,7 @@
 	x:Class="dna_simulator.View.Configuration.MultiTileControl" d:DesignHeight="440">
 
     <UserControl.Resources>
+    	<SolidColorBrush x:Key="Brush1" Color="#FFA7DBD8"/>
     </UserControl.Resources>
 
     <Grid x:Name="LayoutRoot">
@@ -56,7 +57,7 @@
                     </sdk:DataGrid>
                 </Grid>
             </sdk:TabItem>
-            <sdk:TabItem x:Name="EdgeViewTab" Header="Edges" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <sdk:TabItem x:Name="EdgeViewTab" Header="Glues" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="160*" />
@@ -99,7 +100,7 @@
             <TextBlock x:Name="TemperatureLabel" TextWrapping="Wrap" Text="Temperature:" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Black" />
             <TextBox x:Name="Temperature" TextWrapping="Wrap" Text="{Binding CurrentTileAssemblySystemVm.Temperature}" Width="24" VerticalAlignment="Center" Margin="5,0,0,0" />
         </StackPanel>
-        <Border Grid.Row="2" BorderThickness="2" Background="#FFA7DBD8">
+        <Border Grid.Row="2" BorderThickness="2" Background="{StaticResource Brush1}">
             <StackPanel x:Name="TileListOptions" Orientation="Horizontal">
                 <Button x:Name="LoadTilesetButton" Content="Load Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />
                 <Button x:Name="SaveTilesetButton" Content="Save Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />

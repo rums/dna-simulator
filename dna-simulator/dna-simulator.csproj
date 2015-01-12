@@ -108,6 +108,7 @@
     </Compile>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Design\DesignServiceBundle.cs" />
+    <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IColorPickerService.cs" />
     <Compile Include="Services\IServiceBundle.cs" />
     <Compile Include="Services\ServiceBundle.cs" />

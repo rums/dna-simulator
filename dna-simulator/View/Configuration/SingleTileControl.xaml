@@ -32,14 +32,14 @@
                 </Rectangle.Fill>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="TileColor" Command="{Binding MainViewModel.CurrentViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.Label}" Command="{Binding MainViewModel.CurrentViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </Rectangle>
         </StackPanel>
-        <Border Grid.Row="3" x:Name="SingleTileOptionsBorder" CornerRadius="5" BorderThickness="2" Background="#FFF38630" Margin="0">
+        <Border Grid.Row="3" x:Name="SingleTileOptionsBorder" BorderThickness="2" Background="#FFF38630" Margin="0">
             <StackPanel x:Name="SingleTileOptionsPanel" Orientation="Horizontal">
-                <Button x:Name="NewTileButton" Content="New Tile" Command="{Binding MainViewModel.CurrentViewModel.CreateTileCommand, Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <Button x:Name="NewTileButton" Content="New Tile" Command="{Binding MainViewModel.CurrentViewModel.AddTileCommand, Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
                 <Button x:Name="SaveTileButton" Content="Save Tile" Command="{Binding MainViewModel.CurrentViewModel.SaveTileCommand, Source={StaticResource Locator}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" />
             </StackPanel>
         </Border>

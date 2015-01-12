@@ -9,6 +9,7 @@
     xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
     xmlns:confv="clr-namespace:dna_simulator.View.Configuration"
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.Configuration.TileEditorControl"
 	d:DesignWidth="640" d:DesignHeight="480">
@@ -20,10 +21,10 @@
             <Viewbox x:Name="TileViewbox" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Grid Background="Transparent" x:Name="Tile">
                     <TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="{Binding Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1" />
-                    <Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" Canvas.ZIndex="1" Stroke="{Binding TopEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}}" />
-                    <Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom" Canvas.ZIndex="1" Stroke="{Binding BottomEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}}" />
-                    <Path x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" Width="2" Canvas.ZIndex="1" Stroke="{Binding LeftEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}}" />
-                    <Path x:Name="TileRight" Data="M149,100 L150,200" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" Width="3" HorizontalAlignment="Right" Canvas.ZIndex="1" Stroke="{Binding RightEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}}" />
+                    <Path x:Name="TileTop" Data="M43,63 L150.075,63" Height="2" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Top" Canvas.ZIndex="1" Stroke="{Binding TopEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}, FallbackValue=Black}" />
+                    <Path x:Name="TileBottom" Data="M28,52 L80.0096,52" Height="2" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" VerticalAlignment="Bottom" Canvas.ZIndex="1" Stroke="{Binding BottomEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}, FallbackValue=Black}" />
+                    <Path x:Name="TileLeft" Data="M38,25 L38,75.04" HorizontalAlignment="Left" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" Width="2" Canvas.ZIndex="1" Stroke="{Binding LeftEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}, FallbackValue=Black}" />
+                    <Path x:Name="TileRight" Data="M149,100 L150,200" Stretch="Fill" StrokeThickness="2" UseLayoutRounding="False" Width="3" HorizontalAlignment="Right" Canvas.ZIndex="1" Stroke="{Binding RightEdges[0].DisplayColor, Converter={StaticResource ColorToBrush}, FallbackValue=Black}" />
                     <ed:RegularPolygon x:Name="TopControl" Fill="{Binding Stroke, ElementName=TileTop}" InnerRadius="1" Opacity="0" PointCount="3" RenderTransformOrigin="0.5,0.5" Stretch="Fill" UseLayoutRounding="False" Height="100" Width="200" Margin="0,0,0,100">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseLeave">
@@ -31,7 +32,6 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseEnter">
                                 <ei:ChangePropertyAction x:Name="MouseEnterOpacity" PropertyName="Opacity" Value="0.1" />
-                                <ei:ChangePropertyAction TargetName="TopEdgeOptions" TargetObject="{Binding ElementName=TopEdgeOptions}" PropertyName="Visibility" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <ed:RegularPolygon.RenderTransform>
@@ -45,9 +45,10 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseEnter">
                                 <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                                <ei:ChangePropertyAction x:Name="SetBottomMenuOptions" TargetName="BottomEdgeOptions" TargetObject="{Binding ElementName=BottomEdgeOptions}" PropertyName="Visibility" />
                             </i:EventTrigger>
-                            <i:EventTrigger EventName="MouseLeftButtonUp" />
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <i:InvokeCommandAction CommandParameter="{Binding BottomEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                            </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <ed:RegularPolygon.RenderTransform>
                             <CompositeTransform />
@@ -60,7 +61,9 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseEnter">
                                 <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                                <ei:ChangePropertyAction x:Name="SetLeftMenuOptions" TargetName="LeftEdgeOptions" TargetObject="{Binding ElementName=LeftEdgeOptions}" PropertyName="Visibility" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <i:InvokeCommandAction CommandParameter="{Binding LeftEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <ed:RegularPolygon.RenderTransform>
@@ -74,7 +77,9 @@
                             </i:EventTrigger>
                             <i:EventTrigger EventName="MouseEnter">
                                 <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                                <ei:ChangePropertyAction x:Name="SetRightMenuOptions" TargetName="RightEdgeOptions" TargetObject="{Binding ElementName=RightEdgeOptions}" PropertyName="Visibility" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <i:InvokeCommandAction CommandParameter="{Binding RightEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <ed:RegularPolygon.RenderTransform>
@@ -90,7 +95,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="EdgeItemTemplate" DataType="atam:GlueVm">
-            <Border CornerRadius="4" BorderBrush="{Binding DisplayColor, Converter={StaticResource ColorToBrush}}" BorderThickness="1">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="4" BorderBrush="{Binding DisplayColor, Converter={StaticResource ColorToBrush}}" BorderThickness="1">
                 <Border.Background>
                     <LinearGradientBrush Opacity="0.25" StartPoint="0.5,0" EndPoint="0.5,1">
                         <GradientStopCollection>
@@ -101,7 +106,7 @@
                 </Border.Background>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction PropertyName="Background" >
+                        <ei:ChangePropertyAction PropertyName="Background">
                             <ei:ChangePropertyAction.Value>
                                 <LinearGradientBrush Opacity="0.5" StartPoint="0.5,0" EndPoint="0.5,1">
                                     <GradientStopCollection>
@@ -111,7 +116,6 @@
                                 </LinearGradientBrush>
                             </ei:ChangePropertyAction.Value>
                         </ei:ChangePropertyAction>
-                        <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding MainViewModel.CurrentViewModel.ConfigureEdgeCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeave">
                         <ei:ChangePropertyAction PropertyName="Background">
@@ -125,6 +129,9 @@
                             </ei:ChangePropertyAction.Value>
                         </ei:ChangePropertyAction>
                     </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding MainViewModel.CurrentViewModel.ConfigureEdgeCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Grid x:Name="EdgeItem" Margin="-1">
                     <TextBlock Margin="4,4,4,4" Text="{Binding Label}" />
@@ -137,7 +144,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Top" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="TabNavigation" Value="Local" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -148,7 +155,7 @@
                                     <VisualState x:Name="Normal" />
                                     <VisualState x:Name="MouseOver">
                                         <!--<Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="fillColor" Storyboard.TargetProperty="Opacity" Duration="0" To=".35"/>
+                                            <DoubleAnimation Storyboard.TargetName="fillColor" Storyboard.TargetProperty="Opacity" Duration="0" To=".35" />
                                         </Storyboard>-->
                                     </VisualState>
                                     <VisualState x:Name="Disabled">
@@ -161,7 +168,7 @@
                                     <VisualState x:Name="Unselected" />
                                     <VisualState x:Name="Selected">
                                         <!--<Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="fillColor2" Storyboard.TargetProperty="Opacity" Duration="0" To=".75"/>
+                                            <DoubleAnimation Storyboard.TargetName="fillColor2" Storyboard.TargetProperty="Opacity" Duration="0" To=".75" />
                                         </Storyboard>-->
                                     </VisualState>
                                 </VisualStateGroup>
@@ -177,13 +184,13 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
-                                    <VisualState x:Name="Unfocused"/>
+                                    <VisualState x:Name="Unfocused" />
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Rectangle x:Name="fillColor" Opacity="0" Fill="Green" IsHitTestVisible="False" RadiusX="1" RadiusY="1"/>
-                            <Rectangle x:Name="fillColor2" Opacity="0" Fill="Green" IsHitTestVisible="False" RadiusX="1" RadiusY="1"/>
+                            <Rectangle x:Name="fillColor" Opacity="0" Fill="Green" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
+                            <Rectangle x:Name="fillColor2" Opacity="0" Fill="Green" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
                             <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"/>
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" />
                             <Rectangle x:Name="FocusVisualElement" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" Visibility="Collapsed" RadiusX="1" RadiusY="1" />
                         </Grid>
                     </ControlTemplate>
@@ -192,59 +199,108 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid x:Name="LayoutRoot">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <ListBox x:Name="TopLabels" Grid.Row="0" Grid.Column="1" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.TopEdges}">
-            <ListBox.ItemTemplate>
-                <StaticResource ResourceKey="EdgeItemTemplate" />
-            </ListBox.ItemTemplate>
+    <toolkit:DockPanel x:Name="LayoutRoot">
+        <!-- Top labels -->
+        <ListBox toolkit:DockPanel.Dock="Top" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.TopEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <ListBox x:Name="BottomLabels" Grid.Row="2" Grid.Column="1" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.BottomEdges}">
-            <ListBox.ItemTemplate>
-                <StaticResource ResourceKey="EdgeItemTemplate" />
-            </ListBox.ItemTemplate>
+
+        <!-- Bottom labels -->
+        <ListBox toolkit:DockPanel.Dock="Bottom" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.BottomEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <ListBox x:Name="LeftLabels" Grid.Row="1" Grid.Column="0"  BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftEdges}">
-            <ListBox.ItemTemplate>
-                <StaticResource ResourceKey="EdgeItemTemplate" />
-            </ListBox.ItemTemplate>
+
+        <!-- Left labels -->
+        <ListBox toolkit:DockPanel.Dock="Left" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <ListBox x:Name="RightLabels" Grid.Row="1" Grid.Column="2"  BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.RightEdges}">
-            <ListBox.ItemTemplate>
-                <StaticResource ResourceKey="EdgeItemTemplate" />
-            </ListBox.ItemTemplate>
+
+        <!-- Right labels -->
+        <ListBox toolkit:DockPanel.Dock="Right" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.RightEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" />
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <Grid Grid.Row="1" Grid.Column="1" x:Name="EditorModelDisplay">
-            <ContentControl Content="{Binding CurrentEditorModel}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
-        </Grid>
-    </Grid>
+
+        <!-- Top actions -->
+        <Border toolkit:DockPanel.Dock="Top" Background="Transparent">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeave">
+                    <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke"  Value="Black" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseEnter">
+                    <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="PowderBlue" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Path Name="AddTopGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+        </Border>
+
+        <!-- Bottom actions -->
+        <Border toolkit:DockPanel.Dock="Bottom" Background="Transparent">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeave">
+                    <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke"  Value="Black" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseEnter">
+                    <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="PowderBlue" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Path Name="AddBottomGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+        </Border>
+
+        <!-- Left actions -->
+        <Border toolkit:DockPanel.Dock="Left" Background="Transparent">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeave">
+                    <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke"  Value="Black" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseEnter">
+                    <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="PowderBlue" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Path Name="AddLeftGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+        </Border>
+
+        <!-- Right actions -->
+        <Border toolkit:DockPanel.Dock="Right" Background="Transparent">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseLeave">
+                    <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke"  Value="Black" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseEnter">
+                    <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="PowderBlue" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseLeftButtonUp">
+                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Path Name="AddRightGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+        </Border>
+
+        <!-- Editing mode -->
+        <ContentControl Content="{Binding CurrentEditorModel}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </toolkit:DockPanel>
 </UserControl>

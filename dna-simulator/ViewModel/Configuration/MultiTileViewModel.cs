@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using dna_simulator.Services;
+﻿using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
