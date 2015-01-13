@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Specialized;
-using dna_simulator.Services;
+﻿using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -10,16 +8,15 @@ namespace dna_simulator.ViewModel.Configuration
 {
     public class MultiTileViewModel : ViewModelBase
     {
-        private IServiceBundle _serviceBundle;
         private IDataService _dataService;
 
         private TileAssemblySystemVm _currentTileAssemblySystemVm;
-        private ObservableCollection<GlueVm> _glues; 
+
+        private GlueVms _glues; 
 
         public MultiTileViewModel(IServiceBundle serviceBundle)
         {
-            _serviceBundle = serviceBundle;
-            _dataService = _serviceBundle.DataService;
+            _dataService = serviceBundle.DataService;
             var tileAssemblySystem = _dataService.TileAssemblySystem;
 
             CurrentTileAssemblySystemVm = new TileAssemblySystemVm
@@ -29,7 +26,7 @@ namespace dna_simulator.ViewModel.Configuration
                 Seed = TileTypeVm.ToTileTypeVm(tileAssemblySystem.Seed, tileAssemblySystem)
             };
 
-            Glues = new ObservableCollection<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
+            Glues = new GlueVms(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
                         t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
 
             // Register event handlers
@@ -47,14 +44,9 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
-        public ObservableCollection<GlueVm> Glues
+        public GlueVms Glues 
         {
-            get
-            {
-                return _glues;
-                //return new ObservableCollection<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
-                //      t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
-            }
+            get { return _glues; }
             set
             {
                 if (Equals(value, _glues)) return;
@@ -63,10 +55,6 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
-        private void TileTypesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
-        {
-            RaisePropertyChanged("Glues");
-        }
 
         private void DataServiceOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

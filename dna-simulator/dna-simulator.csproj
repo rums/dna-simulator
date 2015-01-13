@@ -92,6 +92,7 @@
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Controls, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Data.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Pivot" />
     <Reference Include="System.Windows.Controls.Toolkit, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Interactivity, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -112,6 +113,7 @@
     <Compile Include="Services\IColorPickerService.cs" />
     <Compile Include="Services\IServiceBundle.cs" />
     <Compile Include="Services\ServiceBundle.cs" />
+    <Compile Include="ViewModel\Configuration\GlueEditorViewModel.cs" />
     <Compile Include="ViewModel\Atam\GlueVms.cs" />
     <Compile Include="View\Configuration\GlueEditorControl.xaml.cs">
       <DependentUpon>GlueEditorControl.xaml</DependentUpon>

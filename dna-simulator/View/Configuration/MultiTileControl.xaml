@@ -8,6 +8,7 @@
     xmlns:confvm="clr-namespace:dna_simulator.ViewModel.Configuration"
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=System.Windows"
+    xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.Configuration.MultiTileControl"
     d:DesignHeight="440"
@@ -76,29 +77,31 @@
                         <RowDefinition Height="160*" />
                         <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
-                    <sdk:DataGrid x:Name="EdgeList" AutoGenerateColumns="False" Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Source={StaticResource LabelSortedGlues}}">
-                        <sdk:DataGrid.Columns>
-                            <sdk:DataGridTemplateColumn Header="Display">
-                                <sdk:DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate DataType="atam:GlueVm">
-                                        <Rectangle Height="20" Width="20">
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseLeftButtonUp">
-                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding ConfigViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
-                                            <Rectangle.Fill>
-                                                <SolidColorBrush Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                    </DataTemplate>
-                                </sdk:DataGridTemplateColumn.CellTemplate>
-                            </sdk:DataGridTemplateColumn>
-                            <sdk:DataGridTextColumn Header="Label" Binding="{Binding Label}" />
-                            <sdk:DataGridTextColumn Header="Color" Binding="{Binding Color}" />
-                            <sdk:DataGridTextColumn Header="Strength" Binding="{Binding Strength}" />
-                        </sdk:DataGrid.Columns>
-                    </sdk:DataGrid>
+                    <toolkit:DataGridDragDropTarget Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AllowedSourceEffects="Copy, Link">
+                        <sdk:DataGrid x:Name="EdgeList" AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource LabelSortedGlues}}">
+                            <sdk:DataGrid.Columns>
+                                <sdk:DataGridTemplateColumn Header="Display">
+                                    <sdk:DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate DataType="atam:GlueVm">
+                                            <Rectangle Height="20" Width="20">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                                                        <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding ConfigViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                                <Rectangle.Fill>
+                                                    <SolidColorBrush Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </DataTemplate>
+                                    </sdk:DataGridTemplateColumn.CellTemplate>
+                                </sdk:DataGridTemplateColumn>
+                                <sdk:DataGridTextColumn Header="Label" Binding="{Binding Label}" />
+                                <sdk:DataGridTextColumn Header="Color" Binding="{Binding Color}" />
+                                <sdk:DataGridTextColumn Header="Strength" Binding="{Binding Strength}" />
+                            </sdk:DataGrid.Columns>
+                        </sdk:DataGrid>
+                    </toolkit:DataGridDragDropTarget>
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <Button Content="Set color" VerticalAlignment="Center" />
                         <Button Content="Set strength" VerticalAlignment="Center" Margin="5,0,0,0" />

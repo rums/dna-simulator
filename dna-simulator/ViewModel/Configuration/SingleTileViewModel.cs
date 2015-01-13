@@ -6,14 +6,14 @@ namespace dna_simulator.ViewModel.Configuration
     {
         private TileTypeVm _currentTileTypeVm;
         private ViewModelBase _currentEditorModel;
-        private GlueVms _glueVms;
+        private GlueEditorViewModel _glueEditorViewModel;
 
         public SingleTileViewModel(TileTypeVm currentTile)
         {
             // initialize properties
             CurrentTileTypeVm = currentTile;
             CurrentEditorModel = CurrentTileTypeVm;
-            _glueVms = new GlueVms();
+            _glueEditorViewModel = new GlueEditorViewModel();
         }
 
         public TileTypeVm CurrentTileTypeVm
@@ -38,13 +38,13 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
-        public GlueVms GlueVms
+        public GlueEditorViewModel GlueEditorViewModel
         {
-            get { return _glueVms; }
+            get { return _glueEditorViewModel; }
             set
             {
-                if (Equals(value, _glueVms)) return;
-                _glueVms = value;
+                if (Equals(value, _glueEditorViewModel)) return;
+                _glueEditorViewModel = value;
                 RaisePropertyChanged();
             }
         }

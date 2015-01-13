@@ -8,7 +8,9 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
              xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
-             mc:Ignorable="d ignore">
+             xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
+             mc:Ignorable="d ignore"
+             d:DataContext="{d:DesignInstance atam:TileTypeVm}">
     
     <UserControl.Resources>
         <innerProduct:ColorToBrush x:Key="ColorToBrush" />
@@ -43,7 +45,7 @@
                         <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding BottomEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding BottomEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ed:RegularPolygon.RenderTransform>
@@ -59,7 +61,7 @@
                         <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding LeftEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding LeftEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ed:RegularPolygon.RenderTransform>
@@ -75,7 +77,7 @@
                         <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding RightEdges}" Command="{Binding MainViewModel.CurrentViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding RightEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ed:RegularPolygon.RenderTransform>

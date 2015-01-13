@@ -1,4 +1,5 @@
-﻿using dna_simulator.Model.Atam;
+﻿using System;
+using dna_simulator.Model.Atam;
 using System.Windows.Media;
 
 namespace dna_simulator.ViewModel.Atam
@@ -66,6 +67,32 @@ namespace dna_simulator.ViewModel.Atam
                 _strength = value;
                 RaisePropertyChanged();
             }
+        }
+
+        // override object.Equals
+        public override bool Equals(object obj)
+        {
+            //       
+            // See the full list of guidelines at
+            //   http://go.microsoft.com/fwlink/?LinkID=85237  
+            // and also the guidance for operator== at
+            //   http://go.microsoft.com/fwlink/?LinkId=85238
+            //
+
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            var glue = obj as GlueVm;
+
+            return glue != null && Label.Equals(glue.Label);
+        }
+
+        // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return Label.GetHashCode();
         }
 
         /// <summary>

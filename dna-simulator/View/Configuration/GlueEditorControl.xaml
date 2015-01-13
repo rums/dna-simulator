@@ -7,8 +7,9 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
              xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
+             xmlns:configuration="clr-namespace:dna_simulator.ViewModel.Configuration"
              mc:Ignorable="d ignore"
-             d:DataContext="{d:DesignInstance atam:GlueVms}">
+             d:DataContext="{d:DesignInstance configuration:GlueEditorViewModel}">
 
     <UserControl.Resources>
         <innerProduct:ColorToBrush x:Key="ColorToBrush" />
@@ -113,7 +114,7 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <ListBox BorderThickness="0" ItemsSource="{Binding}" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ListBox BorderThickness="0" ItemsSource="{Binding Glues}" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ListBox.ItemTemplate>
                 <StaticResource ResourceKey="GlueConfigTemplate" />
             </ListBox.ItemTemplate>

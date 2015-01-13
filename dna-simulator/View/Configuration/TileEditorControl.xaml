@@ -27,7 +27,7 @@
                 <confv:TileViewbox />
             </DataTemplate>
 
-            <DataTemplate DataType="atam:GlueVms">
+            <DataTemplate DataType="confvm:GlueEditorViewModel">
                 <confv:GlueEditorControl />
             </DataTemplate>
 
@@ -139,22 +139,26 @@
 
     <toolkit:DockPanel x:Name="LayoutRoot">
         <!-- Top labels -->
-        <ListBox Name="TopLabelsListBox" toolkit:DockPanel.Dock="Top" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.TopEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Top">
+            <ListBox Name="TopLabelsListBox" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.TopEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </toolkit:ListBoxDragDropTarget>
 
         <!-- Bottom labels -->
-        <ListBox Name="BottomLabelsListBox" toolkit:DockPanel.Dock="Bottom" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.BottomEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Bottom">
+            <ListBox Name="BottomLabelsListBox" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.BottomEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </toolkit:ListBoxDragDropTarget>
 
         <!-- Left labels -->
         <ListBox Name="LeftLabelsListBox" toolkit:DockPanel.Dock="Left" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">

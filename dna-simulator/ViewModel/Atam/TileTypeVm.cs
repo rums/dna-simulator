@@ -1,6 +1,6 @@
-﻿using dna_simulator.Model;
+﻿using System.Collections.ObjectModel;
+using dna_simulator.Model;
 using dna_simulator.Model.Atam;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 
@@ -13,10 +13,10 @@ namespace dna_simulator.ViewModel.Atam
 
         private string _label;
         private Color _displayColor;
-        private ObservableCollection<GlueVm> _topEdges;
-        private ObservableCollection<GlueVm> _bottomEdges;
-        private ObservableCollection<GlueVm> _leftEdges;
-        private ObservableCollection<GlueVm> _rightEdges;
+        private GlueVms _topEdges;
+        private GlueVms _bottomEdges;
+        private GlueVms _leftEdges;
+        private GlueVms _rightEdges;
 
         // viewmodel specific
         private bool _isSeed;
@@ -54,7 +54,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public ObservableCollection<GlueVm> TopEdges
+        public GlueVms TopEdges
         {
             get { return _topEdges; }
             set
@@ -65,7 +65,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public ObservableCollection<GlueVm> BottomEdges
+        public GlueVms BottomEdges
         {
             get { return _bottomEdges; }
             set
@@ -76,7 +76,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public ObservableCollection<GlueVm> LeftEdges
+        public GlueVms LeftEdges
         {
             get { return _leftEdges; }
             set
@@ -87,7 +87,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public ObservableCollection<GlueVm> RightEdges
+        public GlueVms RightEdges
         {
             get { return _rightEdges; }
             set
@@ -133,10 +133,10 @@ namespace dna_simulator.ViewModel.Atam
             {
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
-                TopEdges = new ObservableCollection<GlueVm>(tile.TopEdges.Values.Select(GlueVm.ToGlueVm)),
-                BottomEdges = new ObservableCollection<GlueVm>(tile.BottomEdges.Values.Select(GlueVm.ToGlueVm)),
-                LeftEdges = new ObservableCollection<GlueVm>(tile.LeftEdges.Values.Select(GlueVm.ToGlueVm)),
-                RightEdges = new ObservableCollection<GlueVm>(tile.RightEdges.Values.Select(GlueVm.ToGlueVm)),
+                TopEdges = new GlueVms(tile.TopEdges.Values.Select(GlueVm.ToGlueVm)),
+                BottomEdges = new GlueVms(tile.BottomEdges.Values.Select(GlueVm.ToGlueVm)),
+                LeftEdges = new GlueVms(tile.LeftEdges.Values.Select(GlueVm.ToGlueVm)),
+                RightEdges = new GlueVms(tile.RightEdges.Values.Select(GlueVm.ToGlueVm)),
             };
         }
 

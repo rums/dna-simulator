@@ -39,7 +39,7 @@ namespace dna_simulator.ViewModel.Configuration
             SaveTileCommand = new RelayCommand(SaveTile, CanSaveTile);
             ChangeTileDisplayColorCommand = new RelayCommand<string>(ChangeTileDisplayColor, CanChangeTileDisplayColor);
             DisplayTileTypeCommand = new RelayCommand<object>(DisplayTileType, CanDisplayTileType);
-            AddGlueToCurrentTileCommand = new RelayCommand<ObservableCollection<GlueVm>>(AddGlueToCurrentTile, CanAddGlueToCurrentTile);
+            AddGlueToCurrentTileCommand = new RelayCommand<GlueVms>(AddGlueToCurrentTile, CanAddGlueToCurrentTile);
             RemoveGluesFromTopCommand = new RelayCommand<object>(RemoveGluesFromTop, CanRemoveGluesFromTop);
             RemoveGluesFromBottomCommand = new RelayCommand<object>(RemoveGluesFromBottom, CanRemoveGluesFromBottom);
             RemoveGluesFromLeftCommand = new RelayCommand<object>(RemoveGluesFromLeft, CanRemoveGluesFromLeft);
@@ -82,7 +82,7 @@ namespace dna_simulator.ViewModel.Configuration
 
         public RelayCommand<object> DisplayTileTypeCommand { get; private set; }
 
-        public RelayCommand<ObservableCollection<GlueVm>> AddGlueToCurrentTileCommand { get; private set; }
+        public RelayCommand<GlueVms> AddGlueToCurrentTileCommand { get; private set; }
 
         public RelayCommand<object> RemoveGluesFromTopCommand { get; private set; } 
 
@@ -127,7 +127,7 @@ namespace dna_simulator.ViewModel.Configuration
             return true;
         }
 
-        public bool CanAddGlueToCurrentTile(ObservableCollection<GlueVm> glues)
+        public bool CanAddGlueToCurrentTile(GlueVms glues)
         {
             return true;
         }
@@ -165,14 +165,14 @@ namespace dna_simulator.ViewModel.Configuration
 
         private void ConfigureGlue(GlueVm glue)
         {
-            if (CurrentSingleTileViewModel.GlueVms.Contains(glue)) return;
-            CurrentSingleTileViewModel.GlueVms.Add(glue);
-            CurrentSingleTileViewModel.CurrentEditorModel = CurrentSingleTileViewModel.GlueVms;
+            if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Contains(glue)) return;
+            CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Add(glue);
+            CurrentSingleTileViewModel.CurrentEditorModel = CurrentSingleTileViewModel.GlueEditorViewModel;
         }
 
         private void ConfigureTile()
         {
-            CurrentSingleTileViewModel.GlueVms.Clear();
+            CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Clear();
             CurrentSingleTileViewModel.CurrentEditorModel = CurrentSingleTileViewModel.CurrentTileTypeVm;
         }
 
@@ -223,7 +223,7 @@ namespace dna_simulator.ViewModel.Configuration
             ConfigureTile();
         }
 
-        public void AddGlueToCurrentTile(ObservableCollection<GlueVm> glues)
+        public void AddGlueToCurrentTile(GlueVms glues)
         {
             // fetch default glue from data service
             var glue = new Glue();
@@ -243,12 +243,12 @@ namespace dna_simulator.ViewModel.Configuration
             foreach (var glue in gglues)
             {
                 CurrentSingleTileViewModel.CurrentTileTypeVm.TopEdges.Remove(glue);
-                CurrentSingleTileViewModel.GlueVms.Remove(glue);
+                CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
             // if the glue editor is currently open and empty, switch back to tile view
-            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueVms)) return;
-            if (CurrentSingleTileViewModel.GlueVms.Count == 0)
+            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueEditorViewModel)) return;
+            if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Count == 0)
             {
                 ConfigureTile();
             }
@@ -259,12 +259,12 @@ namespace dna_simulator.ViewModel.Configuration
             foreach (var glue in gglues)
             {
                 CurrentSingleTileViewModel.CurrentTileTypeVm.BottomEdges.Remove(glue);
-                CurrentSingleTileViewModel.GlueVms.Remove(glue);
+                CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
             // if the glue editor is currently open and empty, switch back to tile view
-            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueVms)) return;
-            if (CurrentSingleTileViewModel.GlueVms.Count == 0)
+            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueEditorViewModel)) return;
+            if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Count == 0)
             {
                 ConfigureTile();
             }
@@ -275,12 +275,12 @@ namespace dna_simulator.ViewModel.Configuration
             foreach (var glue in gglues)
             {
                 CurrentSingleTileViewModel.CurrentTileTypeVm.LeftEdges.Remove(glue);
-                CurrentSingleTileViewModel.GlueVms.Remove(glue);
+                CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
             // if the glue editor is currently open and empty, switch back to tile view
-            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueVms)) return;
-            if (CurrentSingleTileViewModel.GlueVms.Count == 0)
+            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueEditorViewModel)) return;
+            if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Count == 0)
             {
                 ConfigureTile();
             }
@@ -291,12 +291,12 @@ namespace dna_simulator.ViewModel.Configuration
             foreach (var glue in gglues)
             {
                 CurrentSingleTileViewModel.CurrentTileTypeVm.RightEdges.Remove(glue);
-                CurrentSingleTileViewModel.GlueVms.Remove(glue);
+                CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
             // if the glue editor is currently open and empty, switch back to tile view
-            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueVms)) return;
-            if (CurrentSingleTileViewModel.GlueVms.Count == 0)
+            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueEditorViewModel)) return;
+            if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Count == 0)
             {
                 ConfigureTile();
             }
