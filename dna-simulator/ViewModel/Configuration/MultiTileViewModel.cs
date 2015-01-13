@@ -34,7 +34,6 @@ namespace dna_simulator.ViewModel.Configuration
 
             // Register event handlers
             _dataService.PropertyChanged += DataServiceOnPropertyChanged;
-            _dataService.TileAssemblySystem.TileTypes.CollectionChanged += TileTypesOnCollectionChanged;
         }
 
         public TileAssemblySystemVm CurrentTileAssemblySystemVm
@@ -52,8 +51,9 @@ namespace dna_simulator.ViewModel.Configuration
         {
             get
             {
-                return new ObservableCollection<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
-                      t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
+                return _glues;
+                //return new ObservableCollection<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
+                //      t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
             }
             set
             {

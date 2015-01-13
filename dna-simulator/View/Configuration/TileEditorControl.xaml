@@ -22,7 +22,7 @@
             <confv:TileViewbox />
         </DataTemplate>
 
-        <DataTemplate DataType="atam:GlueVmList">
+        <DataTemplate DataType="atam:GlueVms">
             <confv:GlueEditorControl />
         </DataTemplate>
 
@@ -62,7 +62,7 @@
                         </ei:ChangePropertyAction>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding ConfigViewModel.ConfigureEdgeCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding ConfigViewModel.ConfigureGlueCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Grid x:Name="EdgeItem" Margin="-1">
@@ -99,9 +99,9 @@
                                 <VisualStateGroup x:Name="SelectionStates">
                                     <VisualState x:Name="Unselected" />
                                     <VisualState x:Name="Selected">
-                                        <!--<Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="fillColor2" Storyboard.TargetProperty="Opacity" Duration="0" To=".75" />
-                                        </Storyboard>-->
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="fillColor" Storyboard.TargetProperty="Opacity" Duration="0" To=".75" />
+                                        </Storyboard>
                                     </VisualState>
                                 </VisualStateGroup>
                                 <VisualStateGroup x:Name="FocusStates">
@@ -119,7 +119,7 @@
                                     <VisualState x:Name="Unfocused" />
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Rectangle x:Name="fillColor" Opacity="0" Fill="Green" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
+                            <Rectangle x:Name="fillColor" Opacity="0" Fill="LightGray" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
                             <Rectangle x:Name="fillColor2" Opacity="0" Fill="Green" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
                             <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" />
@@ -133,7 +133,7 @@
 
     <toolkit:DockPanel x:Name="LayoutRoot">
         <!-- Top labels -->
-        <ListBox toolkit:DockPanel.Dock="Top" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.TopEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}">
+        <ListBox Name="TopLabelsListBox" toolkit:DockPanel.Dock="Top" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.TopEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -142,7 +142,7 @@
         </ListBox>
 
         <!-- Bottom labels -->
-        <ListBox toolkit:DockPanel.Dock="Bottom" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.BottomEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}">
+        <ListBox Name="BottomLabelsListBox" toolkit:DockPanel.Dock="Bottom" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.BottomEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -151,7 +151,7 @@
         </ListBox>
 
         <!-- Left labels -->
-        <ListBox toolkit:DockPanel.Dock="Left" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}">
+        <ListBox Name="LeftLabelsListBox" toolkit:DockPanel.Dock="Left" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -160,7 +160,7 @@
         </ListBox>
 
         <!-- Right labels -->
-        <ListBox toolkit:DockPanel.Dock="Right" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.RightEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}">
+        <ListBox Name="RightLabelsListBox" toolkit:DockPanel.Dock="Right" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.RightEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -169,68 +169,140 @@
         </ListBox>
 
         <!-- Top actions -->
-        <Border toolkit:DockPanel.Dock="Top" Background="Transparent">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeave">
-                    <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke"  Value="Black" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseEnter">
-                    <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="PowderBlue" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <Path Name="AddTopGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
-        </Border>
+        <StackPanel Orientation="Horizontal" toolkit:DockPanel.Dock="Top" HorizontalAlignment="Center">
+            <!-- Add label -->
+            <Border Background="Transparent">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke"  Value="Blue" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="PowderBlue" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Path Name="AddTopGlue" Stroke="Blue" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+            </Border>
+            <!-- Delete label -->
+            <Border Background="Transparent">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke"  Value="Red" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke" Value="LightCoral" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=TopLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromTopCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Path Name="DeleteTopGlue" Margin="10" Stroke="Red" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+            </Border>
+        </StackPanel>
 
         <!-- Bottom actions -->
-        <Border toolkit:DockPanel.Dock="Bottom" Background="Transparent">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeave">
-                    <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke"  Value="Black" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseEnter">
-                    <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="PowderBlue" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <Path Name="AddBottomGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
-        </Border>
+        <StackPanel Orientation="Horizontal" toolkit:DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+            <!-- Add label -->
+            <Border Background="Transparent">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke"  Value="Blue" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="PowderBlue" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Path Name="AddBottomGlue" Stroke="Blue" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+            </Border>
+            <!-- Delete label -->
+            <Border Background="Transparent">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke"  Value="Red" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke" Value="LightCoral" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=BottomLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromBottomCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Path Name="DeleteBottomGlue" Margin="10" Stroke="Red" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+            </Border>
+        </StackPanel>
 
         <!-- Left actions -->
-        <Border toolkit:DockPanel.Dock="Left" Background="Transparent">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeave">
-                    <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke"  Value="Black" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseEnter">
-                    <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="PowderBlue" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <Path Name="AddLeftGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
-        </Border>
+        <StackPanel Orientation="Vertical" toolkit:DockPanel.Dock="Left" VerticalAlignment="Center">
+            <!-- Add label -->
+            <Border Background="Transparent">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke"  Value="Blue" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="PowderBlue" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Path Name="AddLeftGlue" Stroke="Blue" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+            </Border>
+            <!-- Delete label -->
+            <Border Background="Transparent">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke"  Value="Red" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke" Value="LightCoral" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=LeftLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromLeftCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Path Name="DeleteLeftGlue" Margin="10" Stroke="Red" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+            </Border>
+        </StackPanel>
 
         <!-- Right actions -->
-        <Border toolkit:DockPanel.Dock="Right" Background="Transparent">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseLeave">
-                    <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke"  Value="Black" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseEnter">
-                    <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="PowderBlue" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseLeftButtonUp">
-                    <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <Path Name="AddRightGlue" Stroke="Black" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
-        </Border>
+        <StackPanel Orientation="Vertical" toolkit:DockPanel.Dock="Right" VerticalAlignment="Center">
+            <!-- Add label -->
+            <Border Background="Transparent">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke"  Value="Blue" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="PowderBlue" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Path Name="AddRightGlue" Stroke="Blue" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+            </Border>
+            <!-- Delete label -->
+            <Border Background="Transparent">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseLeave">
+                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke"  Value="Red" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseEnter">
+                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke" Value="LightCoral" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                        <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=RightLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromRightCommand, Source={StaticResource Locator}}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <Path Name="DeleteRightGlue" Margin="10" Stroke="Red" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+            </Border>
+        </StackPanel>
 
         <!-- Editing mode -->
         <ContentControl Content="{Binding CurrentEditorModel}" HorizontalAlignment="Center" VerticalAlignment="Center" />
