@@ -161,22 +161,26 @@
         </toolkit:ListBoxDragDropTarget>
 
         <!-- Left labels -->
-        <ListBox Name="LeftLabelsListBox" toolkit:DockPanel.Dock="Left" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Left">
+            <ListBox Name="LeftLabelsListBox" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </toolkit:ListBoxDragDropTarget>
 
         <!-- Right labels -->
-        <ListBox Name="RightLabelsListBox" toolkit:DockPanel.Dock="Right" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.RightEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
+        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Right">
+            <ListBox Name="RightLabelsListBox" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.RightEdges}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </toolkit:ListBoxDragDropTarget>
 
         <!-- Top actions -->
         <StackPanel Orientation="Horizontal" toolkit:DockPanel.Dock="Top" HorizontalAlignment="Center">
