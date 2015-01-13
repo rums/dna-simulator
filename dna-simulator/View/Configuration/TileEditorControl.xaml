@@ -16,119 +16,125 @@
     d:DataContext="{d:DesignInstance confvm:SingleTileViewModel}">
 
     <UserControl.Resources>
-        <innerProduct:ColorToBrush x:Key="ColorToBrush" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Skins/ConfigSkin.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <innerProduct:ColorToBrush x:Key="ColorToBrush" />
 
-        <DataTemplate DataType="atam:TileTypeVm">
-            <confv:TileViewbox />
-        </DataTemplate>
+            <DataTemplate DataType="atam:TileTypeVm">
+                <confv:TileViewbox />
+            </DataTemplate>
 
-        <DataTemplate DataType="atam:GlueVms">
-            <confv:GlueEditorControl />
-        </DataTemplate>
+            <DataTemplate DataType="atam:GlueVms">
+                <confv:GlueEditorControl />
+            </DataTemplate>
 
-        <DataTemplate x:Key="EdgeItemTemplate" DataType="atam:GlueVm">
-            <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="4" BorderBrush="{Binding DisplayColor, Converter={StaticResource ColorToBrush}}" BorderThickness="1">
-                <Border.Background>
-                    <LinearGradientBrush Opacity="0.25" StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStopCollection>
-                            <GradientStop Color="Transparent" Offset="0" />
-                            <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
-                        </GradientStopCollection>
-                    </LinearGradientBrush>
-                </Border.Background>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction PropertyName="Background">
-                            <ei:ChangePropertyAction.Value>
-                                <LinearGradientBrush Opacity="0.5" StartPoint="0.5,0" EndPoint="0.5,1">
-                                    <GradientStopCollection>
-                                        <GradientStop Color="Transparent" Offset="0" />
-                                        <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
-                                    </GradientStopCollection>
-                                </LinearGradientBrush>
-                            </ei:ChangePropertyAction.Value>
-                        </ei:ChangePropertyAction>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction PropertyName="Background">
-                            <ei:ChangePropertyAction.Value>
-                                <LinearGradientBrush Opacity="0.25" StartPoint="0.5,0" EndPoint="0.5,1">
-                                    <GradientStopCollection>
-                                        <GradientStop Color="Transparent" Offset="0" />
-                                        <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
-                                    </GradientStopCollection>
-                                </LinearGradientBrush>
-                            </ei:ChangePropertyAction.Value>
-                        </ei:ChangePropertyAction>
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding ConfigViewModel.ConfigureGlueCommand, Source={StaticResource Locator}}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <Grid x:Name="EdgeItem" Margin="-1">
-                    <TextBlock Margin="4,4,4,4" Text="{Binding Label}" />
-                </Grid>
-            </Border>
-        </DataTemplate>
+            <DataTemplate x:Key="EdgeItemTemplate" DataType="atam:GlueVm">
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="4" BorderBrush="{Binding DisplayColor, Converter={StaticResource ColorToBrush}}" BorderThickness="1">
+                    <Border.Background>
+                        <LinearGradientBrush Opacity="0.25" StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStopCollection>
+                                <GradientStop Color="Transparent" Offset="0" />
+                                <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
+                            </GradientStopCollection>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseEnter">
+                            <ei:ChangePropertyAction PropertyName="Background">
+                                <ei:ChangePropertyAction.Value>
+                                    <LinearGradientBrush Opacity="0.5" StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStopCollection>
+                                            <GradientStop Color="Transparent" Offset="0" />
+                                            <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
+                                        </GradientStopCollection>
+                                    </LinearGradientBrush>
+                                </ei:ChangePropertyAction.Value>
+                            </ei:ChangePropertyAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeave">
+                            <ei:ChangePropertyAction PropertyName="Background">
+                                <ei:ChangePropertyAction.Value>
+                                    <LinearGradientBrush Opacity="0.25" StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStopCollection>
+                                            <GradientStop Color="Transparent" Offset="0" />
+                                            <GradientStop Color="{Binding DisplayColor}" Offset="0.5" />
+                                        </GradientStopCollection>
+                                    </LinearGradientBrush>
+                                </ei:ChangePropertyAction.Value>
+                            </ei:ChangePropertyAction>
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
+                            <i:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=ListBoxItem}}" Command="{Binding ConfigViewModel.ConfigureGlueCommand, Source={StaticResource Locator}}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Grid x:Name="EdgeItem" Margin="-1">
+                        <TextBlock Margin="4,4,4,4" Text="{Binding Label}" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
 
-        <Style x:Key="IgnoreMouseOverItem" TargetType="ListBoxItem">
-            <Setter Property="Padding" Value="3" />
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="VerticalContentAlignment" Value="Top" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="TabNavigation" Value="Local" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Grid Background="{TemplateBinding Background}">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="MouseOver">
-                                        <!--<Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="fillColor" Storyboard.TargetProperty="Opacity" Duration="0" To=".35" />
-                                        </Storyboard>-->
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="Opacity" Duration="0" To=".55" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="SelectionStates">
-                                    <VisualState x:Name="Unselected" />
-                                    <VisualState x:Name="Selected">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="fillColor" Storyboard.TargetProperty="Opacity" Duration="0" To=".75" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="FocusStates">
-                                    <VisualState x:Name="Focused">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="Visibility" Duration="0">
-                                                <DiscreteObjectKeyFrame KeyTime="0">
-                                                    <DiscreteObjectKeyFrame.Value>
-                                                        <Visibility>Visible</Visibility>
-                                                    </DiscreteObjectKeyFrame.Value>
-                                                </DiscreteObjectKeyFrame>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Unfocused" />
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Rectangle x:Name="fillColor" Opacity="0" Fill="LightGray" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
-                            <Rectangle x:Name="fillColor2" Opacity="0" Fill="Green" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
-                            <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" />
-                            <Rectangle x:Name="FocusVisualElement" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" Visibility="Collapsed" RadiusX="1" RadiusY="1" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <Style x:Key="IgnoreMouseOverItem" TargetType="ListBoxItem">
+                <Setter Property="Padding" Value="3" />
+                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                <Setter Property="VerticalContentAlignment" Value="Top" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="TabNavigation" Value="Local" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ListBoxItem">
+                            <Grid Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="MouseOver">
+                                            <!--<Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="fillColor" Storyboard.TargetProperty="Opacity" Duration="0" To=".35" />
+                                            </Storyboard>-->
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="Opacity" Duration="0" To=".55" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="SelectionStates">
+                                        <VisualState x:Name="Unselected" />
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="fillColor" Storyboard.TargetProperty="Opacity" Duration="0" To=".75" />
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="Visibility" Duration="0">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Rectangle x:Name="fillColor" Opacity="0" Fill="LightGray" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
+                                <Rectangle x:Name="fillColor2" Opacity="0" Fill="Green" IsHitTestVisible="False" RadiusX="1" RadiusY="1" />
+                                <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" />
+                                <Rectangle x:Name="FocusVisualElement" Stroke="{TemplateBinding Foreground}" StrokeThickness="1" Visibility="Collapsed" RadiusX="1" RadiusY="1" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <toolkit:DockPanel x:Name="LayoutRoot">
@@ -174,31 +180,31 @@
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke"  Value="Blue" />
+                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke"  Value="{StaticResource AddGlueBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="PowderBlue" />
+                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="{StaticResource AddGlueHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="AddTopGlue" Stroke="Blue" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+                <Path Name="AddTopGlue" Stroke="{StaticResource AddGlueBrush}" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
             </Border>
             <!-- Delete label -->
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke"  Value="Red" />
+                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke"  Value="{StaticResource RemoveGlueBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke" Value="LightCoral" />
+                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke" Value="{StaticResource RemoveGlueHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=TopLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromTopCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="DeleteTopGlue" Margin="10" Stroke="Red" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+                <Path Name="DeleteTopGlue" Margin="10" Stroke="{StaticResource RemoveGlueBrush}" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
             </Border>
         </StackPanel>
 
@@ -208,31 +214,31 @@
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke"  Value="Blue" />
+                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke"  Value="{StaticResource AddGlueBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="PowderBlue" />
+                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="{StaticResource AddGlueHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="AddBottomGlue" Stroke="Blue" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+                <Path Name="AddBottomGlue" Stroke="{StaticResource AddGlueBrush}" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
             </Border>
             <!-- Delete label -->
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke"  Value="Red" />
+                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke"  Value="{StaticResource RemoveGlueBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke" Value="LightCoral" />
+                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke" Value="{StaticResource RemoveGlueHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=BottomLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromBottomCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="DeleteBottomGlue" Margin="10" Stroke="Red" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+                <Path Name="DeleteBottomGlue" Margin="10" Stroke="{StaticResource RemoveGlueBrush}" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
             </Border>
         </StackPanel>
 
@@ -242,31 +248,31 @@
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke"  Value="Blue" />
+                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke"  Value="{StaticResource AddGlueBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="PowderBlue" />
+                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="{StaticResource AddGlueHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="AddLeftGlue" Stroke="Blue" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+                <Path Name="AddLeftGlue" Stroke="{StaticResource AddGlueBrush}" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
             </Border>
             <!-- Delete label -->
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke"  Value="Red" />
+                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke"  Value="{StaticResource RemoveGlueBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke" Value="LightCoral" />
+                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke" Value="{StaticResource RemoveGlueHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=LeftLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromLeftCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="DeleteLeftGlue" Margin="10" Stroke="Red" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+                <Path Name="DeleteLeftGlue" Margin="10" Stroke="{StaticResource RemoveGlueBrush}" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
             </Border>
         </StackPanel>
 
@@ -276,31 +282,31 @@
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke"  Value="Blue" />
+                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke"  Value="{StaticResource AddGlueBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="PowderBlue" />
+                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="{StaticResource AddGlueHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightEdges}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="AddRightGlue" Stroke="Blue" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+                <Path Name="AddRightGlue" Stroke="{StaticResource AddGlueBrush}" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
             </Border>
             <!-- Delete label -->
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke"  Value="Red" />
+                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke"  Value="{StaticResource RemoveGlueBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke" Value="LightCoral" />
+                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke" Value="{StaticResource RemoveGlueHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=RightLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromRightCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="DeleteRightGlue" Margin="10" Stroke="Red" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+                <Path Name="DeleteRightGlue" Margin="10" Stroke="{StaticResource RemoveGlueBrush}" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
             </Border>
         </StackPanel>
 
