@@ -133,7 +133,8 @@ namespace dna_simulator.Services
         public void NewDefaultGlue(Action<Glue, Exception> callback)
         {
             var label = "Label " + _glueId;
-            while (TileAssemblySystem.TileTypes.ContainsKey(label))
+            while (TileAssemblySystem.TileTypes.Values.SelectMany(
+                        t => t.TopGlues.Keys.Union(t.BottomGlues.Keys.Union(t.LeftGlues.Keys.Union(t.RightGlues.Keys)))).Contains(label))
             {
                 label = "Label " + ++_glueId;
             }
