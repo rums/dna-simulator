@@ -112,9 +112,14 @@ namespace dna_simulator.Services
 
         public void NewDefaultTile(Action<TileType, Exception> callback)
         {
+            var label = "Tile " + _tileId;
+            while (TileAssemblySystem.TileTypes.ContainsKey(label))
+            {
+                label = "Tile " + ++_tileId;
+            }
             var newTile = new TileType
             {
-                Label = "Tile " + _tileId,
+                Label = label,
                 DisplayColor = RandomColor(),
                 TopGlues = new ObservableDictionary<string, Glue>(),
                 BottomGlues = new ObservableDictionary<string, Glue>(),
