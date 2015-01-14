@@ -242,7 +242,7 @@ namespace dna_simulator.ViewModel.Configuration
             var gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
             foreach (var glue in gglues)
             {
-                CurrentSingleTileViewModel.CurrentTileTypeVm.TopEdges.Remove(glue);
+                CurrentSingleTileViewModel.CurrentTileTypeVm.TopGlues.Remove(glue);
                 CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
@@ -258,7 +258,7 @@ namespace dna_simulator.ViewModel.Configuration
             var gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
             foreach (var glue in gglues)
             {
-                CurrentSingleTileViewModel.CurrentTileTypeVm.BottomEdges.Remove(glue);
+                CurrentSingleTileViewModel.CurrentTileTypeVm.BottomGlues.Remove(glue);
                 CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
@@ -274,7 +274,7 @@ namespace dna_simulator.ViewModel.Configuration
             var gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
             foreach (var glue in gglues)
             {
-                CurrentSingleTileViewModel.CurrentTileTypeVm.LeftEdges.Remove(glue);
+                CurrentSingleTileViewModel.CurrentTileTypeVm.LeftGlues.Remove(glue);
                 CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
@@ -290,7 +290,7 @@ namespace dna_simulator.ViewModel.Configuration
             var gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
             foreach (var glue in gglues)
             {
-                CurrentSingleTileViewModel.CurrentTileTypeVm.RightEdges.Remove(glue);
+                CurrentSingleTileViewModel.CurrentTileTypeVm.RightGlues.Remove(glue);
                 CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 

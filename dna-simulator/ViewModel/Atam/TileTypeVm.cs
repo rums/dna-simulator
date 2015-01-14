@@ -13,10 +13,10 @@ namespace dna_simulator.ViewModel.Atam
 
         private string _label;
         private Color _displayColor;
-        private GlueVms _topEdges;
-        private GlueVms _bottomEdges;
-        private GlueVms _leftEdges;
-        private GlueVms _rightEdges;
+        private GlueVms _topGlues;
+        private GlueVms _bottomGlues;
+        private GlueVms _leftGlues;
+        private GlueVms _rightGlues;
 
         // viewmodel specific
         private bool _isSeed;
@@ -54,46 +54,46 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public GlueVms TopEdges
+        public GlueVms TopGlues
         {
-            get { return _topEdges; }
+            get { return _topGlues; }
             set
             {
-                if (Equals(value, _topEdges)) return;
-                _topEdges = value;
+                if (Equals(value, _topGlues)) return;
+                _topGlues = value;
                 RaisePropertyChanged();
             }
         }
 
-        public GlueVms BottomEdges
+        public GlueVms BottomGlues
         {
-            get { return _bottomEdges; }
+            get { return _bottomGlues; }
             set
             {
-                if (Equals(value, _bottomEdges)) return;
-                _bottomEdges = value;
+                if (Equals(value, _bottomGlues)) return;
+                _bottomGlues = value;
                 RaisePropertyChanged();
             }
         }
 
-        public GlueVms LeftEdges
+        public GlueVms LeftGlues
         {
-            get { return _leftEdges; }
+            get { return _leftGlues; }
             set
             {
-                if (Equals(value, _leftEdges)) return;
-                _leftEdges = value;
+                if (Equals(value, _leftGlues)) return;
+                _leftGlues = value;
                 RaisePropertyChanged();
             }
         }
 
-        public GlueVms RightEdges
+        public GlueVms RightGlues
         {
-            get { return _rightEdges; }
+            get { return _rightGlues; }
             set
             {
-                if (Equals(value, _rightEdges)) return;
-                _rightEdges = value;
+                if (Equals(value, _rightGlues)) return;
+                _rightGlues = value;
                 RaisePropertyChanged();
             }
         }
@@ -133,10 +133,10 @@ namespace dna_simulator.ViewModel.Atam
             {
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
-                TopEdges = new GlueVms(tile.TopEdges.Values.Select(GlueVm.ToGlueVm)),
-                BottomEdges = new GlueVms(tile.BottomEdges.Values.Select(GlueVm.ToGlueVm)),
-                LeftEdges = new GlueVms(tile.LeftEdges.Values.Select(GlueVm.ToGlueVm)),
-                RightEdges = new GlueVms(tile.RightEdges.Values.Select(GlueVm.ToGlueVm)),
+                TopGlues = new GlueVms(tile.TopGlues.Values.Select(GlueVm.ToGlueVm)),
+                BottomGlues = new GlueVms(tile.BottomGlues.Values.Select(GlueVm.ToGlueVm)),
+                LeftGlues = new GlueVms(tile.LeftGlues.Values.Select(GlueVm.ToGlueVm)),
+                RightGlues = new GlueVms(tile.RightGlues.Values.Select(GlueVm.ToGlueVm)),
             };
         }
 
@@ -151,10 +151,10 @@ namespace dna_simulator.ViewModel.Atam
             {
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
-                TopEdges = new ObservableDictionary<string, Glue>(tile.TopEdges.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
-                BottomEdges = new ObservableDictionary<string, Glue>(tile.BottomEdges.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
-                LeftEdges = new ObservableDictionary<string, Glue>(tile.LeftEdges.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
-                RightEdges = new ObservableDictionary<string, Glue>(tile.RightEdges.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
+                TopGlues = new ObservableDictionary<string, Glue>(tile.TopGlues.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
+                BottomGlues = new ObservableDictionary<string, Glue>(tile.BottomGlues.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
+                LeftGlues = new ObservableDictionary<string, Glue>(tile.LeftGlues.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
+                RightGlues = new ObservableDictionary<string, Glue>(tile.RightGlues.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
             };
         }
     }

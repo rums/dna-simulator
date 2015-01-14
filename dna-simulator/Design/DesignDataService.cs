@@ -65,10 +65,10 @@ namespace dna_simulator.Design
             {
                 Label = "Tile " + _tileId,
                 DisplayColor = RandomColor(),
-                TopEdges = new ObservableDictionary<string, Glue>(),
-                BottomEdges = new ObservableDictionary<string, Glue>(),
-                LeftEdges = new ObservableDictionary<string, Glue>(),
-                RightEdges = new ObservableDictionary<string, Glue>()
+                TopGlues = new ObservableDictionary<string, Glue>(),
+                BottomGlues = new ObservableDictionary<string, Glue>(),
+                LeftGlues = new ObservableDictionary<string, Glue>(),
+                RightGlues = new ObservableDictionary<string, Glue>()
             };
             ++_tileId;
             callback(newTile, null);

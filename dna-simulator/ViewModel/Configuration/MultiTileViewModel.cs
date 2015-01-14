@@ -27,7 +27,7 @@ namespace dna_simulator.ViewModel.Configuration
             };
 
             Glues = new GlueVms(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
-                        t => t.TopEdges.Union(t.BottomEdges.Union(t.LeftEdges.Union(t.RightEdges))).ToList()).ToList());
+                        t => t.TopGlues.Union(t.BottomGlues.Union(t.LeftGlues.Union(t.RightGlues))).ToList()).ToList());
 
             // Register event handlers
             _dataService.PropertyChanged += DataServiceOnPropertyChanged;

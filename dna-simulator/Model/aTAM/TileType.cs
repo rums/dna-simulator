@@ -6,10 +6,10 @@ namespace dna_simulator.Model.Atam
     {
         private Color _displayColor;
         private string _label;
-        private ObservableDictionary<string, Glue> _topEdges;
-        private ObservableDictionary<string, Glue> _bottomEdges;
-        private ObservableDictionary<string, Glue> _leftEdges;
-        private ObservableDictionary<string, Glue> _rightEdges;
+        private ObservableDictionary<string, Glue> _topGlues;
+        private ObservableDictionary<string, Glue> _bottomGlues;
+        private ObservableDictionary<string, Glue> _leftGlues;
+        private ObservableDictionary<string, Glue> _rightGlues;
 
         public Color DisplayColor
         {
@@ -33,46 +33,46 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableDictionary<string, Glue> TopEdges
+        public ObservableDictionary<string, Glue> TopGlues
         {
-            get { return _topEdges; }
+            get { return _topGlues; }
             set
             {
-                if (Equals(value, _topEdges)) return;
-                _topEdges = value;
+                if (Equals(value, _topGlues)) return;
+                _topGlues = value;
                 OnPropertyChanged();
             }
         }
 
-        public ObservableDictionary<string, Glue> BottomEdges
+        public ObservableDictionary<string, Glue> BottomGlues
         {
-            get { return _bottomEdges; }
+            get { return _bottomGlues; }
             set
             {
-                if (Equals(value, _bottomEdges)) return;
-                _bottomEdges = value;
+                if (Equals(value, _bottomGlues)) return;
+                _bottomGlues = value;
                 OnPropertyChanged();
             }
         }
 
-        public ObservableDictionary<string, Glue> LeftEdges
+        public ObservableDictionary<string, Glue> LeftGlues
         {
-            get { return _leftEdges; }
+            get { return _leftGlues; }
             set
             {
-                if (Equals(value, _leftEdges)) return;
-                _leftEdges = value;
+                if (Equals(value, _leftGlues)) return;
+                _leftGlues = value;
                 OnPropertyChanged();
             }
         }
 
-        public ObservableDictionary<string, Glue> RightEdges
+        public ObservableDictionary<string, Glue> RightGlues
         {
-            get { return _rightEdges; }
+            get { return _rightGlues; }
             set
             {
-                if (Equals(value, _rightEdges)) return;
-                _rightEdges = value;
+                if (Equals(value, _rightGlues)) return;
+                _rightGlues = value;
                 OnPropertyChanged();
             }
         }
