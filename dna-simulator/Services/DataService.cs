@@ -132,9 +132,14 @@ namespace dna_simulator.Services
 
         public void NewDefaultGlue(Action<Glue, Exception> callback)
         {
+            var label = "Label " + _glueId;
+            while (TileAssemblySystem.TileTypes.ContainsKey(label))
+            {
+                label = "Label " + ++_glueId;
+            }
             var newGlue = new Glue
             {
-                Label = "Label " + _glueId,
+                Label = label,
                 DisplayColor = RandomColor(),
                 Color = 0,
                 Strength = 0
