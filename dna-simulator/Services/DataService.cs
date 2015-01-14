@@ -112,7 +112,7 @@ namespace dna_simulator.Services
 
         public void NewDefaultTile(Action<TileType, Exception> callback)
         {
-            var label = "Tile " + _tileId;
+            string label = "Tile " + _tileId;
             while (TileAssemblySystem.TileTypes.ContainsKey(label))
             {
                 label = "Tile " + ++_tileId;
@@ -132,9 +132,10 @@ namespace dna_simulator.Services
 
         public void NewDefaultGlue(Action<Glue, Exception> callback)
         {
-            var label = "Label " + _glueId;
+            string label = "Label " + _glueId;
             while (TileAssemblySystem.TileTypes.Values.SelectMany(
-                        t => t.TopGlues.Keys.Union(t.BottomGlues.Keys.Union(t.LeftGlues.Keys.Union(t.RightGlues.Keys)))).Contains(label))
+                t => t.TopGlues.Keys.Union(t.BottomGlues.Keys.Union(t.LeftGlues.Keys.Union(t.RightGlues.Keys))))
+                .Contains(label))
             {
                 label = "Label " + ++_glueId;
             }
@@ -151,8 +152,6 @@ namespace dna_simulator.Services
 
         public void Commit()
         {
-            //_mockData = TileAssemblySystem;
-            //OnPropertyChanged("TileAssemblySystem");
             List<XElement> tileTypes = (from tile in TileAssemblySystem.TileTypes.Values
                 let topGlues =
                     tile.TopGlues.Values.Select(
