@@ -1,25 +1,28 @@
-﻿using dna_simulator.Model.Atam;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using dna_simulator.Model;
+using dna_simulator.Model.Atam;
 using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
 using GalaSoft.MvvmLight.Command;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace dna_simulator.ViewModel.Configuration
 {
     /// <summary>
-    /// This class contains properties that a View can data bind to.
+    ///     This class contains properties that a View can data bind to.
     /// </summary>
     public class ConfigViewModel : ViewModelBase
     {
-        private IDataService _dataService;
-        private IColorPickerService _colorPickerService;
+        private readonly IColorPickerService _colorPickerService;
+        private readonly IDataService _dataService;
 
-        private SingleTileViewModel _currentSingleTileViewModel;
         private MultiTileViewModel _currentMultiTileViewModel;
+        private SingleTileViewModel _currentSingleTileViewModel;
 
         /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
+        ///     Initializes a new instance of the MainViewModel class.
         /// </summary>
         public ConfigViewModel(IServiceBundle serviceBundle)
         {
@@ -28,7 +31,7 @@ namespace dna_simulator.ViewModel.Configuration
 
             CurrentMultiTileViewModel = new MultiTileViewModel(serviceBundle);
 
-            var currentTile = CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.First();
+            TileTypeVm currentTile = CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.First();
             CurrentSingleTileViewModel = new SingleTileViewModel(currentTile);
 
             // initialize commands
@@ -36,14 +39,17 @@ namespace dna_simulator.ViewModel.Configuration
             ConfigureGlueCommand = new RelayCommand<GlueVm>(ConfigureGlue, CanConfigureGlue);
             ConfigureTileCommand = new RelayCommand(ConfigureTile, CanConfigureTile);
             AddTileCommand = new RelayCommand(AddTile, CanAddTile);
+            DeleteTilesCommand = new RelayCommand<object>(DeleteTiles, CanDeleteTiles);
             SaveTileCommand = new RelayCommand(SaveTile, CanSaveTile);
             ChangeTileDisplayColorCommand = new RelayCommand<string>(ChangeTileDisplayColor, CanChangeTileDisplayColor);
             DisplayTileTypeCommand = new RelayCommand<object>(DisplayTileType, CanDisplayTileType);
-            AddGlueToCurrentTileCommand = new RelayCommand<GlueVms>(AddGlueToCurrentTile, CanAddGlueToCurrentTile);
+            AddGlueCommand = new RelayCommand<ObservableSet<GlueVm>>(AddGlue,
+                CanAddGlue);
             RemoveGluesFromTopCommand = new RelayCommand<object>(RemoveGluesFromTop, CanRemoveGluesFromTop);
             RemoveGluesFromBottomCommand = new RelayCommand<object>(RemoveGluesFromBottom, CanRemoveGluesFromBottom);
             RemoveGluesFromLeftCommand = new RelayCommand<object>(RemoveGluesFromLeft, CanRemoveGluesFromLeft);
             RemoveGluesFromRightCommand = new RelayCommand<object>(RemoveGluesFromRight, CanRemoveGluesFromRight);
+            DeleteGluesCommand = new RelayCommand<object>(DeleteGlues, CanDeleteGlues);
         }
 
         public SingleTileViewModel CurrentSingleTileViewModel
@@ -76,21 +82,27 @@ namespace dna_simulator.ViewModel.Configuration
 
         public RelayCommand AddTileCommand { get; private set; }
 
+        public RelayCommand<object> DeleteTilesCommand { get; private set; }
+
         public RelayCommand SaveTileCommand { get; private set; }
 
         public RelayCommand<string> ChangeTileDisplayColorCommand { get; private set; }
 
         public RelayCommand<object> DisplayTileTypeCommand { get; private set; }
 
-        public RelayCommand<GlueVms> AddGlueToCurrentTileCommand { get; private set; }
+        public RelayCommand<ObservableSet<GlueVm>> AddGlueCommand { get; private set; }
 
-        public RelayCommand<object> RemoveGluesFromTopCommand { get; private set; } 
+        public RelayCommand<object> RemoveGluesFromTopCommand { get; private set; }
 
-        public RelayCommand<object> RemoveGluesFromBottomCommand { get; private set; } 
+        public RelayCommand<object> RemoveGluesFromBottomCommand { get; private set; }
 
-        public RelayCommand<object> RemoveGluesFromLeftCommand { get; private set; } 
+        public RelayCommand<object> RemoveGluesFromLeftCommand { get; private set; }
 
-        public RelayCommand<object> RemoveGluesFromRightCommand { get; private set; } 
+        public RelayCommand<object> RemoveGluesFromRightCommand { get; private set; }
+
+        public RelayCommand<object> DeleteGluesCommand { get; private set; }
+
+        /* Command canExecute methods */
 
         private bool CanChangeGlueDisplayColor(string label)
         {
@@ -112,6 +124,11 @@ namespace dna_simulator.ViewModel.Configuration
             return true;
         }
 
+        private bool CanDeleteTiles(object tiles)
+        {
+            return true;
+        }
+
         private bool CanSaveTile()
         {
             return true;
@@ -127,7 +144,7 @@ namespace dna_simulator.ViewModel.Configuration
             return true;
         }
 
-        public bool CanAddGlueToCurrentTile(GlueVms glues)
+        public bool CanAddGlue(ObservableSet<GlueVm> glues)
         {
             return true;
         }
@@ -152,11 +169,18 @@ namespace dna_simulator.ViewModel.Configuration
             return true;
         }
 
+        public bool CanDeleteGlues(object glues)
+        {
+            return true;
+        }
+
+        /* Command execution methods */
+
         private void ChangeGlueDisplayColor(string label)
         {
             _colorPickerService.ShowColorPicker(c =>
             {
-                foreach (var glue in CurrentMultiTileViewModel.Glues.Where(e => e.Label == label))
+                foreach (GlueVm glue in CurrentMultiTileViewModel.Glues.Where(e => e.Label == label))
                 {
                     glue.DisplayColor = c;
                 }
@@ -186,16 +210,31 @@ namespace dna_simulator.ViewModel.Configuration
             _dataService.TileAssemblySystem.TileTypes.Add(tile.Label, tile);
 
             // add new tile to view model
-            CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Add(TileTypeVm.ToTileTypeVm(tile, _dataService.TileAssemblySystem));
-            CurrentSingleTileViewModel.CurrentTileTypeVm = CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Last();
+            CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Add(TileTypeVm.ToTileTypeVm(tile,
+                _dataService.TileAssemblySystem));
+            CurrentSingleTileViewModel.CurrentTileTypeVm =
+                CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Last();
 
             // display the new tile
             DisplayTileType(CurrentSingleTileViewModel.CurrentTileTypeVm);
         }
 
+        private void DeleteTiles(object tiles)
+        {
+            List<TileTypeVm> toRemove = (tiles as IList).Cast<TileTypeVm>().ToList();
+            if (toRemove == null) return;
+            foreach (TileTypeVm tile in toRemove)
+            {
+                CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Remove(tile);
+            }
+
+            HideTileEditorIfEmpty();
+        }
+
         private void SaveTile()
         {
-            _dataService.TileAssemblySystem.TileTypes[CurrentSingleTileViewModel.CurrentTileTypeVm.Label] = TileTypeVm.ToTileType(CurrentSingleTileViewModel.CurrentTileTypeVm);
+            _dataService.TileAssemblySystem.TileTypes[CurrentSingleTileViewModel.CurrentTileTypeVm.Label] =
+                TileTypeVm.ToTileType(CurrentSingleTileViewModel.CurrentTileTypeVm);
             _dataService.Commit();
         }
 
@@ -203,7 +242,9 @@ namespace dna_simulator.ViewModel.Configuration
         {
             _colorPickerService.ShowColorPicker(c =>
             {
-                foreach (var tile in CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Where(e => e.Label == label))
+                foreach (
+                    TileTypeVm tile in
+                        CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Where(e => e.Label == label))
                 {
                     tile.DisplayColor = c;
                 }
@@ -223,78 +264,96 @@ namespace dna_simulator.ViewModel.Configuration
             ConfigureTile();
         }
 
-        public void AddGlueToCurrentTile(GlueVms glues)
+        public void AddGlue(ObservableSet<GlueVm> glues)
         {
             // fetch default glue from data service
             var glue = new Glue();
             _dataService.NewDefaultGlue((item, error) => glue = item);
 
             // add glue to view model
-            CurrentMultiTileViewModel.Glues.Add(GlueVm.ToGlueVm(glue));
             glues.Add(GlueVm.ToGlueVm(glue));
+            if (glues != CurrentMultiTileViewModel.Glues)
+            {
+                CurrentMultiTileViewModel.Glues.Add(GlueVm.ToGlueVm(glue));
+            }
 
             // stage the update in model
-            _dataService.TileAssemblySystem.TileTypes[CurrentSingleTileViewModel.CurrentTileTypeVm.Label] = TileTypeVm.ToTileType(CurrentSingleTileViewModel.CurrentTileTypeVm);
+            _dataService.TileAssemblySystem.TileTypes[CurrentSingleTileViewModel.CurrentTileTypeVm.Label] =
+                TileTypeVm.ToTileType(CurrentSingleTileViewModel.CurrentTileTypeVm);
         }
 
         public void RemoveGluesFromTop(object glues)
         {
-            var gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
-            foreach (var glue in gglues)
+            List<GlueVm> gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
+            foreach (GlueVm glue in gglues)
             {
                 CurrentSingleTileViewModel.CurrentTileTypeVm.TopGlues.Remove(glue);
                 CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
-            // if the glue editor is currently open and empty, switch back to tile view
-            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueEditorViewModel)) return;
-            if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Count == 0)
-            {
-                ConfigureTile();
-            }
+            HideGlueEditorIfEmpty();
         }
+
         public void RemoveGluesFromBottom(object glues)
         {
-            var gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
-            foreach (var glue in gglues)
+            List<GlueVm> gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
+            foreach (GlueVm glue in gglues)
             {
                 CurrentSingleTileViewModel.CurrentTileTypeVm.BottomGlues.Remove(glue);
                 CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
-            // if the glue editor is currently open and empty, switch back to tile view
-            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueEditorViewModel)) return;
-            if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Count == 0)
-            {
-                ConfigureTile();
-            }
+            HideGlueEditorIfEmpty();
         }
+
         public void RemoveGluesFromLeft(object glues)
         {
-            var gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
-            foreach (var glue in gglues)
+            List<GlueVm> gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
+            foreach (GlueVm glue in gglues)
             {
                 CurrentSingleTileViewModel.CurrentTileTypeVm.LeftGlues.Remove(glue);
                 CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
-            // if the glue editor is currently open and empty, switch back to tile view
-            if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueEditorViewModel)) return;
-            if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Count == 0)
-            {
-                ConfigureTile();
-            }
+            HideGlueEditorIfEmpty();
         }
+
         public void RemoveGluesFromRight(object glues)
         {
-            var gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
-            foreach (var glue in gglues)
+            List<GlueVm> gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
+            foreach (GlueVm glue in gglues)
             {
                 CurrentSingleTileViewModel.CurrentTileTypeVm.RightGlues.Remove(glue);
                 CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
             }
 
-            // if the glue editor is currently open and empty, switch back to tile view
+            HideGlueEditorIfEmpty();
+        }
+
+        public void DeleteGlues(object glues)
+        {
+            List<GlueVm> toRemove = (glues as IList).Cast<GlueVm>().ToList();
+            if (toRemove == null) return;
+            foreach (GlueVm glue in toRemove)
+            {
+                CurrentMultiTileViewModel.Glues.Remove(glue);
+                foreach (TileTypeVm tile in CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes)
+                {
+                    tile.TopGlues.Remove(glue);
+                    tile.BottomGlues.Remove(glue);
+                    tile.LeftGlues.Remove(glue);
+                    tile.RightGlues.Remove(glue);
+                }
+                CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
+            }
+
+            HideGlueEditorIfEmpty();
+        }
+
+        /* Regular methods */
+
+        private void HideGlueEditorIfEmpty()
+        {
             if (!(CurrentSingleTileViewModel.CurrentEditorModel is GlueEditorViewModel)) return;
             if (CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Count == 0)
             {
@@ -302,5 +361,24 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
+        private void HideTileEditorIfEmpty()
+        {
+            if (!(CurrentSingleTileViewModel.CurrentEditorModel is TileTypeVm)) return;
+            if (CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Count == 0)
+            {
+                CurrentSingleTileViewModel.CurrentEditorModel = null;
+            }
+        }
+
+        public void SaveChanges()
+        {
+            _dataService.TileAssemblySystem = new TileAssemblySystem
+            {
+                Seed = TileTypeVm.ToTileType(CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.Seed),
+                Temperature = CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.Temperature,
+                TileTypes = new ObservableDictionary<string, TileType>(CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.ToDictionary(t => t.Label, TileTypeVm.ToTileType))
+            };
+            _dataService.Commit();
+        }
     }
 }

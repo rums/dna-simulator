@@ -1,16 +1,17 @@
 ﻿<UserControl
-	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
     xmlns:confvm="clr-namespace:dna_simulator.ViewModel.Configuration"
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=System.Windows"
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
     mc:Ignorable="d"
-	x:Class="dna_simulator.View.Configuration.MultiTileControl"
+    x:Class="dna_simulator.View.Configuration.MultiTileControl"
     d:DesignHeight="440"
     d:DataContext="{d:DesignInstance confvm:MultiTileViewModel}">
 
@@ -36,24 +37,32 @@
         <sdk:TabControl>
             <sdk:TabItem x:Name="ListViewTab" Header="Tiles">
                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <sdk:DataGrid x:Name="TileList" AutoGenerateColumns="False" Grid.Column="0" ItemsSource="{Binding CurrentTileAssemblySystemVm.TileTypes}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="160*" />
+                        <RowDefinition Height="20*" />
+                    </Grid.RowDefinitions>
+                    <sdk:DataGrid x:Name="TileList" AutoGenerateColumns="False" Grid.Column="0" Grid.Row="0"
+                                  ItemsSource="{Binding CurrentTileAssemblySystemVm.TileTypes}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger SourceName="TileList" EventName="SelectionChanged">
-                                <i:InvokeCommandAction CommandParameter="{Binding SelectedItem, ElementName=TileList}" Command="{Binding ConfigViewModel.DisplayTileTypeCommand, Source={StaticResource Locator}}" />
+                                <i:InvokeCommandAction CommandParameter="{Binding SelectedItem, ElementName=TileList}"
+                                                       Command="{Binding ConfigViewModel.DisplayTileTypeCommand, Source={StaticResource Locator}}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                        <sdk:DataGrid.Columns >
+                        <sdk:DataGrid.Columns>
                             <sdk:DataGridTemplateColumn Header="Display">
                                 <sdk:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate DataType="atam:TileTypeVm">
                                         <Rectangle Height="20" Width="20">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding ConfigViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                    <i:InvokeCommandAction CommandParameter="{Binding Label}"
+                                                                           Command="{Binding ConfigViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                             <Rectangle.Fill>
-                                                <SolidColorBrush Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
+                                                <SolidColorBrush
+                                                    Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
                                             </Rectangle.Fill>
                                         </Rectangle>
                                     </DataTemplate>
@@ -63,12 +72,52 @@
                             <sdk:DataGridTemplateColumn Header="Seed">
                                 <sdk:DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <RadioButton HorizontalAlignment="Center" VerticalAlignment="Center" GroupName="IsSeedGroup" IsChecked="{Binding IsSeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <RadioButton HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                     GroupName="IsSeedGroup"
+                                                     IsChecked="{Binding IsSeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </DataTemplate>
                                 </sdk:DataGridTemplateColumn.CellTemplate>
                             </sdk:DataGridTemplateColumn>
                         </sdk:DataGrid.Columns>
                     </sdk:DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Border Background="Transparent">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <ei:ChangePropertyAction TargetName="AddTile" PropertyName="Stroke"
+                                                                 Value="{StaticResource AddBrush}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <ei:ChangePropertyAction TargetName="AddTile" PropertyName="Stroke"
+                                                                 Value="{StaticResource AddHighlightBrush}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                    <i:InvokeCommandAction
+                                            CommandParameter="{Binding CurrentTileAssemblySystemVm.TileTypes}"
+                                            Command="{Binding ConfigViewModel.AddTileCommand, Source={StaticResource Locator}}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Path Name="AddTile" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
+                        </Border>
+                        <Border Background="Transparent">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeave">
+                                    <ei:ChangePropertyAction TargetName="DeleteTile" PropertyName="Stroke"
+                                                                 Value="{StaticResource RemoveBrush}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseEnter">
+                                    <ei:ChangePropertyAction TargetName="DeleteTile" PropertyName="Stroke"
+                                                                 Value="{StaticResource RemoveHighlightBrush}" />
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                    <i:InvokeCommandAction
+                                            CommandParameter="{Binding SelectedItems, ElementName=TileList}"
+                                            Command="{Binding ConfigViewModel.DeleteTilesCommand, Source={StaticResource Locator}}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <Path Name="DeleteTile" Style="{StaticResource RemoveStyle}" Data="M0,5 H10" />
+                        </Border>
+                    </StackPanel>
                 </Grid>
             </sdk:TabItem>
             <sdk:TabItem x:Name="EdgeViewTab" Header="Glues" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -77,8 +126,11 @@
                         <RowDefinition Height="160*" />
                         <RowDefinition Height="20*" />
                     </Grid.RowDefinitions>
-                    <toolkit:DataGridDragDropTarget Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" AllowedSourceEffects="Copy, Link">
-                        <sdk:DataGrid x:Name="EdgeList" AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource LabelSortedGlues}}">
+                    <toolkit:DataGridDragDropTarget Grid.Row="0" Grid.Column="0" HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Stretch"
+                                                    AllowedSourceEffects="Copy, Link">
+                        <sdk:DataGrid Name="GlueList" AutoGenerateColumns="False"
+                                      ItemsSource="{Binding Source={StaticResource LabelSortedGlues}}">
                             <sdk:DataGrid.Columns>
                                 <sdk:DataGridTemplateColumn Header="Display">
                                     <sdk:DataGridTemplateColumn.CellTemplate>
@@ -86,11 +138,13 @@
                                             <Rectangle Height="20" Width="20">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                                                        <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding ConfigViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                        <i:InvokeCommandAction CommandParameter="{Binding Label}"
+                                                                               Command="{Binding ConfigViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                                 <Rectangle.Fill>
-                                                    <SolidColorBrush Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <SolidColorBrush
+                                                        Color="{Binding DisplayColor, UpdateSourceTrigger=PropertyChanged}" />
                                                 </Rectangle.Fill>
                                             </Rectangle>
                                         </DataTemplate>
@@ -102,9 +156,49 @@
                             </sdk:DataGrid.Columns>
                         </sdk:DataGrid>
                     </toolkit:DataGridDragDropTarget>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <Button Content="Set color" VerticalAlignment="Center" />
-                        <Button Content="Set strength" VerticalAlignment="Center" Margin="5,0,0,0" />
+                    <StackPanel Orientation="Vertical" Grid.Row="1">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Background="Transparent">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeave">
+                                        <ei:ChangePropertyAction TargetName="AddGlue" PropertyName="Stroke"
+                                                                 Value="{StaticResource AddBrush}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <ei:ChangePropertyAction TargetName="AddGlue" PropertyName="Stroke"
+                                                                 Value="{StaticResource AddHighlightBrush}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                                        <i:InvokeCommandAction
+                                            CommandParameter="{Binding Glues}"
+                                            Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Path Name="AddGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
+                            </Border>
+                            <Border Background="Transparent">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseLeave">
+                                        <ei:ChangePropertyAction TargetName="DeleteGlue" PropertyName="Stroke"
+                                                                 Value="{StaticResource RemoveBrush}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <ei:ChangePropertyAction TargetName="DeleteGlue" PropertyName="Stroke"
+                                                                 Value="{StaticResource RemoveHighlightBrush}" />
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="MouseLeftButtonUp">
+                                        <i:InvokeCommandAction
+                                            CommandParameter="{Binding SelectedItems, ElementName=GlueList}"
+                                            Command="{Binding ConfigViewModel.DeleteGluesCommand, Source={StaticResource Locator}}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Path Name="DeleteGlue" Style="{StaticResource RemoveStyle}" Data="M0,5 H10" />
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Set color" VerticalAlignment="Center" />
+                            <Button Content="Set strength" VerticalAlignment="Center" Margin="5,0,0,0" />
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
             </sdk:TabItem>
@@ -113,8 +207,10 @@
             </sdk:TabItem>
         </sdk:TabControl>
         <StackPanel Grid.Row="1" Margin="0" Orientation="Horizontal">
-            <TextBlock x:Name="TemperatureLabel" TextWrapping="Wrap" Text="Temperature:" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="Black" />
-            <TextBox x:Name="Temperature" TextWrapping="Wrap" Text="{Binding CurrentTileAssemblySystemVm.Temperature}" Width="24" VerticalAlignment="Center" Margin="5,0,0,0" />
+            <TextBlock x:Name="TemperatureLabel" TextWrapping="Wrap" Text="Temperature:" VerticalAlignment="Center"
+                       Margin="5,0,0,0" Foreground="Black" />
+            <TextBox x:Name="Temperature" TextWrapping="Wrap" Text="{Binding CurrentTileAssemblySystemVm.Temperature}"
+                     Width="24" VerticalAlignment="Center" Margin="5,0,0,0" />
         </StackPanel>
         <Border Grid.Row="2" BorderThickness="2" Background="{StaticResource MultiOptionsBrush}">
             <StackPanel x:Name="TileListOptions" Orientation="Horizontal">

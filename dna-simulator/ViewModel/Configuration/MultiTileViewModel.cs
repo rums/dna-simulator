@@ -1,4 +1,5 @@
-﻿using dna_simulator.Services;
+﻿using dna_simulator.Model;
+using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ namespace dna_simulator.ViewModel.Configuration
 
         private TileAssemblySystemVm _currentTileAssemblySystemVm;
 
-        private GlueVms _glues; 
+        private ObservableSet<GlueVm> _glues; 
 
         public MultiTileViewModel(IServiceBundle serviceBundle)
         {
@@ -26,7 +27,7 @@ namespace dna_simulator.ViewModel.Configuration
                 Seed = TileTypeVm.ToTileTypeVm(tileAssemblySystem.Seed, tileAssemblySystem)
             };
 
-            Glues = new GlueVms(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
+            Glues = new ObservableSet<GlueVm>(CurrentTileAssemblySystemVm.TileTypes.SelectMany(
                         t => t.TopGlues.Union(t.BottomGlues.Union(t.LeftGlues.Union(t.RightGlues))).ToList()).ToList());
 
             // Register event handlers
@@ -44,7 +45,7 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
-        public GlueVms Glues 
+        public ObservableSet<GlueVm> Glues 
         {
             get { return _glues; }
             set

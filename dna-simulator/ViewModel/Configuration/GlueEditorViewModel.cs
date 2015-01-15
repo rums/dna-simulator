@@ -1,18 +1,19 @@
-﻿using dna_simulator.ViewModel.Atam;
+﻿using dna_simulator.Model;
+using dna_simulator.ViewModel.Atam;
 
 namespace dna_simulator.ViewModel.Configuration
 {
     /* This class basically exists so we can use it with datatemplates */
     public class GlueEditorViewModel : ViewModelBase
     {
-        private GlueVms _glues;
+        private ObservableSet<GlueVm> _glues;
 
         public GlueEditorViewModel()
         {
-            _glues = new GlueVms();
+            _glues = new ObservableSet<GlueVm>();
         }
 
-        public GlueVms Glues
+        public ObservableSet<GlueVm> Glues
         {
             get { return _glues; }
             set

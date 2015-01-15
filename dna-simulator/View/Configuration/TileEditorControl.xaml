@@ -188,31 +188,31 @@
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke"  Value="{StaticResource AddGlueBrush}" />
+                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke"  Value="{StaticResource AddBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="{StaticResource AddGlueHighlightBrush}" />
+                        <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="{StaticResource AddHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopGlues}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="AddTopGlue" Stroke="{StaticResource AddGlueBrush}" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+                <Path Name="AddTopGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
             </Border>
             <!-- Delete label -->
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke"  Value="{StaticResource RemoveGlueBrush}" />
+                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke"  Value="{StaticResource RemoveBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke" Value="{StaticResource RemoveGlueHighlightBrush}" />
+                        <ei:ChangePropertyAction TargetName="DeleteTopGlue" PropertyName="Stroke" Value="{StaticResource RemoveHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=TopLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromTopCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="DeleteTopGlue" Margin="10" Stroke="{StaticResource RemoveGlueBrush}" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+                <Path Name="DeleteTopGlue" Style="{StaticResource RemoveStyle}" Data="M0,5 H10" />
             </Border>
         </StackPanel>
 
@@ -222,31 +222,31 @@
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke"  Value="{StaticResource AddGlueBrush}" />
+                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke"  Value="{StaticResource AddBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="{StaticResource AddGlueHighlightBrush}" />
+                        <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="{StaticResource AddHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomGlues}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="AddBottomGlue" Stroke="{StaticResource AddGlueBrush}" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+                <Path Name="AddBottomGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
             </Border>
             <!-- Delete label -->
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke"  Value="{StaticResource RemoveGlueBrush}" />
+                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke"  Value="{StaticResource RemoveBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke" Value="{StaticResource RemoveGlueHighlightBrush}" />
+                        <ei:ChangePropertyAction TargetName="DeleteBottomGlue" PropertyName="Stroke" Value="{StaticResource RemoveHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=BottomLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromBottomCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="DeleteBottomGlue" Margin="10" Stroke="{StaticResource RemoveGlueBrush}" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+                <Path Name="DeleteBottomGlue" Style="{StaticResource RemoveStyle}" Data="M0,5 H10" />
             </Border>
         </StackPanel>
 
@@ -256,31 +256,31 @@
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke"  Value="{StaticResource AddGlueBrush}" />
+                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke"  Value="{StaticResource AddBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="{StaticResource AddGlueHighlightBrush}" />
+                        <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="{StaticResource AddHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftGlues}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="AddLeftGlue" Stroke="{StaticResource AddGlueBrush}" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+                <Path Name="AddLeftGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
             </Border>
             <!-- Delete label -->
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke"  Value="{StaticResource RemoveGlueBrush}" />
+                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke"  Value="{StaticResource RemoveBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke" Value="{StaticResource RemoveGlueHighlightBrush}" />
+                        <ei:ChangePropertyAction TargetName="DeleteLeftGlue" PropertyName="Stroke" Value="{StaticResource RemoveHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=LeftLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromLeftCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="DeleteLeftGlue" Margin="10" Stroke="{StaticResource RemoveGlueBrush}" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+                <Path Name="DeleteLeftGlue" Style="{StaticResource RemoveStyle}" Data="M0,5 H10" />
             </Border>
         </StackPanel>
 
@@ -290,31 +290,31 @@
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke"  Value="{StaticResource AddGlueBrush}" />
+                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke"  Value="{StaticResource AddBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="{StaticResource AddGlueHighlightBrush}" />
+                        <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="{StaticResource AddHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightGlues}" Command="{Binding ConfigViewModel.AddGlueToCurrentTileCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="AddRightGlue" Stroke="{StaticResource AddGlueBrush}" Data="M0,5 H10 M5,5 V10Z" StrokeThickness="2" UseLayoutRounding="False" Margin="5" Width="10" Height="10" />
+                <Path Name="AddRightGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
             </Border>
             <!-- Delete label -->
             <Border Background="Transparent">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseLeave">
-                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke"  Value="{StaticResource RemoveGlueBrush}" />
+                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke"  Value="{StaticResource RemoveBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
-                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke" Value="{StaticResource RemoveGlueHighlightBrush}" />
+                        <ei:ChangePropertyAction TargetName="DeleteRightGlue" PropertyName="Stroke" Value="{StaticResource RemoveHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
                         <i:InvokeCommandAction CommandParameter="{Binding SelectedItems, ElementName=RightLabelsListBox}" Command="{Binding ConfigViewModel.RemoveGluesFromRightCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-                <Path Name="DeleteRightGlue" Margin="10" Stroke="{StaticResource RemoveGlueBrush}" Data="M0,5 H10"  StrokeThickness="2" Height="10" Width="10" />
+                <Path Name="DeleteRightGlue" Style="{StaticResource RemoveStyle}" Data="M0,5 H10" />
             </Border>
         </StackPanel>
 

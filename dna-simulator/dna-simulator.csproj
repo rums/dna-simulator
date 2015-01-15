@@ -109,12 +109,12 @@
     </Compile>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Design\DesignServiceBundle.cs" />
+    <Compile Include="Model\ObservableSet.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IColorPickerService.cs" />
     <Compile Include="Services\IServiceBundle.cs" />
     <Compile Include="Services\ServiceBundle.cs" />
     <Compile Include="ViewModel\Configuration\GlueEditorViewModel.cs" />
-    <Compile Include="ViewModel\Atam\GlueVms.cs" />
     <Compile Include="View\Configuration\GlueEditorControl.xaml.cs">
       <DependentUpon>GlueEditorControl.xaml</DependentUpon>
     </Compile>

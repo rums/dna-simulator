@@ -13,10 +13,10 @@ namespace dna_simulator.ViewModel.Atam
 
         private string _label;
         private Color _displayColor;
-        private GlueVms _topGlues;
-        private GlueVms _bottomGlues;
-        private GlueVms _leftGlues;
-        private GlueVms _rightGlues;
+        private ObservableSet<GlueVm> _topGlues;
+        private ObservableSet<GlueVm> _bottomGlues;
+        private ObservableSet<GlueVm> _leftGlues;
+        private ObservableSet<GlueVm> _rightGlues;
 
         // viewmodel specific
         private bool _isSeed;
@@ -54,7 +54,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public GlueVms TopGlues
+        public ObservableSet<GlueVm> TopGlues
         {
             get { return _topGlues; }
             set
@@ -65,7 +65,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public GlueVms BottomGlues
+        public ObservableSet<GlueVm> BottomGlues
         {
             get { return _bottomGlues; }
             set
@@ -76,7 +76,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public GlueVms LeftGlues
+        public ObservableSet<GlueVm> LeftGlues
         {
             get { return _leftGlues; }
             set
@@ -87,7 +87,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public GlueVms RightGlues
+        public ObservableSet<GlueVm> RightGlues
         {
             get { return _rightGlues; }
             set
@@ -133,10 +133,10 @@ namespace dna_simulator.ViewModel.Atam
             {
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
-                TopGlues = new GlueVms(tile.TopGlues.Values.Select(GlueVm.ToGlueVm)),
-                BottomGlues = new GlueVms(tile.BottomGlues.Values.Select(GlueVm.ToGlueVm)),
-                LeftGlues = new GlueVms(tile.LeftGlues.Values.Select(GlueVm.ToGlueVm)),
-                RightGlues = new GlueVms(tile.RightGlues.Values.Select(GlueVm.ToGlueVm)),
+                TopGlues = new ObservableSet<GlueVm>(tile.TopGlues.Values.Select(GlueVm.ToGlueVm)),
+                BottomGlues = new ObservableSet<GlueVm>(tile.BottomGlues.Values.Select(GlueVm.ToGlueVm)),
+                LeftGlues = new ObservableSet<GlueVm>(tile.LeftGlues.Values.Select(GlueVm.ToGlueVm)),
+                RightGlues = new ObservableSet<GlueVm>(tile.RightGlues.Values.Select(GlueVm.ToGlueVm)),
             };
         }
 

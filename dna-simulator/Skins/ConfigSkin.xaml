@@ -1,9 +1,28 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions">
     <SolidColorBrush x:Key="MultiOptionsBrush" Color="#FFA7DBD8" />
     <SolidColorBrush x:Key="SingleOptionsBrush" Color="#FFF38630" />
-    <SolidColorBrush x:Key="AddGlueBrush" Color="Blue" />
-    <SolidColorBrush x:Key="AddGlueHighlightBrush" Color="PowderBlue" />
-    <SolidColorBrush x:Key="RemoveGlueBrush" Color="Red" />
-    <SolidColorBrush x:Key="RemoveGlueHighlightBrush" Color="MistyRose" />
+    <SolidColorBrush x:Key="AddBrush" Color="Blue" />
+    <SolidColorBrush x:Key="AddHighlightBrush" Color="PowderBlue" />
+    <SolidColorBrush x:Key="RemoveBrush" Color="Red" />
+    <SolidColorBrush x:Key="RemoveHighlightBrush" Color="MistyRose" />
+    <!-- Can't set data property for these paths; will only apply once, wtf? -->
+    <Style x:Key="AddStyle" TargetType="Path">
+        <Setter Property="Stroke" Value="{StaticResource AddBrush}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="UseLayoutRounding" Value="False" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Height" Value="10" />
+    </Style>
+    <Style x:Key="RemoveStyle" TargetType="Path">
+        <Setter Property="Stroke" Value="{StaticResource RemoveBrush}" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="UseLayoutRounding" Value="False" />
+        <Setter Property="Margin" Value="10" />
+        <Setter Property="Width" Value="10" />
+        <Setter Property="Height" Value="10" />
+    </Style>
 </ResourceDictionary>

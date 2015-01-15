@@ -19,10 +19,10 @@ namespace dna_simulator.Services
     {
         private const string CurrentTas = "CurrentTileAssemblySystem.xml";
         private static readonly Random Random = new Random((int) DateTime.Now.Ticks);
-        private int _glueId;
 
         private TileAssemblySystem _tileAssemblySystem;
-        private int _tileId;
+        private ObservableSet<TileType> _tileTypes; 
+        private ObservableSet<Glue> _glues;
 
         public DataService()
         {
@@ -110,12 +110,35 @@ namespace dna_simulator.Services
             }
         }
 
+        public ObservableSet<TileType> TileTypes 
+        {
+            get { return _tileTypes; }
+            set
+            {
+                if (Equals(value, _tileTypes)) return;
+                _tileTypes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableSet<Glue> Glues 
+        {
+            get { return _glues; }
+            set
+            {
+                if (Equals(value, _glues)) return;
+                _glues = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void NewDefaultTile(Action<TileType, Exception> callback)
         {
-            string label = "Tile " + _tileId;
+            int tileId = 0;
+            string label = "Tile " + tileId;
             while (TileAssemblySystem.TileTypes.ContainsKey(label))
             {
-                label = "Tile " + ++_tileId;
+                label = "Tile " + ++tileId;
             }
             var newTile = new TileType
             {
@@ -126,18 +149,18 @@ namespace dna_simulator.Services
                 LeftGlues = new ObservableDictionary<string, Glue>(),
                 RightGlues = new ObservableDictionary<string, Glue>()
             };
-            ++_tileId;
             callback(newTile, null);
         }
 
         public void NewDefaultGlue(Action<Glue, Exception> callback)
         {
-            string label = "Label " + _glueId;
+            int glueId = 0;
+            string label = "Label " + glueId;
             while (TileAssemblySystem.TileTypes.Values.SelectMany(
                 t => t.TopGlues.Keys.Union(t.BottomGlues.Keys.Union(t.LeftGlues.Keys.Union(t.RightGlues.Keys))))
                 .Contains(label))
             {
-                label = "Label " + ++_glueId;
+                label = "Label " + ++glueId;
             }
             var newGlue = new Glue
             {
@@ -146,7 +169,6 @@ namespace dna_simulator.Services
                 Color = 0,
                 Strength = 0
             };
-            ++_glueId;
             callback(newGlue, null);
         }
 
