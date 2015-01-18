@@ -1,28 +1,29 @@
 ﻿using System;
+using System.ComponentModel;
 using dna_simulator.Model.Atam;
 using System.Windows.Media;
+using dna_simulator.Services;
 
 namespace dna_simulator.ViewModel.Atam
 {
     public class GlueVm : ViewModelBase
     {
         // from model
-        private int _id;
-
         private Color _displayColor;
         private string _label;
         private int _color;
         private int _strength;
 
-        public int Id
+        // viewmodel specific
+        private readonly Glue _glue;
+
+        public GlueVm(Glue glue)
         {
-            get { return _id; }
-            set
-            {
-                if (value == _id) return;
-                _id = value;
-                RaisePropertyChanged();
-            }
+            _glue = glue;
+            DisplayColor = glue.DisplayColor;
+            Label = glue.Label;
+            Color = glue.Color;
+            Strength = glue.Strength;
         }
 
         public Color DisplayColor
@@ -32,6 +33,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value.Equals(_displayColor)) return;
                 _displayColor = value;
+                _glue.DisplayColor = value;
                 RaisePropertyChanged();
             }
         }
@@ -43,6 +45,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value == _label) return;
                 _label = value;
+                _glue.Label = value;
                 RaisePropertyChanged();
             }
         }
@@ -54,6 +57,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value == _color) return;
                 _color = value;
+                _glue.Color = value;
                 RaisePropertyChanged();
             }
         }
@@ -65,6 +69,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value == _strength) return;
                 _strength = value;
+                _glue.Strength = value;
                 RaisePropertyChanged();
             }
         }
@@ -95,6 +100,17 @@ namespace dna_simulator.ViewModel.Atam
             return Label.GetHashCode();
         }
 
+        public void GlueOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Label":
+                    Label = _glue.Label;
+                    break;
+            }
+        }
+
+
         /// <summary>
         /// Convert a GlueVm to a Glue
         /// </summary>
@@ -103,22 +119,6 @@ namespace dna_simulator.ViewModel.Atam
         public static Glue ToGlue(GlueVm glue)
         {
             return new Glue
-            {
-                DisplayColor = glue.DisplayColor,
-                Label = glue.Label,
-                Color = glue.Color,
-                Strength = glue.Strength
-            };
-        }
-
-        /// <summary>
-        /// Convert a Glue to a GlueVm
-        /// </summary>
-        /// <param name="glue">Glue to be converted to GlueVm</param>
-        /// <returns>GlueVm</returns>
-        public static GlueVm ToGlueVm(Glue glue)
-        {
-            return new GlueVm
             {
                 DisplayColor = glue.DisplayColor,
                 Label = glue.Label,

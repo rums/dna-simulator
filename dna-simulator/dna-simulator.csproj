@@ -107,13 +107,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\DragEventArgsToAttachedGluesVmConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Design\DesignServiceBundle.cs" />
+    <Compile Include="Exceptions\InvalidTileTypeException.cs" />
+    <Compile Include="Model\Atam\GlueLabel.cs" />
     <Compile Include="Model\ObservableSet.cs" />
     <Compile Include="Services\DialogService.cs" />
     <Compile Include="Services\IColorPickerService.cs" />
     <Compile Include="Services\IServiceBundle.cs" />
     <Compile Include="Services\ServiceBundle.cs" />
+    <Compile Include="ViewModel\Atam\AttachedGluesVm.cs" />
     <Compile Include="ViewModel\Configuration\GlueEditorViewModel.cs" />
     <Compile Include="View\Configuration\GlueEditorControl.xaml.cs">
       <DependentUpon>GlueEditorControl.xaml</DependentUpon>
@@ -229,6 +233,7 @@
   <ItemGroup>
     <None Include="Properties\OutOfBrowserSettings.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,10 +6,10 @@ namespace dna_simulator.Model.Atam
     {
         private Color _displayColor;
         private string _label;
-        private ObservableDictionary<string, Glue> _topGlues;
-        private ObservableDictionary<string, Glue> _bottomGlues;
-        private ObservableDictionary<string, Glue> _leftGlues;
-        private ObservableDictionary<string, Glue> _rightGlues;
+        private ObservableSet<GlueLabel> _topGlues;
+        private ObservableSet<GlueLabel> _bottomGlues;
+        private ObservableSet<GlueLabel> _leftGlues;
+        private ObservableSet<GlueLabel> _rightGlues;
 
         public Color DisplayColor
         {
@@ -33,7 +33,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableDictionary<string, Glue> TopGlues
+        public ObservableSet<GlueLabel> TopGlues
         {
             get { return _topGlues; }
             set
@@ -44,7 +44,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableDictionary<string, Glue> BottomGlues
+        public ObservableSet<GlueLabel> BottomGlues
         {
             get { return _bottomGlues; }
             set
@@ -55,7 +55,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableDictionary<string, Glue> LeftGlues
+        public ObservableSet<GlueLabel> LeftGlues
         {
             get { return _leftGlues; }
             set
@@ -66,7 +66,7 @@ namespace dna_simulator.Model.Atam
             }
         }
 
-        public ObservableDictionary<string, Glue> RightGlues
+        public ObservableSet<GlueLabel> RightGlues
         {
             get { return _rightGlues; }
             set

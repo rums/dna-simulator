@@ -1,35 +1,40 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.ComponentModel;
 using dna_simulator.Model;
 using dna_simulator.Model.Atam;
 using System.Linq;
 using System.Windows.Media;
+using dna_simulator.Services;
 
 namespace dna_simulator.ViewModel.Atam
 {
     public class TileTypeVm : ViewModelBase
     {
         // from model
-        private int _id;
-
         private string _label;
         private Color _displayColor;
-        private ObservableSet<GlueVm> _topGlues;
-        private ObservableSet<GlueVm> _bottomGlues;
-        private ObservableSet<GlueVm> _leftGlues;
-        private ObservableSet<GlueVm> _rightGlues;
+        private AttachedGluesVm _topGlues;
+        private AttachedGluesVm _bottomGlues;
+        private AttachedGluesVm _leftGlues;
+        private AttachedGluesVm _rightGlues;
 
         // viewmodel specific
         private bool _isSeed;
+        private readonly TileType _tileType;
+        private readonly IDataService _dataService;
 
-        public int Id
+        public TileTypeVm(TileType tileType, IDataService dataService)
         {
-            get { return _id; }
-            set
-            {
-                if (value == _id) return;
-                _id = value;
-                RaisePropertyChanged();
-            }
+            _dataService = dataService;
+            _tileType = tileType;
+            var tileAssemblySystem = _dataService.GetTileAssemblySystem();
+
+            DisplayColor = _tileType.DisplayColor;
+            Label = _tileType.Label;
+            TopGlues = new AttachedGluesVm(_tileType.TopGlues.Select(g => new GlueVm(_dataService.Glues[g]))) {FocusedTile = this, FocusedEdge = "Top"};
+            BottomGlues = new AttachedGluesVm(_tileType.BottomGlues.Select(g => new GlueVm(_dataService.Glues[g]))) {FocusedTile = this, FocusedEdge = "Bottom"};
+            LeftGlues = new AttachedGluesVm(_tileType.LeftGlues.Select(g => new GlueVm(_dataService.Glues[g]))) {FocusedTile = this, FocusedEdge = "Left"};
+            RightGlues = new AttachedGluesVm(_tileType.RightGlues.Select(g => new GlueVm(_dataService.Glues[g]))) {FocusedTile = this, FocusedEdge = "Right"};
+            IsSeed = tileAssemblySystem.Seed == null || Equals(_tileType.Label, tileAssemblySystem.Seed.Label);
         }
 
         public string Label
@@ -39,6 +44,7 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value == _label) return;
                 _label = value;
+                _tileType.Label = value;
                 RaisePropertyChanged();
             }
         }
@@ -50,11 +56,12 @@ namespace dna_simulator.ViewModel.Atam
             {
                 if (value.Equals(_displayColor)) return;
                 _displayColor = value;
+                _tileType.DisplayColor = value;
                 RaisePropertyChanged();
             }
         }
 
-        public ObservableSet<GlueVm> TopGlues
+        public AttachedGluesVm TopGlues
         {
             get { return _topGlues; }
             set
@@ -65,7 +72,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public ObservableSet<GlueVm> BottomGlues
+        public AttachedGluesVm BottomGlues
         {
             get { return _bottomGlues; }
             set
@@ -76,7 +83,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public ObservableSet<GlueVm> LeftGlues
+        public AttachedGluesVm LeftGlues
         {
             get { return _leftGlues; }
             set
@@ -87,7 +94,7 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        public ObservableSet<GlueVm> RightGlues
+        public AttachedGluesVm RightGlues
         {
             get { return _rightGlues; }
             set
@@ -109,52 +116,46 @@ namespace dna_simulator.ViewModel.Atam
             }
         }
 
-        /// <summary>
-        /// Convert a TileType to a TileTypeVm
-        /// </summary>
-        /// <param name="tile">TileType to be converted to TileTypeVm</param>
-        /// <param name="tileAssemblySystem">TileAssemblySystem in which this TileType resides</param>
-        /// <returns></returns>
-        public static TileTypeVm ToTileTypeVm(TileType tile, TileAssemblySystem tileAssemblySystem)
+        public void TileTypeOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var tilevm = ToTileTypeVm(tile);
-            tilevm.IsSeed = Equals(tile.Label, tileAssemblySystem.Seed.Label);
-            return tilevm;
-        }
-
-        /// <summary>
-        /// Convert a TileType to a TileTypeVm
-        /// </summary>
-        /// <param name="tile">TileType to be converted to TileTypeVm</param>
-        /// <returns></returns>
-        public static TileTypeVm ToTileTypeVm(TileType tile)
-        {
-            return new TileTypeVm
+            switch (e.PropertyName)
             {
-                DisplayColor = tile.DisplayColor,
-                Label = tile.Label,
-                TopGlues = new ObservableSet<GlueVm>(tile.TopGlues.Values.Select(GlueVm.ToGlueVm)),
-                BottomGlues = new ObservableSet<GlueVm>(tile.BottomGlues.Values.Select(GlueVm.ToGlueVm)),
-                LeftGlues = new ObservableSet<GlueVm>(tile.LeftGlues.Values.Select(GlueVm.ToGlueVm)),
-                RightGlues = new ObservableSet<GlueVm>(tile.RightGlues.Values.Select(GlueVm.ToGlueVm)),
-            };
+                case "Label":
+                    Label = _tileType.Label;
+                    break;
+                case "DisplayColor":
+                    DisplayColor = _tileType.DisplayColor;
+                    break;
+                case "TopGlues":
+                    TopGlues = new AttachedGluesVm(_tileType.TopGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Top"};
+                    break;
+                case "BottomGlues":
+                    BottomGlues = new AttachedGluesVm(_tileType.BottomGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Bottom"};
+                    break;
+                case "LeftGlues":
+                    LeftGlues = new AttachedGluesVm(_tileType.LeftGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Left"};
+                    break;
+                case "RightGlues":
+                    RightGlues = new AttachedGluesVm(_tileType.RightGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Right"};
+                    break;
+            }
         }
 
         /// <summary>
         /// Convert a TileTypeVm to a TileType
         /// </summary>
         /// <param name="tile">TileTypeVm to be converted to TileType</param>
-        /// <returns>TileType</returns>
+        /// <returns>new TileType</returns>
         public static TileType ToTileType(TileTypeVm tile)
         {
             return new TileType
             {
                 DisplayColor = tile.DisplayColor,
                 Label = tile.Label,
-                TopGlues = new ObservableDictionary<string, Glue>(tile.TopGlues.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
-                BottomGlues = new ObservableDictionary<string, Glue>(tile.BottomGlues.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
-                LeftGlues = new ObservableDictionary<string, Glue>(tile.LeftGlues.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
-                RightGlues = new ObservableDictionary<string, Glue>(tile.RightGlues.ToDictionary(vm => vm.Label, GlueVm.ToGlue)),
+                TopGlues = new ObservableSet<GlueLabel>(tile.TopGlues.Select(g => new GlueLabel(g.Label))),
+                BottomGlues = new ObservableSet<GlueLabel>(tile.BottomGlues.Select(g => new GlueLabel(g.Label))),
+                LeftGlues = new ObservableSet<GlueLabel>(tile.LeftGlues.Select(g => new GlueLabel(g.Label))),
+                RightGlues = new ObservableSet<GlueLabel>(tile.RightGlues.Select(g => new GlueLabel(g.Label))),
             };
         }
     }

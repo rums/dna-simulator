@@ -10,6 +10,8 @@
     xmlns:confvm="clr-namespace:dna_simulator.ViewModel.Configuration"
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
+    xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras"
+    xmlns:converters="clr-namespace:dna_simulator.Converters"
     mc:Ignorable="d"
 	x:Class="dna_simulator.View.Configuration.TileEditorControl"
 	d:DesignWidth="640" d:DesignHeight="480"
@@ -20,6 +22,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Skins/ConfigSkin.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <converters:DragEventArgsToAttachedGluesVmConverter x:Key="DragEventArgsToAttachedGluesVmConverter" />
             
             <innerProduct:ColorToBrush x:Key="ColorToBrush" />
 
@@ -139,7 +143,15 @@
 
     <toolkit:DockPanel x:Name="LayoutRoot">
         <!-- Top labels -->
-        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Top">
+        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Top" HorizontalContentAlignment="Stretch">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Drop">
+                    <command:EventToCommand Command="{Binding ConfigViewModel.AddGlueToTileCommand, Source={StaticResource Locator}}"
+                                            PassEventArgsToCommand="True"
+                                            EventArgsConverter="{StaticResource DragEventArgsToAttachedGluesVmConverter}"
+                                            EventArgsConverterParameter="{Binding CurrentTileTypeVm.TopGlues}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListBox Name="TopLabelsListBox" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.TopGlues}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -150,7 +162,15 @@
         </toolkit:ListBoxDragDropTarget>
 
         <!-- Bottom labels -->
-        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Bottom">
+        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Bottom" HorizontalContentAlignment="Stretch">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Drop">
+                    <command:EventToCommand Command="{Binding ConfigViewModel.AddGlueToTileCommand, Source={StaticResource Locator}}"
+                                            PassEventArgsToCommand="True"
+                                            EventArgsConverter="{StaticResource DragEventArgsToAttachedGluesVmConverter}"
+                                            EventArgsConverterParameter="{Binding CurrentTileTypeVm.BottomGlues}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListBox Name="BottomLabelsListBox" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.BottomGlues}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -161,7 +181,15 @@
         </toolkit:ListBoxDragDropTarget>
 
         <!-- Left labels -->
-        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Left">
+        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Left" VerticalContentAlignment="Stretch">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Drop">
+                    <command:EventToCommand Command="{Binding ConfigViewModel.AddGlueToTileCommand, Source={StaticResource Locator}}"
+                                            PassEventArgsToCommand="True"
+                                            EventArgsConverter="{StaticResource DragEventArgsToAttachedGluesVmConverter}"
+                                            EventArgsConverterParameter="{Binding CurrentTileTypeVm.LeftGlues}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListBox Name="LeftLabelsListBox" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftGlues}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -172,7 +200,15 @@
         </toolkit:ListBoxDragDropTarget>
 
         <!-- Right labels -->
-        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Right">
+        <toolkit:ListBoxDragDropTarget AllowDrop="True" toolkit:DockPanel.Dock="Right" VerticalContentAlignment="Stretch">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Drop">
+                    <command:EventToCommand Command="{Binding ConfigViewModel.AddGlueToTileCommand, Source={StaticResource Locator}}"
+                                            PassEventArgsToCommand="True"
+                                            EventArgsConverter="{StaticResource DragEventArgsToAttachedGluesVmConverter}"
+                                            EventArgsConverterParameter="{Binding CurrentTileTypeVm.RightGlues}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListBox Name="RightLabelsListBox" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.RightGlues}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -194,7 +230,7 @@
                         <ei:ChangePropertyAction TargetName="AddTopGlue" PropertyName="Stroke" Value="{StaticResource AddHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.TopGlues}" Command="{Binding ConfigViewModel.AddGlueToTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Path Name="AddTopGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
@@ -228,7 +264,7 @@
                         <ei:ChangePropertyAction TargetName="AddBottomGlue" PropertyName="Stroke" Value="{StaticResource AddHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.BottomGlues}" Command="{Binding ConfigViewModel.AddGlueToTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Path Name="AddBottomGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
@@ -262,7 +298,7 @@
                         <ei:ChangePropertyAction TargetName="AddLeftGlue" PropertyName="Stroke" Value="{StaticResource AddHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.LeftGlues}" Command="{Binding ConfigViewModel.AddGlueToTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Path Name="AddLeftGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
@@ -296,7 +332,7 @@
                         <ei:ChangePropertyAction TargetName="AddRightGlue" PropertyName="Stroke" Value="{StaticResource AddHighlightBrush}" />
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
+                        <i:InvokeCommandAction CommandParameter="{Binding CurrentTileTypeVm.RightGlues}" Command="{Binding ConfigViewModel.AddGlueToTileCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <Path Name="AddRightGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />

@@ -69,8 +69,8 @@ namespace dna_simulator.Model
             Dictionary.TryGetValue(key, out value);
             var removed = Dictionary.Remove(key);
             if (removed)
-                //OnCollectionChanged(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value));
-                OnCollectionChanged();
+                OnCollectionChanged(NotifyCollectionChangedAction.Remove, new KeyValuePair<TKey, TValue>(key, value));
+                //OnCollectionChanged();
             return removed;
         }
 
