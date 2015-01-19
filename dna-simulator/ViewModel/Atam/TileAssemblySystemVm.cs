@@ -15,36 +15,7 @@ namespace dna_simulator.ViewModel.Atam
         public TileAssemblySystemVm(IDataService dataService)
         {
             _dataService = dataService;
-            //TileTypes.CollectionChanged += TileTypesVmOnCollectionChanged;
         }
-
-        //private void TileTypesVmOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    var tileAssemblySystem = _dataService.GetTileAssemblySystem();
-        //    if (e.NewItems != null)
-        //        foreach (TileTypeVm item in e.NewItems)
-        //        {
-        //            _dataService.AddTile(TileTypeVm.ToTileType(item));
-        //            var tileVm = tileAssemblySystem.TileTypes.First(t => item.Key == t.Label);
-        //            item.Value.PropertyChanged += tileVm.TileTypeOnPropertyChanged;
-        //            item.Value.TopGlues.CollectionChanged += OnGluesOnCollectionChanged(tileVm.TopGlues);
-        //            item.Value.BottomGlues.CollectionChanged += OnGluesOnCollectionChanged(tileVm.BottomGlues);
-        //            item.Value.LeftGlues.CollectionChanged += OnGluesOnCollectionChanged(tileVm.LeftGlues);
-        //            item.Value.RightGlues.CollectionChanged += OnGluesOnCollectionChanged(tileVm.RightGlues);
-        //        }
-        //    if (e.OldItems != null)
-        //        foreach (KeyValuePair<string, TileType> item in e.OldItems)
-        //        {
-        //            CurrentTileAssemblySystemVm.TileTypes.Remove(TileTypeVm.ToTileTypeVm(item.Value, _dataService.Glues,
-        //                _dataService.TileAssemblySystem));
-        //            var tileVm = CurrentTileAssemblySystemVm.TileTypes.First(t => item.Key == t.Label);
-        //            item.Value.PropertyChanged -= tileVm.TileTypeOnPropertyChanged;
-        //            item.Value.TopGlues.CollectionChanged -= OnGluesOnCollectionChanged(tileVm.TopGlues);
-        //            item.Value.BottomGlues.CollectionChanged -= OnGluesOnCollectionChanged(tileVm.BottomGlues);
-        //            item.Value.LeftGlues.CollectionChanged -= OnGluesOnCollectionChanged(tileVm.LeftGlues);
-        //            item.Value.RightGlues.CollectionChanged -= OnGluesOnCollectionChanged(tileVm.RightGlues);
-        //        }
-        //}
 
         public ObservableSet<TileTypeVm> TileTypes
         {

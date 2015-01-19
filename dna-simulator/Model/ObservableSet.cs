@@ -10,7 +10,8 @@ namespace dna_simulator.Model
         {
         }
 
-        public ObservableSet(IEnumerable<T> items) : base(items)
+        public ObservableSet(IEnumerable<T> items)
+            : base(items)
         {
         }
 

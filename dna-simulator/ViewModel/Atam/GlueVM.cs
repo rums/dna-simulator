@@ -1,8 +1,6 @@
-﻿using System;
+﻿using dna_simulator.Model.Atam;
 using System.ComponentModel;
-using dna_simulator.Model.Atam;
 using System.Windows.Media;
-using dna_simulator.Services;
 
 namespace dna_simulator.ViewModel.Atam
 {
@@ -10,6 +8,7 @@ namespace dna_simulator.ViewModel.Atam
     {
         // from model
         private Color _displayColor;
+
         private string _label;
         private int _color;
         private int _strength;
@@ -77,9 +76,9 @@ namespace dna_simulator.ViewModel.Atam
         // override object.Equals
         public override bool Equals(object obj)
         {
-            //       
+            //
             // See the full list of guidelines at
-            //   http://go.microsoft.com/fwlink/?LinkID=85237  
+            //   http://go.microsoft.com/fwlink/?LinkID=85237
             // and also the guidance for operator== at
             //   http://go.microsoft.com/fwlink/?LinkId=85238
             //
@@ -109,7 +108,6 @@ namespace dna_simulator.ViewModel.Atam
                     break;
             }
         }
-
 
         /// <summary>
         /// Convert a GlueVm to a Glue

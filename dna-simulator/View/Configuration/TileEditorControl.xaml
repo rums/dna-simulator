@@ -24,7 +24,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <converters:DragEventArgsToAttachedGluesVmConverter x:Key="DragEventArgsToAttachedGluesVmConverter" />
-            
+
             <innerProduct:ColorToBrush x:Key="ColorToBrush" />
 
             <DataTemplate DataType="atam:TileTypeVm">
@@ -152,7 +152,11 @@
                                             EventArgsConverterParameter="{Binding CurrentTileTypeVm.TopGlues}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <ListBox Name="TopLabelsListBox" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.TopGlues}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
+            <ListBox Name="TopLabelsListBox" Height="52" BorderBrush="{StaticResource GlueListBorder}"
+                     ItemContainerStyle="{StaticResource IgnoreMouseOverItem}"
+                     ItemsSource="{Binding CurrentTileTypeVm.TopGlues}"
+                     ItemTemplate="{StaticResource EdgeItemTemplate}"
+                     SelectionMode="Extended">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -171,7 +175,11 @@
                                             EventArgsConverterParameter="{Binding CurrentTileTypeVm.BottomGlues}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <ListBox Name="BottomLabelsListBox" Height="52" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.BottomGlues}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
+            <ListBox Name="BottomLabelsListBox" Height="52" BorderBrush="{StaticResource GlueListBorder}"
+                     ItemContainerStyle="{StaticResource IgnoreMouseOverItem}"
+                     ItemsSource="{Binding CurrentTileTypeVm.BottomGlues}"
+                     ItemTemplate="{StaticResource EdgeItemTemplate}"
+                     SelectionMode="Extended">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -190,7 +198,11 @@
                                             EventArgsConverterParameter="{Binding CurrentTileTypeVm.LeftGlues}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <ListBox Name="LeftLabelsListBox" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.LeftGlues}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
+            <ListBox Name="LeftLabelsListBox" Width="85" BorderBrush="{StaticResource GlueListBorder}"
+                     ItemContainerStyle="{StaticResource IgnoreMouseOverItem}"
+                     ItemsSource="{Binding CurrentTileTypeVm.LeftGlues}"
+                     ItemTemplate="{StaticResource EdgeItemTemplate}"
+                     SelectionMode="Extended">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />
@@ -209,7 +221,11 @@
                                             EventArgsConverterParameter="{Binding CurrentTileTypeVm.RightGlues}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <ListBox Name="RightLabelsListBox" Width="85" BorderBrush="Transparent" ItemContainerStyle="{StaticResource IgnoreMouseOverItem}" ItemsSource="{Binding CurrentTileTypeVm.RightGlues}" ItemTemplate="{StaticResource EdgeItemTemplate}" SelectionMode="Extended">
+            <ListBox Name="RightLabelsListBox" Width="85" BorderBrush="{StaticResource GlueListBorder}"
+                     ItemContainerStyle="{StaticResource IgnoreMouseOverItem}"
+                     ItemsSource="{Binding CurrentTileTypeVm.RightGlues}"
+                     ItemTemplate="{StaticResource EdgeItemTemplate}"
+                     SelectionMode="Extended">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" />

@@ -11,11 +11,11 @@
              xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
              mc:Ignorable="d ignore"
              d:DataContext="{d:DesignInstance atam:TileTypeVm}">
-    
+
     <UserControl.Resources>
         <innerProduct:ColorToBrush x:Key="ColorToBrush" />
     </UserControl.Resources>
-    
+
     <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
         <Grid Background="Transparent" x:Name="Tile">
             <TextBox x:Name="TileLabel" TextWrapping="Wrap" Text="{Binding Label, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Center" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.ZIndex="1" />

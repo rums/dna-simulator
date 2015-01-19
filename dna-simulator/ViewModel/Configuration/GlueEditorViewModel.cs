@@ -4,6 +4,7 @@ using dna_simulator.ViewModel.Atam;
 namespace dna_simulator.ViewModel.Configuration
 {
     /* This class basically exists so we can use it with datatemplates */
+
     public class GlueEditorViewModel : ViewModelBase
     {
         private ObservableSet<GlueVm> _glues;

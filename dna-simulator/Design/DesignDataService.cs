@@ -1,4 +1,9 @@
-﻿using System;
+﻿using dna_simulator.Exceptions;
+using dna_simulator.Model;
+using dna_simulator.Model.Atam;
+using dna_simulator.Properties;
+using dna_simulator.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -9,11 +14,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using System.Xml.Linq;
-using dna_simulator.Exceptions;
-using dna_simulator.Model;
-using dna_simulator.Model.Atam;
-using dna_simulator.Properties;
-using dna_simulator.Services;
 
 namespace dna_simulator.Design
 {
@@ -236,16 +236,19 @@ namespace dna_simulator.Design
                         throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                     TileAssemblySystem.TileTypes[tileLabel].TopGlues.Add(glueLabel);
                     break;
+
                 case "Bottom":
                     if (TileAssemblySystem.TileTypes[tileLabel] == null)
                         throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                     TileAssemblySystem.TileTypes[tileLabel].BottomGlues.Add(glueLabel);
                     break;
+
                 case "Left":
                     if (TileAssemblySystem.TileTypes[tileLabel] == null)
                         throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                     TileAssemblySystem.TileTypes[tileLabel].LeftGlues.Add(glueLabel);
                     break;
+
                 case "Right":
                     if (TileAssemblySystem.TileTypes[tileLabel] == null)
                         throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
@@ -272,21 +275,25 @@ namespace dna_simulator.Design
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                         TileAssemblySystem.TileTypes[tileLabel].TopGlues.Add(glueLabel);
                         break;
+
                     case "Bottom":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                         TileAssemblySystem.TileTypes[tileLabel].BottomGlues.Add(glueLabel);
                         break;
+
                     case "Left":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                         TileAssemblySystem.TileTypes[tileLabel].LeftGlues.Add(glueLabel);
                         break;
+
                     case "Right":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                         TileAssemblySystem.TileTypes[tileLabel].RightGlues.Add(glueLabel);
                         break;
+
                     default:
                         var hmm = Glues.Keys.First(g => g.Label == glue.Label);
                         var hmm2 = Glues[new GlueLabel(glue.Label)];
@@ -404,5 +411,4 @@ namespace dna_simulator.Design
             }
         }
     }
-
 }

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using dna_simulator.Model;
+﻿using dna_simulator.Model;
 using dna_simulator.Model.Atam;
-using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace dna_simulator.Services
@@ -11,7 +10,7 @@ namespace dna_simulator.Services
         // TODO: Properties should only be used for subscribing to property changed events. How to reflect this?
         TileAssemblySystem TileAssemblySystem { get; set; }
 
-        ObservableDictionary<GlueLabel, Glue> Glues { get; set; } 
+        ObservableDictionary<GlueLabel, Glue> Glues { get; set; }
 
         TileAssemblySystem GetTileAssemblySystem();
 

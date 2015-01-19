@@ -1,6 +1,4 @@
-﻿using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace dna_simulator.ViewModel
 {

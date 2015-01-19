@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using dna_simulator.Model;
+﻿using dna_simulator.Model;
 using dna_simulator.Model.Atam;
 using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
 
 namespace dna_simulator.ViewModel.Configuration
 {
@@ -60,6 +60,7 @@ namespace dna_simulator.ViewModel.Configuration
 
         // Using dictionary of handlers so we can pass additional arg and unregister later
         private readonly NotifyCollectionChangedEventHandler _onGluesOnCollectionChanged;
+
         private readonly Dictionary<AttachedGluesVm, NotifyCollectionChangedEventHandler> _onAttachedGluesOnCollectionChanged = new Dictionary<AttachedGluesVm, NotifyCollectionChangedEventHandler>();
 
         private void GluesOnCollectionChanged(NotifyCollectionChangedEventArgs e, ObservableSet<GlueVm> glues)
@@ -81,7 +82,6 @@ namespace dna_simulator.ViewModel.Configuration
                         glues.Add(new GlueVm(_dataService.Glues[item]));
                         item.PropertyChanged += glues.First(g => g.Label == item.Label).GlueOnPropertyChanged;
                     }
-                    
                 }
             }
             if (e.OldItems != null)
@@ -93,7 +93,6 @@ namespace dna_simulator.ViewModel.Configuration
                         item.Value.PropertyChanged -= glues.First(g => g.Label == item.Key.Label).GlueOnPropertyChanged;
                         glues.Remove(new GlueVm(item.Value));
                     }
-
                 }
                 else if (e.OldItems.OfType<GlueLabel>().Any())
                 {
@@ -105,7 +104,7 @@ namespace dna_simulator.ViewModel.Configuration
                 }
             }
         }
-        
+
         private void AttachedGluesOnCollectionChanged(NotifyCollectionChangedEventArgs e, AttachedGluesVm glues)
         {
             if (e.NewItems != null)
@@ -125,7 +124,6 @@ namespace dna_simulator.ViewModel.Configuration
                         glues.Add(new GlueVm(_dataService.Glues[item]));
                         item.PropertyChanged += glues.First(g => g.Label == item.Label).GlueOnPropertyChanged;
                     }
-                    
                 }
             }
             if (e.OldItems != null)
@@ -137,7 +135,6 @@ namespace dna_simulator.ViewModel.Configuration
                         item.Value.PropertyChanged -= glues.First(g => g.Label == item.Key.Label).GlueOnPropertyChanged;
                         glues.Remove(new GlueVm(item.Value));
                     }
-
                 }
                 else if (e.OldItems.OfType<GlueLabel>().Any())
                 {
@@ -179,6 +176,7 @@ namespace dna_simulator.ViewModel.Configuration
                 case "Temperature":
                     CurrentTileAssemblySystemVm.Temperature = _dataService.TileAssemblySystem.Temperature;
                     break;
+
                 case "Seed":
                     CurrentTileAssemblySystemVm.Seed = _dataService.TileAssemblySystem.Seed == null
                         ? null
@@ -236,6 +234,7 @@ namespace dna_simulator.ViewModel.Configuration
                         TileTypes = new ObservableSet<TileTypeVm>(_dataService.TileAssemblySystem.TileTypes.Values.Select(t => new TileTypeVm(t, _dataService)))
                     };
                     break;
+
                 case "Glues":
                     Glues.CollectionChanged -= _onGluesOnCollectionChanged;
                     Glues = new ObservableSet<GlueVm>(_dataService.Glues.Values.Select(g => new GlueVm(g)));

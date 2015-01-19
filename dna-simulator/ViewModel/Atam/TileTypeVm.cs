@@ -1,9 +1,9 @@
-﻿using System.ComponentModel;
-using dna_simulator.Model;
+﻿using dna_simulator.Model;
 using dna_simulator.Model.Atam;
+using dna_simulator.Services;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Media;
-using dna_simulator.Services;
 
 namespace dna_simulator.ViewModel.Atam
 {
@@ -11,6 +11,7 @@ namespace dna_simulator.ViewModel.Atam
     {
         // from model
         private string _label;
+
         private Color _displayColor;
         private AttachedGluesVm _topGlues;
         private AttachedGluesVm _bottomGlues;
@@ -19,6 +20,7 @@ namespace dna_simulator.ViewModel.Atam
 
         // viewmodel specific
         private bool _isSeed;
+
         private readonly TileType _tileType;
         private readonly IDataService _dataService;
 
@@ -30,10 +32,10 @@ namespace dna_simulator.ViewModel.Atam
 
             DisplayColor = _tileType.DisplayColor;
             Label = _tileType.Label;
-            TopGlues = new AttachedGluesVm(_tileType.TopGlues.Select(g => new GlueVm(_dataService.Glues[g]))) {FocusedTile = this, FocusedEdge = "Top"};
-            BottomGlues = new AttachedGluesVm(_tileType.BottomGlues.Select(g => new GlueVm(_dataService.Glues[g]))) {FocusedTile = this, FocusedEdge = "Bottom"};
-            LeftGlues = new AttachedGluesVm(_tileType.LeftGlues.Select(g => new GlueVm(_dataService.Glues[g]))) {FocusedTile = this, FocusedEdge = "Left"};
-            RightGlues = new AttachedGluesVm(_tileType.RightGlues.Select(g => new GlueVm(_dataService.Glues[g]))) {FocusedTile = this, FocusedEdge = "Right"};
+            TopGlues = new AttachedGluesVm(_tileType.TopGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Top" };
+            BottomGlues = new AttachedGluesVm(_tileType.BottomGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Bottom" };
+            LeftGlues = new AttachedGluesVm(_tileType.LeftGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Left" };
+            RightGlues = new AttachedGluesVm(_tileType.RightGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Right" };
             IsSeed = tileAssemblySystem.Seed == null || Equals(_tileType.Label, tileAssemblySystem.Seed.Label);
         }
 
@@ -123,20 +125,25 @@ namespace dna_simulator.ViewModel.Atam
                 case "Label":
                     Label = _tileType.Label;
                     break;
+
                 case "DisplayColor":
                     DisplayColor = _tileType.DisplayColor;
                     break;
+
                 case "TopGlues":
-                    TopGlues = new AttachedGluesVm(_tileType.TopGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Top"};
+                    TopGlues = new AttachedGluesVm(_tileType.TopGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Top" };
                     break;
+
                 case "BottomGlues":
-                    BottomGlues = new AttachedGluesVm(_tileType.BottomGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Bottom"};
+                    BottomGlues = new AttachedGluesVm(_tileType.BottomGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Bottom" };
                     break;
+
                 case "LeftGlues":
-                    LeftGlues = new AttachedGluesVm(_tileType.LeftGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Left"};
+                    LeftGlues = new AttachedGluesVm(_tileType.LeftGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Left" };
                     break;
+
                 case "RightGlues":
-                    RightGlues = new AttachedGluesVm(_tileType.RightGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Right"};
+                    RightGlues = new AttachedGluesVm(_tileType.RightGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Right" };
                     break;
             }
         }

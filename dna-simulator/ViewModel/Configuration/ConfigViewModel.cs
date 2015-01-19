@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using dna_simulator.Exceptions;
+﻿using dna_simulator.Exceptions;
 using dna_simulator.Model;
 using dna_simulator.Model.Atam;
 using dna_simulator.Services;
 using dna_simulator.ViewModel.Atam;
 using GalaSoft.MvvmLight.Command;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace dna_simulator.ViewModel.Configuration
 {
@@ -41,21 +41,21 @@ namespace dna_simulator.ViewModel.Configuration
                 CurrentSingleTileViewModel = new SingleTileViewModel(null);
             }
             // initialize commands
-            ChangeGlueDisplayColorCommand = new RelayCommand<string>(ChangeGlueDisplayColor, CanChangeGlueDisplayColor);
-            ConfigureGlueCommand = new RelayCommand<GlueVm>(ConfigureGlue, CanConfigureGlue);
-            ConfigureTileCommand = new RelayCommand(ConfigureTile, CanConfigureTile);
-            AddTileCommand = new RelayCommand(AddTile, CanAddTile);
-            DeleteTilesCommand = new RelayCommand<object>(DeleteTiles, CanDeleteTiles);
-            SaveChangesCommand = new RelayCommand(SaveChanges, CanSaveChanges);
-            ChangeTileDisplayColorCommand = new RelayCommand<string>(ChangeTileDisplayColor, CanChangeTileDisplayColor);
-            DisplayTileTypeCommand = new RelayCommand<object>(DisplayTileType, CanDisplayTileType);
-            AddGlueCommand = new RelayCommand(AddGlue, CanAddGlue);
-            AddGlueToTileCommand = new RelayCommand<object>(AddGlueToTile, CanAddGlueToTile);
-            RemoveGluesFromTopCommand = new RelayCommand<object>(RemoveGluesFromTop, CanRemoveGluesFromTop);
-            RemoveGluesFromBottomCommand = new RelayCommand<object>(RemoveGluesFromBottom, CanRemoveGluesFromBottom);
-            RemoveGluesFromLeftCommand = new RelayCommand<object>(RemoveGluesFromLeft, CanRemoveGluesFromLeft);
-            RemoveGluesFromRightCommand = new RelayCommand<object>(RemoveGluesFromRight, CanRemoveGluesFromRight);
-            DeleteGluesCommand = new RelayCommand<object>(DeleteGlues, CanDeleteGlues);
+            ChangeGlueDisplayColorCommand = new RelayCommand<string>(ChangeGlueDisplayColor);
+            ConfigureGlueCommand = new RelayCommand<GlueVm>(ConfigureGlue);
+            ConfigureTileCommand = new RelayCommand(ConfigureTile);
+            AddTileCommand = new RelayCommand(AddTile);
+            DeleteTilesCommand = new RelayCommand<object>(DeleteTiles);
+            SaveChangesCommand = new RelayCommand(SaveChanges);
+            ChangeTileDisplayColorCommand = new RelayCommand<string>(ChangeTileDisplayColor);
+            DisplayTileTypeCommand = new RelayCommand<object>(DisplayTileType);
+            AddGlueCommand = new RelayCommand(AddGlue);
+            AddGlueToTileCommand = new RelayCommand<object>(AddGlueToTile);
+            RemoveGluesFromTopCommand = new RelayCommand<object>(RemoveGluesFromTop);
+            RemoveGluesFromBottomCommand = new RelayCommand<object>(RemoveGluesFromBottom);
+            RemoveGluesFromLeftCommand = new RelayCommand<object>(RemoveGluesFromLeft);
+            RemoveGluesFromRightCommand = new RelayCommand<object>(RemoveGluesFromRight);
+            DeleteGluesCommand = new RelayCommand<object>(DeleteGlues);
         }
 
         public SingleTileViewModel CurrentSingleTileViewModel
@@ -111,81 +111,6 @@ namespace dna_simulator.ViewModel.Configuration
         public RelayCommand<object> DeleteGluesCommand { get; private set; }
 
         /* Command canExecute methods */
-
-        private bool CanChangeGlueDisplayColor(string label)
-        {
-            return true;
-        }
-
-        private bool CanConfigureGlue(GlueVm glue)
-        {
-            return true;
-        }
-
-        private bool CanConfigureTile()
-        {
-            return true;
-        }
-
-        private bool CanAddTile()
-        {
-            return true;
-        }
-
-        private bool CanDeleteTiles(object tiles)
-        {
-            return true;
-        }
-
-        private bool CanSaveChanges()
-        {
-            return true;
-        }
-
-        private bool CanChangeTileDisplayColor(string label)
-        {
-            return true;
-        }
-
-        public bool CanDisplayTileType(object o)
-        {
-            return true;
-        }
-
-        public bool CanAddGlue()
-        {
-            return true;
-        }
-
-        public bool CanAddGlueToTile(object o)
-        {
-            return true;
-        }
-
-        public bool CanRemoveGluesFromTop(object glues)
-        {
-            return true;
-        }
-
-        public bool CanRemoveGluesFromBottom(object glues)
-        {
-            return true;
-        }
-
-        public bool CanRemoveGluesFromLeft(object glues)
-        {
-            return true;
-        }
-
-        public bool CanRemoveGluesFromRight(object glues)
-        {
-            return true;
-        }
-
-        public bool CanDeleteGlues(object glues)
-        {
-            return true;
-        }
 
         /* Command execution methods */
 
@@ -287,56 +212,39 @@ namespace dna_simulator.ViewModel.Configuration
 
         public void RemoveGluesFromTop(object glues)
         {
-            // TODO: Modify these removal functions to use the dataservice
             List<GlueVm> toRemove = (glues as IList).Cast<GlueVm>().ToList();
             if (toRemove == null) return;
-            _dataService.RemoveGlues(toRemove.Select(GlueVm.ToGlue).ToList());
+            _dataService.RemoveGlues(toRemove.Select(GlueVm.ToGlue).ToList(), CurrentSingleTileViewModel.CurrentTileTypeVm.Label, "Top");
 
+            // TODO: Should probably use a converter to hide the editor when empty
             HideGlueEditorIfEmpty();
-            //List<GlueVm> gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
-            //foreach (GlueVm glue in gglues)
-            //{
-            //    CurrentSingleTileViewModel.CurrentTileTypeVm.TopGlues.Remove(glue);
-            //    CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
-            //}
-
-            //HideGlueEditorIfEmpty();
         }
 
         public void RemoveGluesFromBottom(object glues)
         {
-            //List<GlueVm> gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
-            //foreach (GlueVm glue in gglues)
-            //{
-            //    CurrentSingleTileViewModel.CurrentTileTypeVm.BottomGlues.Remove(glue);
-            //    CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
-            //}
+            List<GlueVm> toRemove = (glues as IList).Cast<GlueVm>().ToList();
+            if (toRemove == null) return;
+            _dataService.RemoveGlues(toRemove.Select(GlueVm.ToGlue).ToList(), CurrentSingleTileViewModel.CurrentTileTypeVm.Label, "Bottom");
 
-            //HideGlueEditorIfEmpty();
+            HideGlueEditorIfEmpty();
         }
 
         public void RemoveGluesFromLeft(object glues)
         {
-            //List<GlueVm> gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
-            //foreach (GlueVm glue in gglues)
-            //{
-            //    CurrentSingleTileViewModel.CurrentTileTypeVm.LeftGlues.Remove(glue);
-            //    CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
-            //}
+            List<GlueVm> toRemove = (glues as IList).Cast<GlueVm>().ToList();
+            if (toRemove == null) return;
+            _dataService.RemoveGlues(toRemove.Select(GlueVm.ToGlue).ToList(), CurrentSingleTileViewModel.CurrentTileTypeVm.Label, "Left");
 
-            //HideGlueEditorIfEmpty();
+            HideGlueEditorIfEmpty();
         }
 
         public void RemoveGluesFromRight(object glues)
         {
-            //List<GlueVm> gglues = (glues as ObservableCollection<object>).Cast<GlueVm>().ToList();
-            //foreach (GlueVm glue in gglues)
-            //{
-            //    CurrentSingleTileViewModel.CurrentTileTypeVm.RightGlues.Remove(glue);
-            //    CurrentSingleTileViewModel.GlueEditorViewModel.Glues.Remove(glue);
-            //}
+            List<GlueVm> toRemove = (glues as IList).Cast<GlueVm>().ToList();
+            if (toRemove == null) return;
+            _dataService.RemoveGlues(toRemove.Select(GlueVm.ToGlue).ToList(), CurrentSingleTileViewModel.CurrentTileTypeVm.Label, "Right");
 
-            //HideGlueEditorIfEmpty();
+            HideGlueEditorIfEmpty();
         }
 
         public void DeleteGlues(object glues)

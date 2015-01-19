@@ -1,15 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-
-namespace dna_simulator.Model.Atam
+﻿namespace dna_simulator.Model.Atam
 {
     public class GlueLabel : ModelBase
     {
@@ -34,9 +23,9 @@ namespace dna_simulator.Model.Atam
         // override object.Equals
         public override bool Equals(object obj)
         {
-            //       
+            //
             // See the full list of guidelines at
-            //   http://go.microsoft.com/fwlink/?LinkID=85237  
+            //   http://go.microsoft.com/fwlink/?LinkID=85237
             // and also the guidance for operator== at
             //   http://go.microsoft.com/fwlink/?LinkId=85238
             //
@@ -50,7 +39,7 @@ namespace dna_simulator.Model.Atam
             return glueLabel != null && Label.Equals(glueLabel.Label);
         }
 
-// override object.GetHashCode
+        // override object.GetHashCode
         public override int GetHashCode()
         {
             return Label.GetHashCode();

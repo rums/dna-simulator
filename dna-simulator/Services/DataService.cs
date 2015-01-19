@@ -1,4 +1,8 @@
-﻿using System;
+﻿using dna_simulator.Exceptions;
+using dna_simulator.Model;
+using dna_simulator.Model.Atam;
+using dna_simulator.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -9,17 +13,13 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using System.Xml.Linq;
-using dna_simulator.Exceptions;
-using dna_simulator.Model;
-using dna_simulator.Model.Atam;
-using dna_simulator.Properties;
 
 namespace dna_simulator.Services
 {
     public class DataService : IDataService
     {
         private const string CurrentTas = "CurrentTileAssemblySystem.xml";
-        private static readonly Random Random = new Random((int) DateTime.Now.Ticks);
+        private static readonly Random Random = new Random((int)DateTime.Now.Ticks);
 
         private ObservableDictionary<GlueLabel, Glue> _glues;
         private TileAssemblySystem _tileAssemblySystem;
@@ -28,6 +28,7 @@ namespace dna_simulator.Services
         {
             using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
             {
+                if (store.FileExists(CurrentTas)) store.DeleteFile(CurrentTas);
                 if (!store.FileExists(CurrentTas))
                 {
                     TileAssemblySystem = new TileAssemblySystem
@@ -225,16 +226,19 @@ namespace dna_simulator.Services
                         throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                     TileAssemblySystem.TileTypes[tileLabel].TopGlues.Add(glueLabel);
                     break;
+
                 case "Bottom":
                     if (TileAssemblySystem.TileTypes[tileLabel] == null)
                         throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                     TileAssemblySystem.TileTypes[tileLabel].BottomGlues.Add(glueLabel);
                     break;
+
                 case "Left":
                     if (TileAssemblySystem.TileTypes[tileLabel] == null)
                         throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                     TileAssemblySystem.TileTypes[tileLabel].LeftGlues.Add(glueLabel);
                     break;
+
                 case "Right":
                     if (TileAssemblySystem.TileTypes[tileLabel] == null)
                         throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
@@ -272,16 +276,19 @@ namespace dna_simulator.Services
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                         TileAssemblySystem.TileTypes[tileLabel].TopGlues.Remove(glueLabel);
                         break;
+
                     case "Bottom":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                         TileAssemblySystem.TileTypes[tileLabel].BottomGlues.Remove(glueLabel);
                         break;
+
                     case "Left":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
                         TileAssemblySystem.TileTypes[tileLabel].LeftGlues.Remove(glueLabel);
                         break;
+
                     case "Right":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
@@ -299,32 +306,32 @@ namespace dna_simulator.Services
         private void SaveAllToStorage()
         {
             List<XElement> glues = (from glue in Glues.Values
-                select
-                    new XElement("Glue", new XAttribute("Label", glue.Label),
-                        new XAttribute("DisplayColor", glue.DisplayColor), new XAttribute("Color", glue.Color),
-                        new XAttribute("Strength", glue.Strength))).ToList();
+                                    select
+                                        new XElement("Glue", new XAttribute("Label", glue.Label),
+                                            new XAttribute("DisplayColor", glue.DisplayColor), new XAttribute("Color", glue.Color),
+                                            new XAttribute("Strength", glue.Strength))).ToList();
             List<XElement> tileTypes = (from tile in TileAssemblySystem.TileTypes.Values
-                let topGlues =
-                    tile.TopGlues.Select(
-                        glue =>
-                            new XElement("Glue", new XAttribute("Label", glue)))
-                let bottomGlues =
-                    tile.BottomGlues.Select(
-                        glue =>
-                            new XElement("Glue", new XAttribute("Label", glue)))
-                let leftGlues =
-                    tile.LeftGlues.Select(
-                        glue =>
-                            new XElement("Glue", new XAttribute("Label", glue)))
-                let rightGlues =
-                    tile.RightGlues.Select(
-                        glue =>
-                            new XElement("Glue", new XAttribute("Label", glue)))
-                select
-                    new XElement("TileType", new XAttribute("Label", tile.Label),
-                        new XAttribute("DisplayColor", tile.DisplayColor), new XElement("Top", topGlues),
-                        new XElement("Bottom", bottomGlues), new XElement("Left", leftGlues),
-                        new XElement("Right", rightGlues))).ToList();
+                                        let topGlues =
+                                            tile.TopGlues.Select(
+                                                glue =>
+                                                    new XElement("Glue", new XAttribute("Label", glue)))
+                                        let bottomGlues =
+                                            tile.BottomGlues.Select(
+                                                glue =>
+                                                    new XElement("Glue", new XAttribute("Label", glue)))
+                                        let leftGlues =
+                                            tile.LeftGlues.Select(
+                                                glue =>
+                                                    new XElement("Glue", new XAttribute("Label", glue)))
+                                        let rightGlues =
+                                            tile.RightGlues.Select(
+                                                glue =>
+                                                    new XElement("Glue", new XAttribute("Label", glue)))
+                                        select
+                                            new XElement("TileType", new XAttribute("Label", tile.Label),
+                                                new XAttribute("DisplayColor", tile.DisplayColor), new XElement("Top", topGlues),
+                                                new XElement("Bottom", bottomGlues), new XElement("Left", leftGlues),
+                                                new XElement("Right", rightGlues))).ToList();
             using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 if (store.FileExists(CurrentTas))
@@ -373,12 +380,12 @@ namespace dna_simulator.Services
         {
             while (true)
             {
-                Type colorsType = typeof (Colors);
+                Type colorsType = typeof(Colors);
 
                 PropertyInfo[] properties = colorsType.GetProperties();
 
                 int random = Random.Next(properties.Length);
-                var result = (Color) properties[random].GetValue(null, null);
+                var result = (Color)properties[random].GetValue(null, null);
 
                 if (result == Colors.White || result == Colors.Transparent)
                     continue;
@@ -417,5 +424,4 @@ namespace dna_simulator.Services
             }
         }
     }
-
 }

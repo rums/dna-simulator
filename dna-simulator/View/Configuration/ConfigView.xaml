@@ -7,7 +7,7 @@
              xmlns:configuration="clr-namespace:dna_simulator.View.Configuration"
              mc:Ignorable="d ignore">
     <UserControl.Resources>
-       <DataTemplate x:Key="EmptyView" DataType="{x:Null}"></DataTemplate>
+        <DataTemplate x:Key="EmptyView" DataType="{x:Null}"></DataTemplate>
     </UserControl.Resources>
     <Border BorderBrush="Gray" BorderThickness="1" Margin="10" Padding="10">
         <Grid x:Name="LayoutRoot" Margin="-2">
