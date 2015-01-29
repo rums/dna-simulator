@@ -8,7 +8,7 @@
              xmlns:innerProduct="clr-namespace:InnerProduct;assembly=ColorPicker"
              xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
              xmlns:configuration="clr-namespace:dna_simulator.ViewModel.Configuration"
-             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" x:Class="dna_simulator.View.Configuration.GlueEditorControl"
+             x:Class="dna_simulator.View.Configuration.GlueEditorControl"
              mc:Ignorable="d ignore"
              d:DataContext="{d:DesignInstance configuration:GlueEditorViewModel}">
 
@@ -104,7 +104,7 @@
                         <Rectangle x:Name="GlueDisplayColor" Fill="{Binding DisplayColor, Converter={StaticResource ColorToBrush}}" Height="20" Margin="5,5,5,5" Grid.Row="3" Grid.Column="1" Width="20">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseLeftButtonUp">
-                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding ConfigViewModel.ChangeGlueDisplayColorCommand, Mode=OneWay, Source={StaticResource Locator}}" />
+                                    <i:InvokeCommandAction CommandParameter="{Binding Label}" Command="{Binding SingleTileViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Rectangle>
@@ -122,6 +122,6 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-        <Button x:Name="Done" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Margin="5" Command="{Binding ConfigViewModel.ConfigureTileCommand, Source={StaticResource Locator}}" />
+        <Button x:Name="Done" Content="Done" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Margin="5" Command="{Binding SingleTileViewModel.ConfigureTileCommand, Source={StaticResource Locator}}" />
     </StackPanel>
 </UserControl>

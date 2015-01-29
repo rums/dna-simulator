@@ -4,10 +4,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ignore="http://www.ignore.com"
-             xmlns:configuration="clr-namespace:dna_simulator.View.Configuration"
-             mc:Ignorable="d ignore">
+             xmlns:confv="clr-namespace:dna_simulator.View.Configuration"
+             xmlns:viewModel="clr-namespace:dna_simulator.ViewModel"
+             xmlns:view="clr-namespace:dna_simulator.View"
+             xmlns:confvm="clr-namespace:dna_simulator.ViewModel.Configuration"
+             xmlns:converters="clr-namespace:dna_simulator.Converters"
+             mc:Ignorable="d ignore"
+             DataContext="{Binding ConfigViewModel, Source={StaticResource Locator}}">
     <UserControl.Resources>
-        <DataTemplate x:Key="EmptyView" DataType="{x:Null}"></DataTemplate>
+        <DataTemplate DataType="confvm:SingleTileViewModel">
+            <confv:SingleTileControl />
+        </DataTemplate>
+        
+        <DataTemplate DataType="viewModel:Introduction">
+            <view:Introduction />
+        </DataTemplate>
+        
+        <converters:GenericConverter x:Key="GenericConverter" />
     </UserControl.Resources>
     <Border BorderBrush="Gray" BorderThickness="1" Margin="10" Padding="10">
         <Grid x:Name="LayoutRoot" Margin="-2">
@@ -15,8 +28,20 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <configuration:SingleTileControl DataContext="{Binding CurrentSingleTileViewModel, FallbackValue={x:Null}}" />
-            <configuration:MultiTileControl Grid.Column="1" Width="Auto" DataContext="{Binding CurrentMultiTileViewModel}" />
+            <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+                <ComboBox Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <ComboBoxItem Name="ModeAtam" IsSelected="True" Content="ATAM" />
+                    <ComboBoxItem Name="Mode2Ham" Content="2HAM" />
+                </ComboBox>
+                <ContentControl Grid.Row="1"
+                                Content="{Binding FocusedViewModel}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid>
+            <confv:MultiTileControl Grid.Column="1" Width="Auto"
+                                    DataContext="{Binding CurrentMultiTileViewModel}" />
         </Grid>
     </Border>
 </UserControl>

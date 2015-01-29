@@ -108,6 +108,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\DragEventArgsToAttachedGluesVmConverter.cs" />
+    <Compile Include="Converters\GenericConverter.cs" />
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Design\DesignServiceBundle.cs" />
     <Compile Include="Exceptions\InvalidTileTypeException.cs" />
@@ -119,11 +120,16 @@
     <Compile Include="Services\ServiceBundle.cs" />
     <Compile Include="ViewModel\Atam\AttachedGluesVm.cs" />
     <Compile Include="ViewModel\Configuration\GlueEditorViewModel.cs" />
+    <Compile Include="ViewModel\Introduction.cs" />
+    <Compile Include="Behaviors\DataContextIsNullBehavior.cs" />
     <Compile Include="View\Configuration\GlueEditorControl.xaml.cs">
       <DependentUpon>GlueEditorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Configuration\TileViewbox.xaml.cs">
       <DependentUpon>TileViewbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Introduction.xaml.cs">
+      <DependentUpon>Introduction.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -157,7 +163,7 @@
     <Compile Include="ViewModel\ColorPickerViewModel.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\Behaviors\OpenCloseChildWindowBehavior.cs" />
+    <Compile Include="Behaviors\OpenCloseChildWindowBehavior.cs" />
     <Compile Include="View\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
@@ -187,6 +193,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Introduction.xaml">
+      <SubType>Form</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,7 +206,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Configuration\ConfigView.xaml">
-      <SubType>Form</SubType>
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Controls\ColorPicker.xaml">

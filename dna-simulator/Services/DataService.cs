@@ -28,7 +28,6 @@ namespace dna_simulator.Services
         {
             using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                if (store.FileExists(CurrentTas)) store.DeleteFile(CurrentTas);
                 if (!store.FileExists(CurrentTas))
                 {
                     TileAssemblySystem = new TileAssemblySystem
@@ -76,18 +75,18 @@ namespace dna_simulator.Services
                                     LeftGlues = leftGlues,
                                     RightGlues = rightGlues
                                 });
+                        Glues = new ObservableDictionary<GlueLabel, Glue>(glues.ToDictionary(g => new GlueLabel(g.Label)));
                         TileAssemblySystem = new TileAssemblySystem
                         {
                             TileTypes =
                                 new ObservableDictionary<string, TileType>(tileTypes.ToDictionary(t => t.Label)),
                             Seed =
-                                tileTypes.First(
+                                tileTypes.FirstOrDefault(
                                     t =>
                                         t.Label == data.Elements("TileAssemblySystem").Attributes("Seed").First().Value),
                             Temperature =
                                 int.Parse(data.Elements("TileAssemblySystem").Attributes("Temperature").First().Value)
                         };
-                        Glues = new ObservableDictionary<GlueLabel, Glue>(glues.ToDictionary(g => new GlueLabel(g.Label)));
                     }
                 }
             }
@@ -98,7 +97,7 @@ namespace dna_simulator.Services
         public TileAssemblySystem TileAssemblySystem
         {
             get { return _tileAssemblySystem; }
-            set
+            private set
             {
                 if (Equals(value, _tileAssemblySystem)) return;
                 _tileAssemblySystem = value;
@@ -117,9 +116,9 @@ namespace dna_simulator.Services
             }
         }
 
-        public TileAssemblySystem GetTileAssemblySystem()
+        public void SetTileAssemblySystem(TileAssemblySystem tileAssemblySystem)
         {
-            return _tileAssemblySystem;
+            TileAssemblySystem = tileAssemblySystem;
         }
 
         public void SetTemperature(int temperature)
@@ -191,6 +190,16 @@ namespace dna_simulator.Services
             }
         }
 
+        public void SetTileLabel(TileType tile, string label)
+        {
+            TileAssemblySystem.TileTypes[tile.Label].Label = label;
+        }
+
+        public void SetTileDisplayColor(TileType tile, Color displayColor)
+        {
+            TileAssemblySystem.TileTypes[tile.Label].DisplayColor = displayColor;
+        }
+
         public void RemoveTiles(List<TileType> tiles)
         {
             throw new NotImplementedException();
@@ -254,7 +263,7 @@ namespace dna_simulator.Services
             foreach (var glue in glues)
             {
                 Glues.Remove(new GlueLabel(glue.Label));
-                foreach (var tile in GetTileAssemblySystem().TileTypes.Values)
+                foreach (var tile in TileAssemblySystem.TileTypes.Values)
                 {
                     tile.TopGlues.Remove(new GlueLabel(glue.Label));
                     tile.BottomGlues.Remove(new GlueLabel(glue.Label));
@@ -296,6 +305,26 @@ namespace dna_simulator.Services
                         break;
                 }
             }            // TODO: remove from XML file
+        }
+
+        public void SetGlueLabel(Glue glue, string label)
+        {
+            Glues[new GlueLabel(glue.Label)].Label = label;
+        }
+
+        public void SetGlueDisplayColor(Glue glue, Color displayColor)
+        {
+            Glues[new GlueLabel(glue.Label)].DisplayColor = displayColor;
+        }
+
+        public void SetGlueColor(Glue glue, int color)
+        {
+            Glues[new GlueLabel(glue.Label)].Color = color;
+        }
+
+        public void SetGlueStrength(Glue glue, int strength)
+        {
+            Glues[new GlueLabel(glue.Label)].Strength = strength;
         }
 
         public void Commit()

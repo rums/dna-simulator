@@ -1,4 +1,6 @@
-﻿using dna_simulator.Model;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using dna_simulator.Model;
 using dna_simulator.Model.Atam;
 using dna_simulator.Services;
 using System.ComponentModel;
@@ -28,7 +30,7 @@ namespace dna_simulator.ViewModel.Atam
         {
             _dataService = dataService;
             _tileType = tileType;
-            var tileAssemblySystem = _dataService.GetTileAssemblySystem();
+            var tileAssemblySystem = _dataService.TileAssemblySystem;
 
             DisplayColor = _tileType.DisplayColor;
             Label = _tileType.Label;
@@ -37,6 +39,61 @@ namespace dna_simulator.ViewModel.Atam
             LeftGlues = new AttachedGluesVm(_tileType.LeftGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Left" };
             RightGlues = new AttachedGluesVm(_tileType.RightGlues.Select(g => new GlueVm(_dataService.Glues[g]))) { FocusedTile = this, FocusedEdge = "Right" };
             IsSeed = tileAssemblySystem.Seed == null || Equals(_tileType.Label, tileAssemblySystem.Seed.Label);
+
+            _tileType.PropertyChanged += TileTypeOnPropertyChanged;
+            _onAttachedGluesOnCollectionChanged.Add(TopGlues, (s, e) => AttachedGluesOnCollectionChanged(e, TopGlues));
+            _tileType.TopGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[TopGlues];
+            _onAttachedGluesOnCollectionChanged.Add(BottomGlues, (s, e) => AttachedGluesOnCollectionChanged(e, BottomGlues));
+            _tileType.BottomGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[BottomGlues];
+            _onAttachedGluesOnCollectionChanged.Add(LeftGlues, (s, e) => AttachedGluesOnCollectionChanged(e, LeftGlues));
+            _tileType.LeftGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[LeftGlues];
+            _onAttachedGluesOnCollectionChanged.Add(RightGlues, (s, e) => AttachedGluesOnCollectionChanged(e, RightGlues));
+            _tileType.RightGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[RightGlues];
+        }
+
+        // Using dictionary of handlers so we can pass additional arg and unregister later
+        private readonly Dictionary<AttachedGluesVm, NotifyCollectionChangedEventHandler> _onAttachedGluesOnCollectionChanged = new Dictionary<AttachedGluesVm, NotifyCollectionChangedEventHandler>();
+
+        private void AttachedGluesOnCollectionChanged(NotifyCollectionChangedEventArgs e, AttachedGluesVm glues)
+        {
+            if (e.NewItems != null)
+            {
+                if (e.NewItems.OfType<KeyValuePair<GlueLabel, Glue>>().Any())
+                {
+                    foreach (KeyValuePair<GlueLabel, Glue> item in e.NewItems)
+                    {
+                        glues.Add(new GlueVm(_dataService.Glues[item.Key]));
+                        item.Value.PropertyChanged += glues.First(g => g.Label == item.Key.Label).GlueOnPropertyChanged;
+                    }
+                }
+                else
+                {
+                    foreach (GlueLabel item in e.NewItems)
+                    {
+                        glues.Add(new GlueVm(_dataService.Glues[item]));
+                        _dataService.Glues[item].PropertyChanged += glues.First(g => g.Label == item.Label).GlueOnPropertyChanged;
+                    }
+                }
+            }
+            if (e.OldItems != null)
+            {
+                if (e.OldItems.OfType<KeyValuePair<GlueLabel, Glue>>().Any())
+                {
+                    foreach (KeyValuePair<GlueLabel, Glue> item in e.OldItems)
+                    {
+                        item.Value.PropertyChanged -= glues.First(g => g.Label == item.Key.Label).GlueOnPropertyChanged;
+                        glues.Remove(new GlueVm(item.Value));
+                    }
+                }
+                else if (e.OldItems.OfType<GlueLabel>().Any())
+                {
+                    foreach (GlueLabel item in e.OldItems)
+                    {
+                        _dataService.Glues[item].PropertyChanged -= glues.First(g => g.Label == item.Label).GlueOnPropertyChanged;
+                        glues.Remove(glues.First(g => g.Label == item.Label));
+                    }
+                }
+            }
         }
 
         public string Label

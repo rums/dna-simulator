@@ -5,7 +5,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk"
-    xmlns:confvm="clr-namespace:dna_simulator.ViewModel.Configuration"
     xmlns:atam="clr-namespace:dna_simulator.ViewModel.Atam"
     xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=System.Windows"
     xmlns:toolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit"
@@ -13,7 +12,7 @@
     mc:Ignorable="d"
     x:Class="dna_simulator.View.Configuration.MultiTileControl"
     d:DesignHeight="440"
-    d:DataContext="{d:DesignInstance confvm:MultiTileViewModel}">
+    DataContext="{Binding MultiTileViewModel, Source={StaticResource Locator}}">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -46,7 +45,7 @@
                         <i:Interaction.Triggers>
                             <i:EventTrigger SourceName="TileList" EventName="SelectionChanged">
                                 <i:InvokeCommandAction CommandParameter="{Binding SelectedItem, ElementName=TileList}"
-                                                       Command="{Binding ConfigViewModel.DisplayTileTypeCommand, Source={StaticResource Locator}}" />
+                                                       Command="{Binding FocusTileTypeCommand}" />
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                         <sdk:DataGrid.Columns>
@@ -57,7 +56,7 @@
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="MouseLeftButtonUp">
                                                     <i:InvokeCommandAction CommandParameter="{Binding Label}"
-                                                                           Command="{Binding ConfigViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                                           Command="{Binding SingleTileViewModel.ChangeTileDisplayColorCommand, Source={StaticResource Locator}}" />
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                             <Rectangle.Fill>
@@ -94,7 +93,7 @@
                                 <i:EventTrigger EventName="MouseLeftButtonUp">
                                     <i:InvokeCommandAction
                                             CommandParameter="{Binding CurrentTileAssemblySystemVm.TileTypes}"
-                                            Command="{Binding ConfigViewModel.AddTileCommand, Source={StaticResource Locator}}" />
+                                            Command="{Binding AddTileCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <Path Name="AddTile" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
@@ -112,7 +111,7 @@
                                 <i:EventTrigger EventName="MouseLeftButtonUp">
                                     <i:InvokeCommandAction
                                             CommandParameter="{Binding SelectedItems, ElementName=TileList}"
-                                            Command="{Binding ConfigViewModel.DeleteTilesCommand, Source={StaticResource Locator}}" />
+                                            Command="{Binding DeleteTilesCommand}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <Path Name="DeleteTile" Style="{StaticResource RemoveStyle}" Data="M0,5 H10" />
@@ -139,7 +138,7 @@
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="MouseLeftButtonUp">
                                                         <i:InvokeCommandAction CommandParameter="{Binding Label}"
-                                                                               Command="{Binding ConfigViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
+                                                                               Command="{Binding SingleTileViewModel.ChangeGlueDisplayColorCommand, Source={StaticResource Locator}}" />
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
                                                 <Rectangle.Fill>
@@ -171,7 +170,7 @@
                                     <i:EventTrigger EventName="MouseLeftButtonUp">
                                         <i:InvokeCommandAction
                                             CommandParameter="{Binding Glues}"
-                                            Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
+                                            Command="{Binding AddGlueCommand}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <Path Name="AddGlue" Style="{StaticResource AddStyle}" Data="M0,5 H10 M5,5 V10Z" />
@@ -189,7 +188,7 @@
                                     <i:EventTrigger EventName="MouseLeftButtonUp">
                                         <i:InvokeCommandAction
                                             CommandParameter="{Binding SelectedItems, ElementName=GlueList}"
-                                            Command="{Binding ConfigViewModel.DeleteGluesCommand, Source={StaticResource Locator}}" />
+                                            Command="{Binding DeleteGluesCommand}" />
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                                 <Path Name="DeleteGlue" Style="{StaticResource RemoveStyle}" Data="M0,5 H10" />
@@ -214,9 +213,16 @@
         </StackPanel>
         <Border Grid.Row="2" BorderThickness="2" Background="{StaticResource MultiOptionsBrush}">
             <StackPanel x:Name="TileListOptions" Orientation="Horizontal">
-                <Button x:Name="LoadTilesetButton" Content="Load Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />
-                <Button x:Name="SaveTilesetButton" Content="Save Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />
-                <Button x:Name="RunButton" Content="Run Simulation" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <Button Content="Save changes" VerticalAlignment="Center" Margin="5,0,0,0">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding SaveChangesCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Content="Load Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <Button Content="Save Tileset" VerticalAlignment="Center" Margin="5,0,0,0" />
+                <Button Content="Run Simulation" VerticalAlignment="Center" Margin="5,0,0,0" />
             </StackPanel>
         </Border>
     </Grid>

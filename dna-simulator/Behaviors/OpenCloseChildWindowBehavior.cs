@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace dna_simulator.View.Behaviors
+namespace dna_simulator.Behaviors
 {
     public class OpenCloseChildWindowBehavior : Behavior<UserControl>
     {

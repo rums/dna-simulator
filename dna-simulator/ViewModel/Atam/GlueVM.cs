@@ -1,20 +1,17 @@
-﻿using dna_simulator.Model.Atam;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Media;
+using dna_simulator.Model.Atam;
 
 namespace dna_simulator.ViewModel.Atam
 {
     public class GlueVm : ViewModelBase
     {
-        // from model
+        private readonly Glue _glue;
+        private int _color;
         private Color _displayColor;
 
         private string _label;
-        private int _color;
         private int _strength;
-
-        // viewmodel specific
-        private readonly Glue _glue;
 
         public GlueVm(Glue glue)
         {
@@ -106,11 +103,20 @@ namespace dna_simulator.ViewModel.Atam
                 case "Label":
                     Label = _glue.Label;
                     break;
+                case "DisplayColor":
+                    DisplayColor = _glue.DisplayColor;
+                    break;
+                case "Color":
+                    Color = _glue.Color;
+                    break;
+                case "Strength":
+                    Strength = _glue.Strength;
+                    break;
             }
         }
 
         /// <summary>
-        /// Convert a GlueVm to a Glue
+        ///     Convert a GlueVm to a Glue
         /// </summary>
         /// <param name="glue">GlueVm to be converted to Glue</param>
         /// <returns>Glue</returns>

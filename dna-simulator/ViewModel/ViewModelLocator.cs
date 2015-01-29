@@ -39,6 +39,10 @@ namespace dna_simulator.ViewModel
             }
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<ConfigViewModel>();
+            SimpleIoc.Default.Register<Introduction>();
+            SimpleIoc.Default.Register<SingleTileViewModel>();
+            SimpleIoc.Default.Register<MultiTileViewModel>();
             SimpleIoc.Default.Register<ColorPickerViewModel>();
         }
 
@@ -67,6 +71,48 @@ namespace dna_simulator.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>().CurrentViewModel as ConfigViewModel;
+            }
+        }
+
+        /// <summary>
+        /// Gets the SingleTileViewModel property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public SingleTileViewModel SingleTileViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SingleTileViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the MultiTileViewModel property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public MultiTileViewModel MultiTileViewModel
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<MultiTileViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets the Introduction property.
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
+        public Introduction Introduction
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<Introduction>();
             }
         }
 

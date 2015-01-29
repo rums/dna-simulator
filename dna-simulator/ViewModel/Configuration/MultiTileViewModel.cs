@@ -1,17 +1,22 @@
-﻿using dna_simulator.Model;
-using dna_simulator.Model.Atam;
-using dna_simulator.Services;
-using dna_simulator.ViewModel.Atam;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using dna_simulator.Exceptions;
+using dna_simulator.Model;
+using dna_simulator.Model.Atam;
+using dna_simulator.Services;
+using dna_simulator.ViewModel.Atam;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace dna_simulator.ViewModel.Configuration
 {
     public class MultiTileViewModel : ViewModelBase
     {
         private readonly IDataService _dataService;
+        private readonly NotifyCollectionChangedEventHandler _onGluesOnCollectionChanged;
         private TileAssemblySystemVm _currentTileAssemblySystemVm;
 
         private ObservableSet<GlueVm> _glues;
@@ -36,6 +41,14 @@ namespace dna_simulator.ViewModel.Configuration
 
             Glues = new ObservableSet<GlueVm>(_dataService.Glues.Values.Select(g => new GlueVm(g)));
 
+            // initialize commands
+            AddTileCommand = new RelayCommand(AddTile);
+            DeleteTilesCommand = new RelayCommand<object>(DeleteTiles);
+            FocusTileTypeCommand = new RelayCommand<TileTypeVm>(FocusTileType);
+            AddGlueCommand = new RelayCommand(AddGlue);
+            DeleteGluesCommand = new RelayCommand<object>(DeleteGlues);
+            SaveChangesCommand = new RelayCommand(SaveChanges);
+
             // Register event handlers
             _dataService.PropertyChanged += DataServiceOnPropertyChanged;
 
@@ -43,25 +56,41 @@ namespace dna_simulator.ViewModel.Configuration
             _dataService.Glues.CollectionChanged += _onGluesOnCollectionChanged;
             _dataService.TileAssemblySystem.PropertyChanged += TileAssemblySystemOnPropertyChanged;
             _dataService.TileAssemblySystem.TileTypes.CollectionChanged += TileTypesOnCollectionChanged;
-            foreach (var tile in _dataService.TileAssemblySystem.TileTypes.Values)
+        }
+
+        public TileAssemblySystemVm CurrentTileAssemblySystemVm
+        {
+            get { return _currentTileAssemblySystemVm; }
+            set
             {
-                var tileVm = CurrentTileAssemblySystemVm.TileTypes.First(t => tile.Label == t.Label);
-                tile.PropertyChanged += tileVm.TileTypeOnPropertyChanged;
-                _onAttachedGluesOnCollectionChanged.Add(tileVm.TopGlues, (s, e) => AttachedGluesOnCollectionChanged(e, tileVm.TopGlues));
-                tile.TopGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[tileVm.TopGlues];
-                _onAttachedGluesOnCollectionChanged.Add(tileVm.BottomGlues, (s, e) => AttachedGluesOnCollectionChanged(e, tileVm.BottomGlues));
-                tile.BottomGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[tileVm.BottomGlues];
-                _onAttachedGluesOnCollectionChanged.Add(tileVm.LeftGlues, (s, e) => AttachedGluesOnCollectionChanged(e, tileVm.LeftGlues));
-                tile.LeftGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[tileVm.LeftGlues];
-                _onAttachedGluesOnCollectionChanged.Add(tileVm.RightGlues, (s, e) => AttachedGluesOnCollectionChanged(e, tileVm.RightGlues));
-                tile.RightGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[tileVm.RightGlues];
+                if (Equals(value, _currentTileAssemblySystemVm)) return;
+                _currentTileAssemblySystemVm = value;
+                RaisePropertyChanged();
             }
         }
 
-        // Using dictionary of handlers so we can pass additional arg and unregister later
-        private readonly NotifyCollectionChangedEventHandler _onGluesOnCollectionChanged;
+        public ObservableSet<GlueVm> Glues
+        {
+            get { return _glues; }
+            set
+            {
+                if (Equals(value, _glues)) return;
+                _glues = value;
+                RaisePropertyChanged();
+            }
+        }
 
-        private readonly Dictionary<AttachedGluesVm, NotifyCollectionChangedEventHandler> _onAttachedGluesOnCollectionChanged = new Dictionary<AttachedGluesVm, NotifyCollectionChangedEventHandler>();
+        public RelayCommand AddTileCommand { get; private set; }
+
+        public RelayCommand<object> DeleteTilesCommand { get; private set; }
+
+        public RelayCommand<TileTypeVm> FocusTileTypeCommand { get; private set; }
+
+        public RelayCommand AddGlueCommand { get; private set; }
+
+        public RelayCommand<object> DeleteGluesCommand { get; private set; }
+
+        public RelayCommand SaveChangesCommand { get; private set; }
 
         private void GluesOnCollectionChanged(NotifyCollectionChangedEventArgs e, ObservableSet<GlueVm> glues)
         {
@@ -105,70 +134,6 @@ namespace dna_simulator.ViewModel.Configuration
             }
         }
 
-        private void AttachedGluesOnCollectionChanged(NotifyCollectionChangedEventArgs e, AttachedGluesVm glues)
-        {
-            if (e.NewItems != null)
-            {
-                if (e.NewItems.OfType<KeyValuePair<GlueLabel, Glue>>().Any())
-                {
-                    foreach (KeyValuePair<GlueLabel, Glue> item in e.NewItems)
-                    {
-                        glues.Add(new GlueVm(_dataService.Glues[item.Key]));
-                        item.Value.PropertyChanged += glues.First(g => g.Label == item.Key.Label).GlueOnPropertyChanged;
-                    }
-                }
-                else
-                {
-                    foreach (GlueLabel item in e.NewItems)
-                    {
-                        glues.Add(new GlueVm(_dataService.Glues[item]));
-                        item.PropertyChanged += glues.First(g => g.Label == item.Label).GlueOnPropertyChanged;
-                    }
-                }
-            }
-            if (e.OldItems != null)
-            {
-                if (e.OldItems.OfType<KeyValuePair<GlueLabel, Glue>>().Any())
-                {
-                    foreach (KeyValuePair<GlueLabel, Glue> item in e.OldItems)
-                    {
-                        item.Value.PropertyChanged -= glues.First(g => g.Label == item.Key.Label).GlueOnPropertyChanged;
-                        glues.Remove(new GlueVm(item.Value));
-                    }
-                }
-                else if (e.OldItems.OfType<GlueLabel>().Any())
-                {
-                    foreach (GlueLabel item in e.OldItems)
-                    {
-                        item.PropertyChanged -= glues.First(g => g.Label == item.Label).GlueOnPropertyChanged;
-                        glues.Remove(glues.First(g => g.Label == item.Label));
-                    }
-                }
-            }
-        }
-
-        public TileAssemblySystemVm CurrentTileAssemblySystemVm
-        {
-            get { return _currentTileAssemblySystemVm; }
-            set
-            {
-                if (Equals(value, _currentTileAssemblySystemVm)) return;
-                _currentTileAssemblySystemVm = value;
-                RaisePropertyChanged();
-            }
-        }
-
-        public ObservableSet<GlueVm> Glues
-        {
-            get { return _glues; }
-            set
-            {
-                if (Equals(value, _glues)) return;
-                _glues = value;
-                RaisePropertyChanged();
-            }
-        }
-
         private void TileAssemblySystemOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -192,30 +157,12 @@ namespace dna_simulator.ViewModel.Configuration
                 foreach (KeyValuePair<string, TileType> item in e.NewItems)
                 {
                     CurrentTileAssemblySystemVm.TileTypes.Add(new TileTypeVm(item.Value, _dataService));
-                    var tileVm = CurrentTileAssemblySystemVm.TileTypes.First(t => item.Key == t.Label);
-                    _onAttachedGluesOnCollectionChanged.Add(tileVm.TopGlues, (s, e2) => AttachedGluesOnCollectionChanged(e2, tileVm.TopGlues));
-                    item.Value.TopGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[tileVm.TopGlues];
-                    _onAttachedGluesOnCollectionChanged.Add(tileVm.BottomGlues, (s, e2) => AttachedGluesOnCollectionChanged(e2, tileVm.BottomGlues));
-                    item.Value.BottomGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[tileVm.BottomGlues];
-                    _onAttachedGluesOnCollectionChanged.Add(tileVm.LeftGlues, (s, e2) => AttachedGluesOnCollectionChanged(e2, tileVm.LeftGlues));
-                    item.Value.LeftGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[tileVm.LeftGlues];
-                    _onAttachedGluesOnCollectionChanged.Add(tileVm.RightGlues, (s, e2) => AttachedGluesOnCollectionChanged(e2, tileVm.RightGlues));
-                    item.Value.RightGlues.CollectionChanged += _onAttachedGluesOnCollectionChanged[tileVm.RightGlues];
                 }
             if (e.OldItems != null)
                 foreach (KeyValuePair<string, TileType> item in e.OldItems)
                 {
-                    var tileVm = CurrentTileAssemblySystemVm.TileTypes.First(t => item.Key == t.Label);
-                    item.Value.PropertyChanged -= tileVm.TileTypeOnPropertyChanged;
-                    item.Value.TopGlues.CollectionChanged -= _onAttachedGluesOnCollectionChanged[tileVm.TopGlues];
-                    _onAttachedGluesOnCollectionChanged.Remove(tileVm.TopGlues);
-                    item.Value.BottomGlues.CollectionChanged -= _onAttachedGluesOnCollectionChanged[tileVm.BottomGlues];
-                    _onAttachedGluesOnCollectionChanged.Remove(tileVm.BottomGlues);
-                    item.Value.LeftGlues.CollectionChanged -= _onAttachedGluesOnCollectionChanged[tileVm.LeftGlues];
-                    _onAttachedGluesOnCollectionChanged.Remove(tileVm.LeftGlues);
-                    item.Value.RightGlues.CollectionChanged -= _onAttachedGluesOnCollectionChanged[tileVm.RightGlues];
-                    _onAttachedGluesOnCollectionChanged.Remove(tileVm.RightGlues);
-                    CurrentTileAssemblySystemVm.TileTypes.Remove(CurrentTileAssemblySystemVm.TileTypes.First(t => t.Label == item.Value.Label));
+                    CurrentTileAssemblySystemVm.TileTypes.Remove(
+                        CurrentTileAssemblySystemVm.TileTypes.First(t => t.Label == item.Value.Label));
                 }
         }
 
@@ -231,7 +178,10 @@ namespace dna_simulator.ViewModel.Configuration
                             _dataService.TileAssemblySystem.Seed == null
                                 ? null
                                 : new TileTypeVm(_dataService.TileAssemblySystem.Seed, _dataService),
-                        TileTypes = new ObservableSet<TileTypeVm>(_dataService.TileAssemblySystem.TileTypes.Values.Select(t => new TileTypeVm(t, _dataService)))
+                        TileTypes =
+                            new ObservableSet<TileTypeVm>(
+                                _dataService.TileAssemblySystem.TileTypes.Values.Select(
+                                    t => new TileTypeVm(t, _dataService)))
                     };
                     break;
 
@@ -240,6 +190,67 @@ namespace dna_simulator.ViewModel.Configuration
                     Glues = new ObservableSet<GlueVm>(_dataService.Glues.Values.Select(g => new GlueVm(g)));
                     break;
             }
+        }
+
+        // Command execution methods
+
+        private void AddTile()
+        {
+            TileType tile = _dataService.AddTile();
+
+            // display the new tile
+            Messenger.Default.Send(new NotificationMessage<TileTypeVm>(new TileTypeVm(tile, _dataService), "Focus tile"));
+        }
+
+        private void DeleteTiles(object tiles)
+        {
+            List<TileTypeVm> toRemove = (tiles as IList).Cast<TileTypeVm>().ToList();
+            if (toRemove == null) return;
+            foreach (TileTypeVm tile in toRemove)
+            {
+                _dataService.TileAssemblySystem.TileTypes.Remove(tile.Label);
+            }
+
+            HideTileEditorIfEmpty();
+        }
+
+        public void AddGlue()
+        {
+            try
+            {
+                _dataService.AddGlue();
+            }
+            catch (InvalidTileTypeException)
+            {
+            }
+        }
+
+        public void DeleteGlues(object glues)
+        {
+            List<GlueVm> toRemove = (glues as IList).Cast<GlueVm>().ToList();
+            if (toRemove == null) return;
+            _dataService.RemoveGlues(toRemove.Select(GlueVm.ToGlue).ToList());
+        }
+
+        public void SaveChanges()
+        {
+            _dataService.Commit();
+        }
+
+        public void FocusTileType(TileTypeVm tile)
+        {
+            Messenger.Default.Send(new NotificationMessage<TileTypeVm>(tile, "Focus tile"));
+        }
+
+        // Regular methods
+
+        private void HideTileEditorIfEmpty()
+        {
+            //if (!(CurrentSingleTileViewModel.CurrentEditorModel is TileTypeVm)) return;
+            //if (CurrentMultiTileViewModel.CurrentTileAssemblySystemVm.TileTypes.Count == 0)
+            //{
+            //    CurrentSingleTileViewModel.CurrentEditorModel = null;
+            //}
         }
     }
 }

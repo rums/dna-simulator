@@ -2,7 +2,6 @@
 using dna_simulator.Model;
 using dna_simulator.Model.Atam;
 using dna_simulator.Properties;
-using dna_simulator.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +13,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using System.Xml.Linq;
+using dna_simulator.Services;
 
 namespace dna_simulator.Design
 {
@@ -99,7 +99,7 @@ namespace dna_simulator.Design
         public TileAssemblySystem TileAssemblySystem
         {
             get { return _tileAssemblySystem; }
-            set
+            private set
             {
                 if (Equals(value, _tileAssemblySystem)) return;
                 _tileAssemblySystem = value;
@@ -118,9 +118,9 @@ namespace dna_simulator.Design
             }
         }
 
-        public TileAssemblySystem GetTileAssemblySystem()
+        public void SetTileAssemblySystem(TileAssemblySystem tileAssemblySystem)
         {
-            return _tileAssemblySystem;
+            TileAssemblySystem = tileAssemblySystem;
         }
 
         public void SetTemperature(int temperature)
@@ -192,6 +192,16 @@ namespace dna_simulator.Design
             }
         }
 
+        public void SetTileLabel(TileType tile, string label)
+        {
+            TileAssemblySystem.TileTypes[tile.Label].Label = label;
+        }
+
+        public void SetTileDisplayColor(TileType tile, Color displayColor)
+        {
+            TileAssemblySystem.TileTypes[tile.Label].DisplayColor = displayColor;
+        }
+
         public void RemoveTiles(List<TileType> tiles)
         {
             throw new NotImplementedException();
@@ -199,36 +209,27 @@ namespace dna_simulator.Design
 
         public Glue AddGlue()
         {
-            return AddGlue("", "");
-        }
-
-        public Glue AddGlue(string tileLabel, string edge)
-        {
-            int glueId = 0;
-            string label = "Label " + glueId;
-            while (Glues.Any(g => g.Key.Label == label))
-            {
-                label = "Label " + ++glueId;
-            }
-            var newGlue = new Glue
-            {
-                Label = label,
-                DisplayColor = RandomColor(),
-                Color = 0,
-                Strength = 0
-            };
-            return AddGlue(newGlue, tileLabel, edge);
+            var glue = DefaultGlue();
+            Glues.Add(new GlueLabel(glue.Label), glue);
+            return glue;
         }
 
         public Glue AddGlue(Glue glue)
         {
-            return AddGlue(glue, "", "");
+            Glues.Add(new GlueLabel(glue.Label), glue);
+            return glue;
+        }
+
+        public Glue AddGlue(string tileLabel, string edge)
+        {
+            var glue = DefaultGlue();
+            AddGlue(glue);
+            return AddGlue(glue, tileLabel, edge);
         }
 
         public Glue AddGlue(Glue glue, string tileLabel, string edge)
         {
             var glueLabel = new GlueLabel(glue.Label);
-            Glues.Add(glueLabel, glue);
             switch (edge)
             {
                 case "Top":
@@ -261,6 +262,17 @@ namespace dna_simulator.Design
 
         public void RemoveGlues(List<Glue> glues)
         {
+            foreach (var glue in glues)
+            {
+                Glues.Remove(new GlueLabel(glue.Label));
+                foreach (var tile in TileAssemblySystem.TileTypes.Values)
+                {
+                    tile.TopGlues.Remove(new GlueLabel(glue.Label));
+                    tile.BottomGlues.Remove(new GlueLabel(glue.Label));
+                    tile.LeftGlues.Remove(new GlueLabel(glue.Label));
+                    tile.RightGlues.Remove(new GlueLabel(glue.Label));
+                }
+            }
         }
 
         public void RemoveGlues(List<Glue> glues, string tileLabel, string edge)
@@ -273,33 +285,48 @@ namespace dna_simulator.Design
                     case "Top":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
-                        TileAssemblySystem.TileTypes[tileLabel].TopGlues.Add(glueLabel);
+                        TileAssemblySystem.TileTypes[tileLabel].TopGlues.Remove(glueLabel);
                         break;
 
                     case "Bottom":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
-                        TileAssemblySystem.TileTypes[tileLabel].BottomGlues.Add(glueLabel);
+                        TileAssemblySystem.TileTypes[tileLabel].BottomGlues.Remove(glueLabel);
                         break;
 
                     case "Left":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
-                        TileAssemblySystem.TileTypes[tileLabel].LeftGlues.Add(glueLabel);
+                        TileAssemblySystem.TileTypes[tileLabel].LeftGlues.Remove(glueLabel);
                         break;
 
                     case "Right":
                         if (TileAssemblySystem.TileTypes[tileLabel] == null)
                             throw new InvalidTileTypeException("No tile type found with label " + tileLabel);
-                        TileAssemblySystem.TileTypes[tileLabel].RightGlues.Add(glueLabel);
-                        break;
-
-                    default:
-                        var hmm = Glues.Keys.First(g => g.Label == glue.Label);
-                        var hmm2 = Glues[new GlueLabel(glue.Label)];
+                        TileAssemblySystem.TileTypes[tileLabel].RightGlues.Remove(glueLabel);
                         break;
                 }
             }            // TODO: remove from XML file
+        }
+
+        public void SetGlueLabel(Glue glue, string label)
+        {
+            Glues[new GlueLabel(glue.Label)].Label = label;
+        }
+
+        public void SetGlueDisplayColor(Glue glue, Color displayColor)
+        {
+            Glues[new GlueLabel(glue.Label)].DisplayColor = displayColor;
+        }
+
+        public void SetGlueColor(Glue glue, int color)
+        {
+            Glues[new GlueLabel(glue.Label)].Color = color;
+        }
+
+        public void SetGlueStrength(Glue glue, int strength)
+        {
+            Glues[new GlueLabel(glue.Label)].Strength = strength;
         }
 
         public void Commit()
@@ -361,6 +388,23 @@ namespace dna_simulator.Design
             PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
                 handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private Glue DefaultGlue()
+        {
+            int glueId = 0;
+            string label = "Label " + glueId;
+            while (Glues.Any(g => g.Key.Label == label))
+            {
+                label = "Label " + ++glueId;
+            }
+            return new Glue
+            {
+                Label = label,
+                DisplayColor = RandomColor(),
+                Color = 0,
+                Strength = 0
+            };
         }
 
         private static Color RandomColor()

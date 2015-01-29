@@ -10,7 +10,7 @@ namespace dna_simulator.ViewModel.Atam
         private int _temperature;
 
         // viewmodel specific
-        private IDataService _dataService;
+        private readonly IDataService _dataService;
 
         public TileAssemblySystemVm(IDataService dataService)
         {

@@ -44,9 +44,6 @@
                     <i:EventTrigger EventName="MouseEnter">
                         <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
                     </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding BottomGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
-                    </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ed:RegularPolygon.RenderTransform>
                     <CompositeTransform />
@@ -60,9 +57,6 @@
                     <i:EventTrigger EventName="MouseEnter">
                         <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
                     </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding LeftGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
-                    </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ed:RegularPolygon.RenderTransform>
                     <CompositeTransform Rotation="90" />
@@ -75,9 +69,6 @@
                     </i:EventTrigger>
                     <i:EventTrigger EventName="MouseEnter">
                         <ei:ChangePropertyAction PropertyName="Opacity" Value="0.1" />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="MouseLeftButtonUp">
-                        <i:InvokeCommandAction CommandParameter="{Binding RightGlues}" Command="{Binding ConfigViewModel.AddGlueCommand, Source={StaticResource Locator}}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ed:RegularPolygon.RenderTransform>
